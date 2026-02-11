@@ -14,27 +14,23 @@
     </style>
 </head>
 <body class="min-h-screen pb-12">
-
     <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-8">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
                 PluginHub
             </div>
-            
             <div class="hidden md:flex gap-8 text-sm font-medium">
                 <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
                 <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
                 <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
                 <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
             </div>
-
             <button onclick="toggleMenu()" class="md:hidden p-2 hover:bg-slate-800 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
         </div>
-
         <div id="mobileMenu" class="md:hidden absolute top-full left-0 w-full glass-card border-t border-slate-700 hidden">
             <div class="flex flex-col p-6 gap-4">
                 <a href="https://tcl-iffalcon.github.io/wiki/" class="text-lg">Ana Sayfa</a>
@@ -51,7 +47,7 @@
         </div>
 
         <div class="glass-card p-6 md:p-8 rounded-3xl mb-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="space-y-2">
                     <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Uygulama</label>
                     <select id="appSelect" onchange="filterData()" class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer">
@@ -76,16 +72,17 @@
                         <option value="Repo">Plugins</option>
                     </select>
                 </div>
+                <div class="space-y-2">
+                    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Arama</label>
+                    <div class="relative">
+                        <input type="text" id="searchInput" onkeyup="filterData()" placeholder="Eklenti veya içerik ara..." class="w-full bg-slate-800 border-none text-white p-4 pr-12 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            </div>
-
-        <div id="emptyState" class="hidden text-center py-20">
-            <div class="text-6xl mb-4">🔍</div>
-            <p class="text-slate-500">Aradığınız kriterlere uygun sonuç bulunamadı.</p>
-        </div>
+        <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <div id="emptyState" class="hidden text-center py-20 text-slate-500">Sonuç bulunamadı.</div>
     </main>
 
     <script>
@@ -162,15 +159,23 @@
             menu.classList.toggle('hidden');
         }
 
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = "Kopyalandı!";
+                btn.classList.add('bg-emerald-600');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('bg-emerald-600');
+                }, 2000);
+            });
+        }
+
         function filterData() {
             const app = document.getElementById('appSelect').value;
             const type = document.getElementById('typeSelect').value;
-            
-            const filtered = plugins.filter(p => 
-                (app === 'all' || p.app === app) && 
-                (type === 'all' || p.type === type)
-            );
-
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = plugins.filter(p => (app === 'all' || p.app === app) && (type === 'all' || p.type === type) && (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)));
             renderCards(filtered);
         }
 
@@ -178,45 +183,34 @@
             const container = document.getElementById('resultsGrid');
             const empty = document.getElementById('emptyState');
             container.innerHTML = '';
-
-            if (data.length === 0) {
-                empty.classList.remove('hidden');
-                return;
-            }
-
+            if (data.length === 0) { empty.classList.remove('hidden'); return; }
             empty.classList.add('hidden');
+
             data.forEach(item => {
-                // Link tespiti ve güvenli bölme mantığı
-                let formattedDesc = item.desc;
-                if (item.desc.includes('http')) {
-                    // Linki bul ve parçala
-                    const url = item.desc.match(/(https?:\/\/[^\s]+)/g)?.[0];
-                    if (url) {
-                        const textBefore = item.desc.split(url)[0];
-                        // break-all sayesinde link kutudan taşmaz
-                        formattedDesc = `${textBefore} <br> <a href="${url}" target="_blank" class="text-blue-400 underline hover:text-blue-300 transition-colors break-all block mt-2 text-xs font-mono bg-slate-900/50 p-2 rounded-lg border border-white/5">${url}</a>`;
-                    }
-                }
+                const urlMatch = item.desc.match(/(https?:\/\/[^\s]+)/g);
+                const url = urlMatch ? urlMatch[0] : null;
 
                 container.innerHTML += `
-                    <div class="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform duration-300 group flex flex-col h-full border border-white/10 shadow-lg">
+                    <div class="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform duration-300 flex flex-col h-full border border-white/10">
                         <div class="flex justify-between items-start mb-4">
                             <span class="text-[10px] font-bold px-2 py-1 rounded bg-blue-500/20 text-blue-400 uppercase tracking-tighter">${item.app}</span>
                             <span class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 uppercase tracking-tighter">${item.type}</span>
                         </div>
-                        <h3 class="text-xl font-bold mb-3 group-hover:text-blue-400 transition">${item.name}</h3>
-                        
-                        <div class="flex-grow">
-                            <div class="text-sm text-slate-400 leading-relaxed">
-                                ${formattedDesc}
-                            </div>
+                        <h3 class="text-xl font-bold mb-3">${item.name}</h3>
+                        <div class="flex-grow text-sm text-slate-400 leading-relaxed mb-4">
+                            ${url ? item.desc.split(url)[0] : item.desc}
+                            ${url ? `<div class="mt-2 text-[10px] font-mono bg-black/30 p-2 rounded break-all border border-white/5">${url}</div>` : ''}
                         </div>
+                        ${url ? `
+                            <div class="grid grid-cols-2 gap-2 mt-auto">
+                                <button onclick="copyToClipboard('${url}', this)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-3 rounded-xl transition-all">Kopyala</button>
+                                <a href="${url}" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-3 rounded-xl transition-all text-center flex items-center justify-center">Git</a>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             });
         }
-
-        // Başlangıç yüklemesi
         renderCards(plugins);
     </script>
 </body>
