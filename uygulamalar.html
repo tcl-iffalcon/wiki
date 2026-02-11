@@ -7,93 +7,245 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; scroll-behavior: smooth; }
         .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
         .btn-gradient { background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%); transition: all 0.3s ease; }
         .btn-gradient:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(52, 211, 153, 0.5); }
+        .code-badge { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .search-input:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 20px rgba(96, 165, 250, 0.15); }
     </style>
 </head>
 <body class="min-h-screen pb-20">
 
-    <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-12">
+    <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-8">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-                PluginHub
+            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">PluginHub</div>
+            <div class="flex gap-6 text-sm font-medium text-slate-400">
+                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
+                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
+                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
+                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
             </div>
-            <div class="flex gap-6 text-sm font-medium">
-                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition flex items-center gap-2">
-                    <span>Ana Sayfa</span>
-                </a>
-            </div>
-            <div class="flex gap-6 text-sm font-medium">
-                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition flex items-center gap-2">
-                    <span>TV APK</span>
-                </a>
-            </div>
-                        <div class="flex gap-6 text-sm font-medium">
-                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition flex items-center gap-2">
-                    <span>Telefon APK</span>
-                </a>
-            </div>
-            <div class="flex gap-6 text-sm font-medium">
-                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition flex items-center gap-2">
-                    <span>Telegram Grubu</span>
-                </a>
-            </div>
-            
         </div>
     </nav>
 
     <main class="max-w-4xl mx-auto px-4">
-        <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-white">
-                Ana Uygulamalar
-            </h1>
-            <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-                Medya ekosisteminizi güçlendirecek temel uygulamalar ve kurulum bağlantıları.
-            </p>
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">Ana Uygulamalar</h1>
+            <p class="text-slate-400 text-lg">İhtiyacınız olan tüm medya araçları ve kurulum kodları.</p>
         </div>
 
-        <div class="grid grid-cols-1 gap-8">
+        <div class="relative max-w-lg mx-auto mb-12">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
+            <input type="text" id="appSearch" onkeyup="filterApps()" placeholder="Uygulama ismini yazın..." 
+                   class="search-input w-full bg-slate-800/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 transition-all">
+        </div>
+
+        <div id="appList" class="grid grid-cols-1 gap-6">
             
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-blue-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl shadow-inner">🎬</div>
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-blue-500/30 transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-indigo-500/20">S</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Stremio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Tüm torrent ve streaming servislerini tek çatı altında toplayan modern medya merkezi. Eklenti desteği ile sınırsız içerik sunar.</p>
+                    <h2 class="text-2xl font-bold text-white app-name">Stremio</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Tüm torrent ve streaming servislerini tek çatı altında toplayan modern medya merkezi. Eklenti desteği ile sınırsız içerik sunar.</p>
                 </div>
                 <a href="https://www.stremio.com/downloads" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-emerald-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-3xl">☁️</div>
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-emerald-500/30 transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-emerald-500 to-teal-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-emerald-500/20">C</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">CloudStream</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Android tabanlı, reklam barındırmayan ve tamamen modüler dizi/film izleme uygulaması. Repolar ile özelleştirilebilir.</p>
+                    <h2 class="text-2xl font-bold text-white app-name">CloudStream</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Android tabanlı, reklam barındırmayan ve tamamen modüler dizi/film izleme uygulaması. Repolar ile özelleştirilebilir.</p>
                 </div>
                 <a href="https://github.com/recloudstream/cloudstream/releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-purple-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-purple-500/20 rounded-2xl flex items-center justify-center text-3xl">📺</div>
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-purple-500/30 transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-purple-500 to-fuchsia-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-purple-500/20">N</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Nuvio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Stremio benzeri, daha hafif ve hızlı bir alternatif. Özellikle TV box cihazlarında yüksek performans sergiler.</p>
+                    <h2 class="text-2xl font-bold text-white app-name">Nuvio</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Stremio benzeri, daha hafif ve hızlı bir alternatif. Özellikle TV box cihazlarında yüksek performans sergiler.</p>
                 </div>
                 <a href="https://github.com/tapframe" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-red-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-red-500/20 rounded-2xl flex items-center justify-center text-3xl">🔥</div>
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-red-500/20">N</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Netfly</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Yerli ve yabancı içeriklere hızlı erişim sağlayan, kullanıcı dostu arayüze sahip popüler streaming uygulaması.</p>
+                    <h2 class="text-2xl font-bold text-white app-name">Netfly</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yerli ve yabancı içeriklere hızlı erişim sağlayan, kullanıcı dostu arayüze sahip popüler streaming uygulaması.</p>
                 </div>
                 <a href="https://netflyapp.com/" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">Git</a>
             </div>
 
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-pink-500 to-rose-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-pink-500/20">V</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">Viva TV</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Geniş içerik yelpazesi ve farklı sunucu seçenekleri ile donatılmış popüler medya izleme aracı.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">82927</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-amber-500 to-yellow-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg">T</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">Tea TV</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Sinema dünyasından en yeni içerikleri yüksek kalitede sunan köklü streaming platformu.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">679077</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center text-3xl font-bold">S</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">SStream</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Hızlı ve akıcı arayüzü ile yerli/yabancı dizi ve filmleri kolayca izlemenizi sağlar.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">959386</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-cyan-500/20">O</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">OnStream</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Tek tıkla içeriklere ulaşabileceğiniz, minimalist ve oldukça hızlı bir izleme deneyimi.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">814529</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-blue-800 to-indigo-900 rounded-2xl flex items-center justify-center text-3xl font-bold">O</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">Ocean Streamz</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Birden fazla kaynaktan veri çekerek her zaman çalışan linkler sunan güvenilir alternatif.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">99317</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-violet-600 to-indigo-800 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-purple-500/20">N</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">Nova TV</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yüksek çözünürlüklü içerikleri ve stabiliteyi ön planda tutan modern streaming aracı.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">70064</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-slate-500 to-slate-800 rounded-2xl flex items-center justify-center text-3xl font-bold">H</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">HDO Box</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Özellikle TV ekranları için tasarlanmış şık arayüzü ile popüler film ve dizileri sunar.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">3475826</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-red-500 to-red-900 rounded-2xl flex items-center justify-center text-3xl font-bold">F</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">Flixoid</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Terayix tabanlı, hızlı ve güvenli bir streaming deneyimi arayanlar için ideal çözüm.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">529057</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-orange-400 to-red-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-orange-500/20">F</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">Flix Vision</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Zengin kütüphanesi ve sürekli güncellenen kaynakları ile kesintisiz izleme imkanı.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">1504072</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-emerald-400 to-green-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-green-500/20">F</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">FilmPlus</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">En popüler yerli ve yabancı yapımlara kolayca ulaşmanızı sağlayan kullanıcı dostu bir araç.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">52193</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-amber-600 to-yellow-800 rounded-2xl flex items-center justify-center text-3xl font-bold">C</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">Cinema HD</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Uzun süredir en çok tercih edilen, geniş film arşivi ve altyazı desteği ile bilinen uygulama.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">5726169</span>
+                </div>
+            </div>
+
+            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
+                <div class="w-16 h-16 shrink-0 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-2xl flex items-center justify-center text-3xl font-bold text-slate-900 shadow-lg shadow-yellow-500/30">B</div>
+                <div class="flex-grow text-center md:text-left">
+                    <h2 class="text-2xl font-bold text-white app-name">BeeTV</h2>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yerli içeriklerden dünya sinemasına kadar her şeyi tek bir yerden izlemenize olanak tanır.</p>
+                </div>
+                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
+                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
+                    <span class="text-xl font-mono text-emerald-400 font-light">50187</span>
+                </div>
+            </div>
+
         </div>
     </main>
+
+    <script>
+        function filterApps() {
+            const input = document.getElementById('appSearch');
+            const filter = input.value.toLowerCase();
+            const appItems = document.getElementsByClassName('app-item');
+
+            for (let i = 0; i < appItems.length; i++) {
+                const appName = appItems[i].getElementsByClassName('app-name')[0].innerText;
+                if (appName.toLowerCase().indexOf(filter) > -1) {
+                    appItems[i].style.display = "";
+                } else {
+                    appItems[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 
     <footer class="mt-20 text-center text-slate-600 text-xs">
         <p>&copy; 2026 PluginHub - Tüm hakları saklıdır.</p>
