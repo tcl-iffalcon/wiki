@@ -60,7 +60,7 @@
   {"app": "Nuvio", "type": "Katalog", "name": "Top Streaming TR", "desc": "Bağlantı Linki: https://top-streaming.stream/configure", "isNew": false, "installGuide": "nuvio"},
   {"app": "Nuvio", "type": "Repo", "name": "Yoru's Repo", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/yoruix/nuvio-providers/refs/heads/main/manifest.json", "isNew": true, "installGuide": "nuvio"},
   {"app": "Nuvio", "type": "Repo", "name": "Phisher's Repo", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/phisher98/phisher-nuvio-providers/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio"},
-  {"app": "Nuvio", "type": "Repo", "name": "Spidey's Providers", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/Abinanthankv/NuvioRepo/refs/heads/master/manifest.json", "isNew": false, "installGuide": "nuvio"}
+  {"app": "Nuvio", "type": "Repo", "name": "Spidey's Providers", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/Abinanthankv/NuvioRepo/refs/heads/master/manifest.json", "isNew": false, "installGuide": "nuvio"},
   {"app": "CloudStream", "type": "4K", "name": "repo: phisher", "desc": "Eklenti: TorraStream", "isNew": false, "installGuide": "cloudstream"},
   {"app": "Stremio", "type": "Dublaj", "name": "SineWix", "desc": "Bağlantı Linki: https://sinewix.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"},
 ]
