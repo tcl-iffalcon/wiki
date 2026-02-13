@@ -9,211 +9,575 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
         .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .mobile-menu { transition: transform 0.3s ease-in-out; }
-        .hidden-menu { transform: translateY(-100%); }
+
+        /* ---- TOAST ---- */
+        #toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+            background: #10b981; color: #fff; padding: 10px 22px; border-radius: 999px;
+            font-size: 13px; font-weight: 700; z-index: 9999;
+            transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
+            opacity: 0; pointer-events: none; white-space: nowrap;
+        }
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* ---- MODAL ---- */
+        #modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s;
+            padding: 16px;
+        }
+        #modal-overlay.open { opacity: 1; pointer-events: all; }
+        #modal-box {
+            background: #1e293b; border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 24px; width: 100%; max-width: 560px; max-height: 90vh;
+            overflow-y: auto; transform: scale(0.94) translateY(16px);
+            transition: transform 0.28s cubic-bezier(.34,1.4,.64,1);
+        }
+        #modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
+
+        /* ---- THEME ---- */
+        body.light { background-color: #f1f5f9; color: #0f172a; }
+        body.light .glass-card { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.1); }
+        body.light #searchInput, body.light select { background: #e2e8f0; color: #0f172a; }
+        body.light .card-bg { background: rgba(241,245,249,0.9); }
+        body.light .text-slate-400 { color: #475569; }
+        body.light .bg-black\/30 { background: rgba(0,0,0,0.07); }
+        body.light #emptyState { color: #64748b; }
+        body.light .bg-slate-800 { background: #e2e8f0; }
+
+        /* ---- CARD ANIMATION ---- */
+        .plugin-card { animation: fadeUp 0.35s ease both; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---- FAV HEART ---- */
+        .fav-btn { transition: transform 0.2s, color 0.2s; }
+        .fav-btn:hover { transform: scale(1.25); }
+        .fav-btn.active { color: #ef4444; }
+
+        /* ---- COUNTER BADGE ---- */
+        #resultCount { transition: opacity 0.2s; }
+
+        /* ---- STEP BADGE ---- */
+        .step-num { min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+                    border-radius: 50%; background: rgba(59,130,246,0.2); color: #60a5fa;
+                    font-size: 12px; font-weight: 700; flex-shrink: 0; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.5); border-radius: 99px; }
+
+        /* Mobile menu */
+        #mobileMenu { display: none; }
+        #mobileMenu.open { display: block; }
     </style>
 </head>
-<body class="min-h-screen pb-12">
-    <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-8">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-                PluginHub
-            </div>
-            <div class="hidden md:flex gap-8 text-sm font-medium">
-                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
-                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
-            </div>
-            <button onclick="toggleMenu()" class="md:hidden p-2 hover:bg-slate-800 rounded-lg">
+<body class="min-h-screen pb-16">
+
+<!-- TOAST -->
+<div id="toast">✓ Kopyalandı!</div>
+
+<!-- NAVBAR -->
+<nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-8">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+            PluginHub
+        </div>
+        <div class="hidden md:flex gap-8 text-sm font-medium items-center">
+            <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
+            <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
+            <!-- THEME TOGGLE -->
+            <button onclick="toggleTheme()" id="themeBtn" title="Tema değiştir"
+                class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-lg leading-none">🌙</button>
+            <!-- FAV FILTER -->
+            <button onclick="toggleFavFilter()" id="favFilterBtn"
+                class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-xs font-bold text-slate-300">
+                <span>❤</span> Favoriler
+            </button>
+        </div>
+        <div class="flex gap-2 md:hidden items-center">
+            <button onclick="toggleTheme()" id="themeBtnMobile" class="p-2 hover:bg-slate-800 rounded-lg text-lg">🌙</button>
+            <button onclick="toggleMenu()" class="p-2 hover:bg-slate-800 rounded-lg">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
         </div>
-        <div id="mobileMenu" class="md:hidden absolute top-full left-0 w-full glass-card border-t border-slate-700 hidden">
-            <div class="flex flex-col p-6 gap-4">
-                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
-                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
+    </div>
+    <div id="mobileMenu" class="md:hidden border-t border-slate-700 pt-4 mt-4">
+        <div class="flex flex-col gap-3 text-sm font-medium">
+            <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
+            <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
+            <div class="flex gap-2 pt-1">
+                <button onclick="toggleFavFilter()" id="favFilterBtnMobile"
+                    class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-xs font-bold text-slate-300">
+                    <span>❤</span> Favoriler
+                </button>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="max-w-5xl mx-auto px-4">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Eklenti Ekosistemi</h1>
-            <p class="text-slate-400 max-w-lg mx-auto">Stremio, Nuvio, CloudStream vb. uygulamalara ait eklenti ve repolar.</p>
+<main class="max-w-5xl mx-auto px-4">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Eklenti Ekosistemi</h1>
+        <p class="text-slate-400 max-w-lg mx-auto">Stremio, Nuvio, CloudStream vb. uygulamalara ait eklenti ve repolar.</p>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="glass-card p-6 md:p-8 rounded-3xl mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Uygulama</label>
+                <select id="appSelect" onchange="filterData()" class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer">
+                    <option value="all">Tüm Uygulamalar</option>
+                    <option value="Stremio">Stremio</option>
+                    <option value="Nuvio">Nuvio</option>
+                    <option value="CloudStream">CloudStream</option>
+                    <option value="Diğer">Diğer</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Kategori</label>
+                <select id="typeSelect" onchange="filterData()" class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer">
+                    <option value="all">Tüm Kategoriler</option>
+                    <option value="4K">4K</option>
+                    <option value="Film">Film & Dizi</option>
+                    <option value="Dublaj">Dublaj</option>
+                    <option value="Altyazı">Altyazı</option>
+                    <option value="Spor">Spor</option>
+                    <option value="Çizgi Film">Çizgi Film</option>
+                    <option value="Katalog">Katalog</option>
+                    <option value="Repo">Plugins</option>
+                </select>
+            </div>
+            <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Arama</label>
+                <input type="text" id="searchInput" oninput="filterData()" placeholder="Eklenti veya içerik ara..."
+                    class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT COUNT + SHARE -->
+    <div class="flex justify-between items-center mb-4 px-1">
+        <p id="resultCount" class="text-sm text-slate-400 font-medium"></p>
+        <button onclick="shareCurrentFilter()"
+            class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-blue-400 transition font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            Paylaş
+        </button>
+    </div>
+
+    <!-- GRID -->
+    <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div id="emptyState" class="hidden text-center py-20 text-slate-500">
+        <div class="text-5xl mb-4">🔍</div>
+        <p class="font-semibold">Sonuç bulunamadı.</p>
+        <p class="text-sm mt-1">Filtrelerinizi değiştirmeyi deneyin.</p>
+    </div>
+</main>
+
+<!-- ===================== DETAIL MODAL ===================== -->
+<div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div id="modal-box" class="p-6 md:p-8">
+        <div class="flex justify-between items-start mb-6">
+            <div>
+                <div class="flex gap-2 mb-2" id="modal-badges"></div>
+                <h2 id="modal-title" class="text-2xl font-extrabold"></h2>
+            </div>
+            <button onclick="closeModal()" class="text-slate-400 hover:text-white transition ml-4 mt-1 text-xl leading-none">✕</button>
         </div>
 
-        <div class="glass-card p-6 md:p-8 rounded-3xl mb-10">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="space-y-2">
-                    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Uygulama</label>
-                    <select id="appSelect" onchange="filterData()" class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer">
-                        <option value="all">Tüm Uygulamalar</option>
-                        <option value="Stremio">Stremio</option>
-                        <option value="Nuvio">Nuvio</option>
-                        <option value="CloudStream">CloudStream</option>
-                        <option value="Diğer">Diğer</option>
-                    </select>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Kategori</label>
-                    <select id="typeSelect" onchange="filterData()" class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer">
-                        <option value="all">Tüm Kategoriler</option>
-                        <option value="4K">4K</option>
-                        <option value="Film">Film & Dizi</option>
-                        <option value="Dublaj">Dublaj</option>
-                        <option value="Altyazı">Altyazı</option>
-                        <option value="Spor">Spor</option>
-                        <option value="Çizgi Film">Çizgi Film</option>
-                        <option value="Katalog">Katalog</option>
-                        <option value="Repo">Plugins</option>
-                    </select>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Arama</label>
-                    <div class="relative">
-                        <input type="text" id="searchInput" onkeyup="filterData()" placeholder="Eklenti veya içerik ara..." class="w-full bg-slate-800 border-none text-white p-4 pr-12 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none">
+        <div id="modal-url-section" class="hidden mb-6">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Bağlantı</p>
+            <div id="modal-url" class="text-xs font-mono bg-black/30 p-3 rounded-xl break-all border border-white/5 text-slate-300"></div>
+            <div class="grid grid-cols-2 gap-3 mt-3">
+                <button id="modal-copy-btn" class="bg-slate-700 hover:bg-slate-600 text-white text-sm font-bold py-3 rounded-xl transition">Kopyala</button>
+                <a id="modal-goto-btn" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-3 rounded-xl transition text-center flex items-center justify-center">Siteye Git</a>
+            </div>
+        </div>
+
+        <div id="modal-code-section" class="hidden mb-6">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Downloader Kodu</p>
+            <div class="flex items-center gap-3">
+                <div id="modal-code" class="text-2xl font-extrabold text-blue-400 bg-black/30 px-5 py-3 rounded-xl border border-white/5"></div>
+                <button id="modal-code-copy-btn" class="bg-slate-700 hover:bg-slate-600 text-white text-sm font-bold px-4 py-3 rounded-xl transition">Kopyala</button>
+            </div>
+        </div>
+
+        <!-- INSTALL GUIDE -->
+        <div id="modal-guide" class="mt-2"></div>
+    </div>
+</div>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+    // -------- DATA --------
+    // Inline data (plugins.json ile aynı; harici fetch için aşağıdaki fetchPlugins() kullanılabilir)
+    const plugins = [
+      {"app":"CloudStream","type":"Film","name":"repo: kraptor","desc":"Eklenti: kraptorplus","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"4K","name":"repo: kraptor","desc":"Eklenti: YTS","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: MirrorVerse","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: DiziYo","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: FilmMakinesi","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: FilmEkseni","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: FullHDFilmİzlesene","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: FilmModu","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: SineWix","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: HDFilmCehennemi","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Dublaj","name":"repo: kraptor","desc":"Eklenti: RecTV","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Spor","name":"repo: sarapcanagii","desc":"Eklenti: NeonSpor","isNew":true,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Spor","name":"repo: kraptor","desc":"Eklenti: İnat TV","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Spor","name":"repo: kraptor","desc":"Eklenti: REC TV","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Spor","name":"repo: cncv","desc":"Eklenti: CRICFy","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Spor","name":"repo: cskarma","desc":"Eklenti: Streamed","isNew":false,"installGuide":"cloudstream"},
+      {"app":"CloudStream","type":"Spor","name":"repo: cskarma","desc":"Eklenti: WatchWrestling (WWE)","isNew":false,"installGuide":"cloudstream"},
+      {"app":"Diğer","type":"Spor","name":"SportzX","desc":"Downloader Kodu: 2330613","isNew":false,"installGuide":"downloader"},
+      {"app":"Diğer","type":"Spor","name":"CRICFy TV","desc":"Downloader Kodu: 8711675","isNew":false,"installGuide":"downloader"},
+      {"app":"Diğer","type":"Spor","name":"SportsFire TV","desc":"Downloader Kodu: 119368","isNew":false,"installGuide":"downloader"},
+      {"app":"Diğer","type":"Spor","name":"SportsZone TV","desc":"Downloader Kodu: 4052922","isNew":false,"installGuide":"downloader"},
+      {"app":"Diğer","type":"Film","name":"Netfly","desc":"Bağlantı Link: https://netflyapp.com/","isNew":false,"installGuide":"link"},
+      {"app":"Diğer","type":"Film","name":"NetMirror","desc":"Downloader Kodu: 6166931","isNew":false,"installGuide":"downloader"},
+      {"app":"Diğer","type":"Dublaj","name":"NetMirror","desc":"Downloader Kodu: 6166931","isNew":false,"installGuide":"downloader"},
+      {"app":"Diğer","type":"Spor","name":"Netfly","desc":"Bağlantı Link: https://netflyapp.com/","isNew":false,"installGuide":"link"},
+      {"app":"Stremio","type":"Film","name":"WebStreamr","desc":"Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"4K","name":"WebStreamr","desc":"Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Altyazı","name":"OpenSubtitles","desc":"Bağlantı Linki: https://opensubtitles-v3.strem.io/","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Altyazı","name":"TurkceAltyazi.org","desc":"Bağlantı Linki: https://turkcealtyaziorg-stremio-addon.mycodelab.live/addon/manifest.json","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Altyazı","name":"OpenSubtitles Pro","desc":"Bağlantı Linki: https://opensubtitlesv3-pro.dexter21767.com/eyJsYW5ncyI6WyJ0dXJraXNoIl0sInNvdXJjZSI6ImFsbCIsImFpVHJhbnNsYXRlZCI6dHJ1ZSwiYXV0b0FkanVzdG1lbnQiOmZhbHNlfQ==/manifest.json","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Altyazı","name":"SubSource Subtitles","desc":"Bağlantı Linki: https://subsource.strem.top/configure","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Altyazı","name":"SubDL Subtitles","desc":"Bağlantı Linki: https://subdl.strem.top/configure","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Altyazı","name":"SubMaker","desc":"Bağlantı Linki: https://submaker.elfhosted.com/configure?config=bedadbea77057c6e79adb38710386e3d","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Katalog","name":"Streaming Catalogs","desc":"Bağlantı Linki: https://7a82163c306e-stremio-netflix-catalog-addon.baby-beamup.club/ZG5wLGFtcCxhdHAsbmZ4LGhibSxuZmssY3RzLGNydSxtYmk6OnRyOjE3NTY2NDQ0MTU1MzM6dHJ1ZTowOg%3D%3D/manifest.json","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"4K","name":"Torrentio","desc":"Bağlantı Linki: https://torrentio.strem.fun/configure","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"4K","name":"Comet","desc":"Bağlantı Linki: https://comet.elfhosted.com/configure","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"4K","name":"MediaFusion","desc":"Bağlantı Linki: https://mediafusion.elfhosted.com/configure","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"4K","name":"Nuvio","desc":"Bağlantı Linki: https://nuviostreams.hayd.uk/","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"4K","name":"Jackettio","desc":"Bağlantı Linki: https://jackettio.elfhosted.com/configure","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"4K","name":"StremThruTorz","desc":"Bağlantı Linki: https://stremthru.elfhosted.com/stremio/torz/configure","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Katalog","name":"Watchly","desc":"Bağlantı Linki: https://watchly.elfhosted.com/","isNew":false,"installGuide":"stremio"},
+      {"app":"Stremio","type":"Katalog","name":"Top Streaming TR","desc":"Bağlantı Linki: https://top-streaming.stream/configure","isNew":true,"installGuide":"stremio"},
+      {"app":"Nuvio","type":"Film","name":"WebStreamr","desc":"Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"4K","name":"WebStreamr","desc":"Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Altyazı","name":"OpenSubtitles","desc":"Bağlantı Linki: https://opensubtitles-v3.strem.io/","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Altyazı","name":"TurkceAltyazi.org","desc":"Bağlantı Linki: https://turkcealtyaziorg-stremio-addon.mycodelab.live/addon/manifest.json","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Altyazı","name":"OpenSubtitles Pro","desc":"Bağlantı Linki: https://opensubtitlesv3-pro.dexter21767.com/eyJsYW5ncyI6WyJ0dXJraXNoIl0sInNvdXJjZSI6ImFsbCIsImFpVHJhbnNsYXRlZCI6dHJ1ZSwiYXV0b0FkanVzdG1lbnQiOmZhbHNlfQ==/manifest.json","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Altyazı","name":"SubSource Subtitles","desc":"Bağlantı Linki: https://subsource.strem.top/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Altyazı","name":"SubDL Subtitles","desc":"Bağlantı Linki: https://subdl.strem.top/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Altyazı","name":"SubMaker","desc":"Bağlantı Linki: https://submaker.elfhosted.com/addon/3f3cbe5143cb0c0c9223ecaa5b55da70/manifest.json","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Katalog","name":"Streaming Catalogs","desc":"Bağlantı Linki: https://7a82163c306e-stremio-netflix-catalog-addon.baby-beamup.club/ZG5wLGFtcCxhdHAsbmZ4LGhibSxuZmssY3RzLGNydSxtYmk6OnRyOjE3NTY2NDQ0MTU1MzM6dHJ1ZTowOg%3D%3D/manifest.json","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"4K","name":"Torrentio","desc":"Bağlantı Linki: https://torrentio.strem.fun/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"4K","name":"Comet","desc":"Bağlantı Linki: https://comet.elfhosted.com/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"4K","name":"MediaFusion","desc":"Bağlantı Linki: https://mediafusion.elfhosted.com/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"4K","name":"Nuvio","desc":"Bağlantı Linki: https://nuviostreams.hayd.uk/","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"4K","name":"Jackettio","desc":"Bağlantı Linki: https://jackettio.elfhosted.com/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"4K","name":"StremThruTorz","desc":"Bağlantı Linki: https://stremthru.elfhosted.com/stremio/torz/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Katalog","name":"Watchly","desc":"Bağlantı Linki: https://watchly.elfhosted.com/","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Katalog","name":"Top Streaming TR","desc":"Bağlantı Linki: https://top-streaming.stream/configure","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Repo","name":"Yoru's Repo","desc":"Bağlantı Linki: https://raw.githubusercontent.com/yoruix/nuvio-providers/refs/heads/main/manifest.json","isNew":true,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Repo","name":"Phisher's Repo","desc":"Bağlantı Linki: https://raw.githubusercontent.com/phisher98/phisher-nuvio-providers/refs/heads/main/manifest.json","isNew":false,"installGuide":"nuvio"},
+      {"app":"Nuvio","type":"Repo","name":"Spidey's Providers","desc":"Bağlantı Linki: https://raw.githubusercontent.com/Abinanthankv/NuvioRepo/refs/heads/master/manifest.json","isNew":false,"installGuide":"nuvio"}
+    ];
+
+    // -------- INSTALL GUIDES --------
+    const installGuides = {
+        stremio: {
+            title: "Stremio'ya Eklenti Nasıl Kurulur?",
+            steps: [
+                { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak manifest URL'yi kopyalayın." },
+                { icon: "🌐", text: "Stremio Web (<em>web.stremio.com</em>) veya masaüstü uygulamasını açın." },
+                { icon: "🔍", text: "Sol menüden <strong>Arama</strong> simgesine tıklayın." },
+                { icon: "🔗", text: "Arama kutusuna kopyaladığınız URL'yi yapıştırın ve Enter'a basın." },
+                { icon: "✅", text: "<strong>Yükle</strong> butonuna basın. Eklenti aktif olacaktır." }
+            ]
+        },
+        nuvio: {
+            title: "Nuvio'ya Eklenti Nasıl Kurulur?",
+            steps: [
+                { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak URL'yi kopyalayın." },
+                { icon: "📱", text: "Nuvio uygulamasını açın ve <strong>Ayarlar → Sağlayıcılar</strong> bölümüne gidin." },
+                { icon: "➕", text: "<strong>Sağlayıcı Ekle</strong> butonuna dokunun." },
+                { icon: "🔗", text: "Kopyaladığınız URL'yi ilgili alana yapıştırın." },
+                { icon: "✅", text: "<strong>Kaydet</strong>'e basın. Eklenti yüklendi!" }
+            ]
+        },
+        cloudstream: {
+            title: "CloudStream'e Repo Nasıl Eklenir?",
+            steps: [
+                { icon: "📱", text: "CloudStream uygulamasını açın." },
+                { icon: "⚙️", text: "<strong>Ayarlar → Eklentiler</strong> bölümüne gidin." },
+                { icon: "🔗", text: "\"<strong>Repo Ekle</strong>\" seçeneğine dokunun." },
+                { icon: "✍️", text: "Repo adını yazın (örn: <em>kraptor</em>) — URL otomatik tamamlanır veya tam repo URL'sini girin." },
+                { icon: "⬇️", text: "Repo içindeki istediğiniz eklentiyi seçip <strong>İndir</strong>'e basın." }
+            ]
+        },
+        downloader: {
+            title: "Downloader ile APK Nasıl Yüklenir?",
+            steps: [
+                { icon: "📺", text: "TV'nizde <strong>Downloader</strong> uygulamasını açın (yoksa App Store'dan indirin)." },
+                { icon: "🔢", text: "Yukarıdaki 7 haneli <strong>kodu</strong> kopyalayın veya not edin." },
+                { icon: "✍️", text: "Downloader'da \"Enter a URL or Search Term\" alanına kodu girin." },
+                { icon: "⬇️", text: "<strong>Go / Devam</strong>'a basın. APK otomatik indirilecektir." },
+                { icon: "✅", text: "İndirme tamamlandığında <strong>Yükle</strong>'ye basın." }
+            ]
+        },
+        link: {
+            title: "Bu Uygulamaya Nasıl Erişilir?",
+            steps: [
+                { icon: "🔗", text: "Yukarıdaki <strong>Siteye Git</strong> butonuna tıklayın." },
+                { icon: "📥", text: "Sitenin anasayfasından uygulamayı indirin." },
+                { icon: "✅", text: "Cihazınıza göre kurulum talimatlarını uygulayın." }
+            ]
+        }
+    };
+
+    // -------- STATE --------
+    let favorites = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
+    let showFavsOnly = false;
+    let isLight = localStorage.getItem('ph_theme') === 'light';
+
+    // Apply saved theme on load
+    if (isLight) {
+        document.body.classList.add('light');
+        setThemeIcon('☀️');
+    }
+
+    function pluginKey(p) { return `${p.app}|${p.name}|${p.type}|${p.desc}`; }
+    function isFav(p) { return favorites.includes(pluginKey(p)); }
+
+    // -------- THEME --------
+    function toggleTheme() {
+        isLight = !isLight;
+        document.body.classList.toggle('light', isLight);
+        localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
+        setThemeIcon(isLight ? '☀️' : '🌙');
+    }
+    function setThemeIcon(icon) {
+        document.getElementById('themeBtn').textContent = icon;
+        const m = document.getElementById('themeBtnMobile');
+        if (m) m.textContent = icon;
+    }
+
+    // -------- MOBILE MENU --------
+    function toggleMenu() {
+        document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    // -------- FAVORITES --------
+    function toggleFav(key, btn) {
+        const idx = favorites.indexOf(key);
+        if (idx === -1) { favorites.push(key); }
+        else { favorites.splice(idx, 1); }
+        localStorage.setItem('ph_favorites', JSON.stringify(favorites));
+        btn.classList.toggle('active', favorites.includes(key));
+        btn.textContent = favorites.includes(key) ? '❤' : '♡';
+        if (showFavsOnly) filterData();
+    }
+
+    function toggleFavFilter() {
+        showFavsOnly = !showFavsOnly;
+        const btns = [document.getElementById('favFilterBtn'), document.getElementById('favFilterBtnMobile')];
+        btns.forEach(b => { if (b) b.classList.toggle('text-red-400', showFavsOnly); });
+        filterData();
+    }
+
+    // -------- URL PARAMS (shareable filters) --------
+    function applyURLParams() {
+        const p = new URLSearchParams(window.location.search);
+        if (p.get('app')) document.getElementById('appSelect').value = p.get('app');
+        if (p.get('type')) document.getElementById('typeSelect').value = p.get('type');
+        if (p.get('q')) document.getElementById('searchInput').value = p.get('q');
+    }
+
+    function updateURL(app, type, q) {
+        const p = new URLSearchParams();
+        if (app !== 'all') p.set('app', app);
+        if (type !== 'all') p.set('type', type);
+        if (q) p.set('q', q);
+        const newURL = window.location.pathname + (p.toString() ? '?' + p.toString() : '');
+        history.replaceState({}, '', newURL);
+    }
+
+    function shareCurrentFilter() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => showToast('🔗 Link kopyalandı!'));
+    }
+
+    // -------- FILTER --------
+    function filterData() {
+        const app  = document.getElementById('appSelect').value;
+        const type = document.getElementById('typeSelect').value;
+        const q    = document.getElementById('searchInput').value.toLowerCase().trim();
+        updateURL(app, type, q);
+
+        const filtered = plugins.filter(p => {
+            const matchApp  = app  === 'all' || p.app  === app;
+            const matchType = type === 'all' || p.type === type;
+            const matchQ    = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+            const matchFav  = !showFavsOnly || isFav(p);
+            return matchApp && matchType && matchQ && matchFav;
+        });
+
+        renderCards(filtered);
+    }
+
+    // -------- TOAST --------
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg || '✓ Kopyalandı!';
+        t.classList.add('show');
+        clearTimeout(window._toastTimer);
+        window._toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    function copyText(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('✓ Kopyalandı!'));
+    }
+
+    // -------- RENDER CARDS --------
+    function renderCards(data) {
+        const container = document.getElementById('resultsGrid');
+        const empty     = document.getElementById('emptyState');
+        const counter   = document.getElementById('resultCount');
+        container.innerHTML = '';
+
+        counter.textContent = data.length > 0 ? `${data.length} eklenti bulundu` : '';
+
+        if (data.length === 0) { empty.classList.remove('hidden'); return; }
+        empty.classList.add('hidden');
+
+        data.forEach((item, i) => {
+            const urlMatch = item.desc.match(/(https?:\/\/[^\s]+)/g);
+            const url      = urlMatch ? urlMatch[0] : null;
+            const codeMatch = item.desc.match(/Downloader Kodu:\s*(\d+)/);
+            const code     = codeMatch ? codeMatch[1] : null;
+            const key      = pluginKey(item);
+            const favActive = isFav(item);
+            const delay    = Math.min(i * 40, 400);
+
+            container.innerHTML += `
+            <div class="plugin-card glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform duration-300 flex flex-col h-full cursor-pointer"
+                 style="animation-delay:${delay}ms"
+                 onclick="openModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+
+                <!-- TOP ROW -->
+                <div class="flex justify-between items-start mb-3">
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-blue-500/20 text-blue-400 uppercase tracking-tighter">${item.app}</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 uppercase tracking-tighter">${item.type}</span>
+                        ${item.isNew ? '<span class="text-[10px] font-bold px-2 py-1 rounded bg-yellow-400/20 text-yellow-300 uppercase tracking-tighter animate-pulse">Yeni</span>' : ''}
                     </div>
+                    <button class="fav-btn text-slate-500 text-lg leading-none ml-2 ${favActive ? 'active' : ''}"
+                        onclick="event.stopPropagation(); toggleFav('${key}', this)">
+                        ${favActive ? '❤' : '♡'}
+                    </button>
                 </div>
-            </div>
-        </div>
 
-        <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-        <div id="emptyState" class="hidden text-center py-20 text-slate-500">Sonuç bulunamadı.</div>
-    </main>
+                <!-- NAME -->
+                <h3 class="text-lg font-bold mb-2 leading-tight">${item.name}</h3>
 
-    <script>
-        const plugins = [
-            {app: "CloudStream", type: "Film", name: "repo: kraptor", desc: "Eklenti: kraptorplus" },
-            {app: "CloudStream", type: "4K", name: "repo: kraptor", desc: "Eklenti: kraptorplus" },
-            {app: "CloudStream", type: "4K", name: "repo: kraptor", desc: "Eklenti: YTS" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: MirrorVerse" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: DiziYo" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: FilmMakinesi" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: FilmEkseni" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: FullHDFilmİzlesene" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: FilmModu" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: FilmMakinesi" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: SineWix" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: HDFilmCehennemi" },
-            {app: "CloudStream", type: "Dublaj", name: "repo: kraptor", desc: "Eklenti: RecTV" },
-            {app: "CloudStream", type: "Spor", name: "repo: sarapcanagii", desc: "Eklenti: NeonSpor" },
-            {app: "CloudStream", type: "Spor", name: "repo: kraptor", desc: "Eklenti: İnat TV" },
-            {app: "CloudStream", type: "Spor", name: "repo: kraptor", desc: "Eklenti: REC TV" },
-            {app: "CloudStream", type: "Spor", name: "repo: cncv", desc: "Eklenti: CRICFy" },
-            {app: "CloudStream", type: "Spor", name: "repo: cskarma", desc: "Eklenti: Streamed" },
-            {app: "CloudStream", type: "Spor", name: "repo: cskarma", desc: "Eklenti: WatchWrestling (WWE)" },
-            {app: "Diğer", type: "Spor", name: "SportzX", desc: "Downloader Kodu: 2330613" },
-            {app: "Diğer", type: "Spor", name: "CRICFy TV", desc: "Downloader Kodu: 8711675 " },
-            {app: "Diğer", type: "Spor", name: "SportsFire TV", desc: "Downloader Kodu: 119368 " },
-            {app: "Diğer", type: "Spor", name: "SportsZone TV", desc: "Downloader Kodu: 4052922 " },
-            {app: "Diğer", type: "Film", name: "Netfly", desc: "Bağlantı Link: https://netflyapp.com/" },
-            {app: "Diğer", type: "Film", name: "NetMirror", desc: "Downloader Kodu: 6166931" },
-            {app: "Diğer", type: "Dublaj", name: "NetMirror", desc: "Downloader Kodu: 6166931" },
-            {app: "Diğer", type: "Spor", name: "Netfly", desc: "Bağlantı Link: https://netflyapp.com/" },
-            {app: "Stremio", type: "Film", name: "WebStreamr", desc: "Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json" },
-            {app: "Stremio", type: "4K", name: "WebStreamr", desc: "Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json" },
-            {app: "Stremio", type: "Altyazı", name: "OpenSubtitles", desc: "Bağlantı Linki: https://opensubtitles-v3.strem.io/" },
-            {app: "Stremio", type: "Altyazı", name: "TurkceAltyazi.org", desc: "Bağlantı Linki: https://turkcealtyaziorg-stremio-addon.mycodelab.live/addon/manifest.json" },
-            {app: "Stremio", type: "Altyazı", name: "OpenSubtitles Pro", desc: "Bağlantı Linki: https://opensubtitlesv3-pro.dexter21767.com/eyJsYW5ncyI6WyJ0dXJraXNoIl0sInNvdXJjZSI6ImFsbCIsImFpVHJhbnNsYXRlZCI6dHJ1ZSwiYXV0b0FkanVzdG1lbnQiOmZhbHNlfQ==/manifest.json" },
-            {app: "Stremio", type: "Altyazı", name: "SubSource Subtitles", desc: "Bağlantı Linki: https://subsource.strem.top/configure" },
-            {app: "Stremio", type: "Altyazı", name: "SubDL Subtitles", desc: "Bağlantı Linki: https://subdl.strem.top/configure" },
-            {app: "Stremio", type: "Altyazı", name: "SubMaker", desc: "Bağlantı Linki: https://submaker.elfhosted.com/configure?config=bedadbea77057c6e79adb38710386e3d" },          
-            {app: "Stremio", type: "Katalog", name: "Streaming Catalogs", desc: "Bağlantı Linki: https://7a82163c306e-stremio-netflix-catalog-addon.baby-beamup.club/ZG5wLGFtcCxhdHAsbmZ4LGhibSxuZmssY3RzLGNydSxtYmk6OnRyOjE3NTY2NDQ0MTU1MzM6dHJ1ZTowOg%3D%3D/manifest.json" },
-            {app: "Stremio", type: "4K", name: "Torrentio", desc: "Bağlantı Linki: https://torrentio.strem.fun/configure" },
-            {app: "Stremio", type: "4K", name: "Comet", desc: "Bağlantı Linki: https://comet.elfhosted.com/configure" },
-            {app: "Stremio", type: "4K", name: "MediaFusion ", desc: "Bağlantı Linki: https://mediafusion.elfhosted.com/configure" },
-            {app: "Stremio", type: "4K", name: "Nuvio", desc: "Bağlantı Linki: https://nuviostreams.hayd.uk/" },
-            {app: "Stremio", type: "4K", name: "Jackettio ", desc: "Bağlantı Linki: https://jackettio.elfhosted.com/configure" },
-            {app: "Stremio", type: "4K", name: "StremThruTorz ", desc: "Bağlantı Linki: https://stremthru.elfhosted.com/stremio/torz/configure" },
-            {app: "Stremio", type: "Katalog", name: "Watchly", desc: "Bağlantı Linki: https://watchly.elfhosted.com/" },
-            {app: "Stremio", type: "Katalog", name: "Top Streaming TR", desc: "Bağlantı Linki: https://top-streaming.stream/configure" },
-                        
-            {app: "Nuvio", type: "Film", name: "WebStreamr", desc: "Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json" },
-            {app: "Nuvio", type: "4K", name: "WebStreamr", desc: "Bağlantı Linki: https://webstreamr.hayd.uk/%7B%22multi%22%3A%22on%22%2C%22en%22%3A%22on%22%2C%22mediaFlowProxyUrl%22%3A%22%22%2C%22mediaFlowProxyPassword%22%3A%22%22%7D/manifest.json" },
-            {app: "Nuvio", type: "Altyazı", name: "OpenSubtitles", desc: "Bağlantı Linki: https://opensubtitles-v3.strem.io/" },
-            {app: "Nuvio", type: "Altyazı", name: "TurkceAltyazi.org", desc: "Bağlantı Linki: https://turkcealtyaziorg-stremio-addon.mycodelab.live/addon/manifest.json" },
-            {app: "Nuvio", type: "Altyazı", name: "OpenSubtitles Pro", desc: "Bağlantı Linki: https://opensubtitlesv3-pro.dexter21767.com/eyJsYW5ncyI6WyJ0dXJraXNoIl0sInNvdXJjZSI6ImFsbCIsImFpVHJhbnNsYXRlZCI6dHJ1ZSwiYXV0b0FkanVzdG1lbnQiOmZhbHNlfQ==/manifest.json" },
-            {app: "Nuvio", type: "Altyazı", name: "SubSource Subtitles", desc: "Bağlantı Linki: https://subsource.strem.top/configure" },
-            {app: "Nuvio", type: "Altyazı", name: "SubDL Subtitles", desc: "Bağlantı Linki: https://subdl.strem.top/configure" },
-            {app: "Nuvio", type: "Altyazı", name: "SubMaker", desc: "Bağlantı Linki: https://submaker.elfhosted.com/addon/3f3cbe5143cb0c0c9223ecaa5b55da70/manifest.json" },
-            {app: "Nuvio", type: "Katalog", name: "Streaming Catalogs", desc: "Bağlantı Linki: https://7a82163c306e-stremio-netflix-catalog-addon.baby-beamup.club/ZG5wLGFtcCxhdHAsbmZ4LGhibSxuZmssY3RzLGNydSxtYmk6OnRyOjE3NTY2NDQ0MTU1MzM6dHJ1ZTowOg%3D%3D/manifest.json" },
-            {app: "Nuvio", type: "4K", name: "Torrentio", desc: "Bağlantı Linki: https://torrentio.strem.fun/configure" },
-            {app: "Nuvio", type: "4K", name: "Comet", desc: "Bağlantı Linki: https://comet.elfhosted.com/configure" },
-            {app: "Nuvio", type: "4K", name: "MediaFusion ", desc: "Bağlantı Linki: https://mediafusion.elfhosted.com/configure" },
-            {app: "Nuvio", type: "4K", name: "Nuvio", desc: "Bağlantı Linki: https://nuviostreams.hayd.uk/" },
-            {app: "Nuvio", type: "4K", name: "Jackettio ", desc: "Bağlantı Linki: https://jackettio.elfhosted.com/configure" },
-            {app: "Nuvio", type: "4K", name: "StremThruTorz ", desc: "Bağlantı Linki: https://stremthru.elfhosted.com/stremio/torz/configure" },
-            {app: "Nuvio", type: "Katalog", name: "Watchly", desc: "Bağlantı Linki: https://watchly.elfhosted.com/" },
-            {app: "Nuvio", type: "Katalog", name: "Top Streaming TR", desc: "Bağlantı Linki: https://top-streaming.stream/configure" },
-            {app: "Nuvio", type: "Repo", name: "Yoru's Repo", desc: "Bağlantı Linki: https://raw.githubusercontent.com/yoruix/nuvio-providers/refs/heads/main/manifest.json" },
-            {app: "Nuvio", type: "Repo", name: "Phisher's Repo", desc: "Bağlantı Linki: https://raw.githubusercontent.com/phisher98/phisher-nuvio-providers/refs/heads/main/manifest.json" },
-            {app: "Nuvio", type: "Repo", name: "Spidey's Providers", desc: "Bağlantı Linki: https://raw.githubusercontent.com/Abinanthankv/NuvioRepo/refs/heads/master/manifest.json" },
+                <!-- DESC PREVIEW -->
+                <div class="flex-grow text-sm text-slate-400 leading-relaxed mb-4">
+                    ${url
+                        ? `<span class="text-[11px] font-mono bg-black/30 block px-2 py-1.5 rounded border border-white/5 truncate">${url}</span>`
+                        : (code
+                            ? `<span class="text-blue-400 font-bold text-xl">${code}</span>`
+                            : item.desc)
+                    }
+                </div>
 
-        ];
+                <!-- ACTIONS -->
+                <div class="mt-auto flex gap-2" onclick="event.stopPropagation()">
+                    ${url ? `
+                        <button onclick="copyText('${url}')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-xl transition">Kopyala</button>
+                        <a href="${url}" target="_blank" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2.5 rounded-xl transition text-center">Git</a>
+                    ` : (code ? `
+                        <button onclick="copyText('${code}')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-xl transition">Kodu Kopyala</button>
+                        <button onclick="openModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2.5 rounded-xl transition">Nasıl Yüklenir?</button>
+                    ` : '')}
+                </div>
+            </div>`;
+        });
+    }
 
-        function toggleMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        }
+    // -------- MODAL --------
+    function openModal(item) {
+        const urlMatch  = item.desc.match(/(https?:\/\/[^\s]+)/g);
+        const url       = urlMatch ? urlMatch[0] : null;
+        const codeMatch = item.desc.match(/Downloader Kodu:\s*(\d+)/);
+        const code      = codeMatch ? codeMatch[1] : null;
 
-        function copyToClipboard(text, btn) {
-            navigator.clipboard.writeText(text).then(() => {
-                const original = btn.innerHTML;
-                btn.innerHTML = "Kopyalandı!";
-                btn.classList.add('bg-emerald-600');
-                setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.classList.remove('bg-emerald-600');
-                }, 2000);
-            });
-        }
+        // Badges
+        document.getElementById('modal-badges').innerHTML = `
+            <span class="text-[10px] font-bold px-2 py-1 rounded bg-blue-500/20 text-blue-400 uppercase tracking-tighter">${item.app}</span>
+            <span class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 uppercase tracking-tighter">${item.type}</span>
+            ${item.isNew ? '<span class="text-[10px] font-bold px-2 py-1 rounded bg-yellow-400/20 text-yellow-300 uppercase tracking-tighter">Yeni</span>' : ''}
+        `;
+        document.getElementById('modal-title').textContent = item.name;
 
-        function filterData() {
-            const app = document.getElementById('appSelect').value;
-            const type = document.getElementById('typeSelect').value;
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = plugins.filter(p => (app === 'all' || p.app === app) && (type === 'all' || p.type === type) && (p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query)));
-            renderCards(filtered);
-        }
+        // URL section
+        const urlSec = document.getElementById('modal-url-section');
+        if (url) {
+            urlSec.classList.remove('hidden');
+            document.getElementById('modal-url').textContent = url;
+            document.getElementById('modal-copy-btn').onclick = () => { copyText(url); };
+            document.getElementById('modal-goto-btn').href = url;
+        } else { urlSec.classList.add('hidden'); }
 
-        function renderCards(data) {
-            const container = document.getElementById('resultsGrid');
-            const empty = document.getElementById('emptyState');
-            container.innerHTML = '';
-            if (data.length === 0) { empty.classList.remove('hidden'); return; }
-            empty.classList.add('hidden');
+        // Code section
+        const codeSec = document.getElementById('modal-code-section');
+        if (code) {
+            codeSec.classList.remove('hidden');
+            document.getElementById('modal-code').textContent = code;
+            document.getElementById('modal-code-copy-btn').onclick = () => { copyText(code); };
+        } else { codeSec.classList.add('hidden'); }
 
-            data.forEach(item => {
-                const urlMatch = item.desc.match(/(https?:\/\/[^\s]+)/g);
-                const url = urlMatch ? urlMatch[0] : null;
-
-                container.innerHTML += `
-                    <div class="glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform duration-300 flex flex-col h-full border border-white/10">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="text-[10px] font-bold px-2 py-1 rounded bg-blue-500/20 text-blue-400 uppercase tracking-tighter">${item.app}</span>
-                            <span class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 uppercase tracking-tighter">${item.type}</span>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">${item.name}</h3>
-                        <div class="flex-grow text-sm text-slate-400 leading-relaxed mb-4">
-                            ${url ? item.desc.split(url)[0] : item.desc}
-                            ${url ? `<div class="mt-2 text-[10px] font-mono bg-black/30 p-2 rounded break-all border border-white/5">${url}</div>` : ''}
-                        </div>
-                        ${url ? `
-                            <div class="grid grid-cols-2 gap-2 mt-auto">
-                                <button onclick="copyToClipboard('${url}', this)" class="bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-3 rounded-xl transition-all">Kopyala</button>
-                                <a href="${url}" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-3 rounded-xl transition-all text-center flex items-center justify-center">Git</a>
+        // Install guide
+        const guide = installGuides[item.installGuide];
+        const guideEl = document.getElementById('modal-guide');
+        if (guide) {
+            guideEl.innerHTML = `
+                <div class="border-t border-white/10 pt-5">
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4">${guide.title}</p>
+                    <div class="space-y-3">
+                        ${guide.steps.map((s, i) => `
+                            <div class="flex gap-3 items-start">
+                                <div class="step-num">${i + 1}</div>
+                                <div class="text-sm text-slate-300 leading-relaxed pt-0.5">${s.icon} ${s.text}</div>
                             </div>
-                        ` : ''}
+                        `).join('')}
                     </div>
-                `;
-            });
-        }
-        renderCards(plugins);
-    </script>
+                </div>
+            `;
+        } else { guideEl.innerHTML = ''; }
+
+        document.getElementById('modal-overlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function closeModalOnBackdrop(e) {
+        if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // -------- INIT --------
+    applyURLParams();
+    filterData();
+</script>
 </body>
 </html>
