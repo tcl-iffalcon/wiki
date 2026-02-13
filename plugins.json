@@ -1,5 +1,6 @@
 [
   {"app": "CloudStream", "type": "Film", "name": "repo: kraptor", "desc": "Eklenti: kraptorplus", "isNew": false, "installGuide": "cloudstream"},
+  {"app": "CloudStream", "type": "4K", "name": "repo: kraptor", "desc": "Eklenti: kraptorplus", "isNew": false, "installGuide": "cloudstream"},
   {"app": "CloudStream", "type": "4K", "name": "repo: kraptor", "desc": "Eklenti: YTS", "isNew": false, "installGuide": "cloudstream"},
   {"app": "CloudStream", "type": "Dublaj", "name": "repo: kraptor", "desc": "Eklenti: MirrorVerse", "isNew": false, "installGuide": "cloudstream"},
   {"app": "CloudStream", "type": "Dublaj", "name": "repo: kraptor", "desc": "Eklenti: DiziYo", "isNew": false, "installGuide": "cloudstream"},
