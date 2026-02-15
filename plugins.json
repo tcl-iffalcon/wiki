@@ -18,7 +18,7 @@
   {"app": "CloudStream", "type": "Spor", "name": "repo: cncv", "desc": "Eklenti: CRICFy", "isNew": false, "installGuide": "cloudstream"},
   {"app": "CloudStream", "type": "Spor", "name": "repo: cskarma", "desc": "Eklenti: Streamed", "isNew": false, "installGuide": "cloudstream"},
   {"app": "CloudStream", "type": "Spor", "name": "repo: cskarma", "desc": "Eklenti: WatchWrestling (WWE)", "isNew": false, "installGuide": "cloudstream"},
-  {"app": "Diğer", "type": "Spor", "name": "SportzX", "desc": "Downloader Kodu: 2330613", "isNew": false, "installGuide": "downloader"},
+  {"app": "Diğer", "type": "Spor", "name": "SportzX", "desc": "Downloader Kodu: 5699355", "isNew": false, "installGuide": "downloader"},
   {"app": "Diğer", "type": "Spor", "name": "CRICFy TV", "desc": "Downloader Kodu: 8711675", "isNew": false, "installGuide": "downloader"},
   {"app": "Diğer", "type": "Spor", "name": "SportsFire TV", "desc": "Downloader Kodu: 119368", "isNew": false, "installGuide": "downloader"},
   {"app": "Diğer", "type": "Spor", "name": "SportsZone TV", "desc": "Downloader Kodu: 4052922", "isNew": false, "installGuide": "downloader"},
