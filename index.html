@@ -881,8 +881,8 @@ function renderCards(data) {
                 ${url
                     ? `<div class="url-mono">${url}</div>`
                     : (code
-                        ? `<span style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#60a5fa">${code}</span>`
-                        : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${(item.desc||'').replace(/(https?:\/\/[^\s]+)/g,'').trim().slice(0,80)}...</p>`
+                        ? `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px">Downloader Kodu</div><span style="font-size:26px;font-weight:800;color:#60a5fa">${code}</span>`
+                        : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${(item.desc||'').replace(/(https?:\/\/[^\s]+)/g,'').trim().slice(0,80)}</p>`
                     )
                 }
             </div>
