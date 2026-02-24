@@ -5,139 +5,480 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PluginHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        :root {
+            --bg: #080c14;
+            --surface: #0d1421;
+            --surface2: #121929;
+            --border: rgba(255,255,255,0.07);
+            --text: #f0f4ff;
+            --muted: #6b7a99;
+            --accent: #3b82f6;
+            --accent2: #10b981;
+            --accent3: #f59e0b;
+            --glow: rgba(59,130,246,0.15);
+        }
+        body.light {
+            --bg: #f0f4fc;
+            --surface: #ffffff;
+            --surface2: #e8eef8;
+            --border: rgba(0,0,0,0.08);
+            --text: #0f172a;
+            --muted: #64748b;
+            --glow: rgba(59,130,246,0.08);
+        }
 
-        /* ---- TOAST ---- */
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* ── BG GRID ── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none; z-index: 0;
+        }
+
+        body.light::before {
+            background-image:
+                linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+        }
+
+        main, nav, footer { position: relative; z-index: 1; }
+
+        /* ── FONTS ── */
+        h1, h2, h3, .brand { font-family: 'Syne', sans-serif; }
+
+        /* ── GLASS ── */
+        .glass {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(8,12,20,0.85);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            padding: 0 24px;
+        }
+        body.light nav { background: rgba(240,244,252,0.9); }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            height: 64px; display: flex; align-items: center; justify-content: space-between;
+        }
+        .brand {
+            font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #60a5fa, #34d399);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 6px; align-items: center; }
+        .nav-links a {
+            font-size: 13px; font-weight: 500; color: var(--muted);
+            text-decoration: none; padding: 6px 12px; border-radius: 8px;
+            transition: color 0.2s, background 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); background: var(--surface2); }
+        .nav-btn {
+            display: flex; align-items: center; gap-6px;
+            padding: 7px 13px; border-radius: 10px; border: 1px solid var(--border);
+            background: var(--surface2); color: var(--muted);
+            font-size: 12px; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; gap: 6px;
+        }
+        .nav-btn:hover { color: var(--text); border-color: var(--accent); }
+        .nav-btn.active { color: #ef4444; border-color: rgba(239,68,68,0.4); }
+
+        /* ── HERO ── */
+        .hero {
+            text-align: center; padding: 72px 16px 56px;
+            max-width: 700px; margin: 0 auto;
+        }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--accent); background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.25); border-radius: 999px;
+            padding: 5px 14px; margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.1;
+            letter-spacing: -1.5px; margin-bottom: 16px;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #60a5fa 0%, #34d399 50%, #a78bfa 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            display: flex; justify-content: center; gap: 40px;
+            flex-wrap: wrap; margin-bottom: 0;
+        }
+        .stat { text-align: center; }
+        .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--text); }
+        .stat-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+        /* ── SEARCH & FILTERS ── */
+        .filter-bar {
+            max-width: 1200px; margin: 0 auto 32px; padding: 0 16px;
+        }
+        .filter-inner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px 24px;
+            display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 16px;
+        }
+        @media (max-width: 768px) {
+            .filter-inner { grid-template-columns: 1fr; }
+        }
+        .filter-group label {
+            display: block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px;
+        }
+        .filter-group select,
+        .filter-group input {
+            width: 100%; background: var(--surface2); border: 1px solid var(--border);
+            color: var(--text); padding: 10px 14px; border-radius: 12px;
+            font-size: 14px; font-family: 'DM Sans', sans-serif;
+            outline: none; appearance: none; transition: border-color 0.2s;
+        }
+        .filter-group select:focus,
+        .filter-group input:focus { border-color: var(--accent); }
+        .filter-group input::placeholder { color: var(--muted); }
+
+        /* ── TABS (kategori pills) ── */
+        .category-tabs {
+            max-width: 1200px; margin: 0 auto 24px;
+            padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+        }
+        .tab-pill {
+            font-size: 12px; font-weight: 600; padding: 6px 14px;
+            border-radius: 999px; border: 1px solid var(--border);
+            background: var(--surface2); color: var(--muted);
+            cursor: pointer; transition: all 0.2s; white-space: nowrap;
+        }
+        .tab-pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+        .tab-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        /* ── RESULT INFO ── */
+        .result-bar {
+            max-width: 1200px; margin: 0 auto 16px;
+            padding: 0 16px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .result-bar span { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+        /* ── GRID ── */
+        .grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 80px; }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        /* ── CARD ── */
+        .plugin-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px;
+            display: flex; flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            animation: fadeUp 0.4s ease both;
+            position: relative; overflow: hidden;
+        }
+        .plugin-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 80% 20%, var(--glow), transparent 60%);
+            opacity: 0; transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .plugin-card:hover { transform: translateY(-3px); border-color: rgba(59,130,246,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+        .plugin-card:hover::before { opacity: 1; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── SKELETON ── */
+        .skeleton-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 18px; padding: 22px; height: 180px;
+            animation: shimmer 1.5s infinite;
+        }
+        .skel-line {
+            height: 12px; border-radius: 6px;
+            background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.06) 50%, var(--surface2) 75%);
+            background-size: 400% 100%;
+            animation: shimmer 1.5s infinite;
+            margin-bottom: 10px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        /* ── BADGE ── */
+        .badge {
+            display: inline-block; font-size: 9px; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.8px; padding: 3px 8px; border-radius: 6px;
+        }
+        .badge-app { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .badge-type { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge-new { background: rgba(245,158,11,0.15); color: #fbbf24; animation: pulse-badge 2s infinite; }
+        .badge-status-ok { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge-status-warn { background: rgba(245,158,11,0.15); color: #fbbf24; }
+        .badge-status-err { background: rgba(239,68,68,0.15); color: #f87171; }
+
+        @keyframes pulse-badge {
+            0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
+        }
+
+        /* ── FAV BUTTON ── */
+        .fav-btn {
+            background: none; border: none; cursor: pointer;
+            color: var(--muted); font-size: 18px; line-height: 1;
+            transition: transform 0.2s, color 0.2s; padding: 2px;
+        }
+        .fav-btn:hover { transform: scale(1.3); }
+        .fav-btn.active { color: #ef4444; }
+
+        /* ── RATING STARS ── */
+        .stars { display: flex; gap: 2px; }
+        .star { font-size: 13px; cursor: pointer; color: var(--surface2); transition: color 0.15s; }
+        .star.filled { color: #f59e0b; }
+        .star:hover { color: #fbbf24; }
+
+        /* ── CARD ACTIONS ── */
+        .card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; }
+        .btn {
+            flex: 1; padding: 9px 0; border-radius: 10px; border: none;
+            font-size: 12px; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+            text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;
+        }
+        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: rgba(255,255,255,0.2); }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: #2563eb; }
+        .btn-success { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+
+        /* ── URL MONO ── */
+        .url-mono {
+            font-size: 11px; font-family: 'SF Mono', 'Fira Code', monospace;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 8px; padding: 8px 10px;
+            color: var(--muted); overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; margin-top: 8px; margin-bottom: 0;
+        }
+
+        /* ── LAST SEEN ── */
+        .last-seen-section {
+            max-width: 1200px; margin: 0 auto 24px;
+            padding: 0 16px;
+        }
+        .last-seen-title {
+            font-size: 11px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1.5px; color: var(--muted); margin-bottom: 10px;
+        }
+        .last-seen-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+        .seen-chip {
+            font-size: 12px; font-weight: 600; padding: 5px 12px;
+            border-radius: 8px; background: var(--surface2); border: 1px solid var(--border);
+            color: var(--text); cursor: pointer; transition: all 0.2s;
+        }
+        .seen-chip:hover { border-color: var(--accent); color: #60a5fa; }
+
+        /* ── TOAST ── */
         #toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-            background: #10b981; color: #fff; padding: 10px 22px; border-radius: 999px;
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            padding: 10px 20px; border-radius: 999px;
             font-size: 13px; font-weight: 700; z-index: 9999;
             transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
             opacity: 0; pointer-events: none; white-space: nowrap;
+            background: #1e293b; border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
         }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        /* ---- MODAL ---- */
+        /* ── MODAL ── */
         #modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.25s;
-            padding: 16px;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 16px;
+            backdrop-filter: blur(4px);
         }
         #modal-overlay.open { opacity: 1; pointer-events: all; }
         #modal-box {
-            background: #1e293b; border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 24px; width: 100%; max-width: 560px; max-height: 90vh;
-            overflow-y: auto; transform: scale(0.94) translateY(16px);
-            transition: transform 0.28s cubic-bezier(.34,1.4,.64,1);
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; width: 100%; max-width: 580px; max-height: 88vh;
+            overflow-y: auto; transform: scale(0.93) translateY(20px);
+            transition: transform 0.3s cubic-bezier(.34,1.4,.64,1);
         }
         #modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
 
-        /* ---- THEME ---- */
-        body.light { background-color: #f1f5f9; color: #0f172a; }
-        body.light .glass-card { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.1); }
-        body.light #searchInput, body.light select { background: #e2e8f0; color: #0f172a; }
-        body.light .card-bg { background: rgba(241,245,249,0.9); }
-        body.light .text-slate-400 { color: #475569; }
-        body.light .bg-black\/30 { background: rgba(0,0,0,0.07); }
-        body.light #emptyState { color: #64748b; }
-        body.light .bg-slate-800 { background: #e2e8f0; }
-
-        /* ---- CARD ANIMATION ---- */
-        .plugin-card { animation: fadeUp 0.35s ease both; }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(18px); }
-            to   { opacity: 1; transform: translateY(0); }
+        /* ── STEP ── */
+        .step-num {
+            min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: rgba(59,130,246,0.15); color: #60a5fa;
+            font-size: 11px; font-weight: 800; flex-shrink: 0;
+            font-family: 'Syne', sans-serif;
         }
 
-        /* ---- FAV HEART ---- */
-        .fav-btn { transition: transform 0.2s, color 0.2s; }
-        .fav-btn:hover { transform: scale(1.25); }
-        .fav-btn.active { color: #ef4444; }
+        /* ── EMPTY STATE ── */
+        #emptyState { display: none; text-align: center; padding: 80px 16px; color: var(--muted); }
 
-        /* ---- COUNTER BADGE ---- */
-        #resultCount { transition: opacity 0.2s; }
-
-        /* ---- STEP BADGE ---- */
-        .step-num { min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-                    border-radius: 50%; background: rgba(59,130,246,0.2); color: #60a5fa;
-                    font-size: 12px; font-weight: 700; flex-shrink: 0; }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.5); border-radius: 99px; }
-
-        /* Mobile menu */
+        /* ── MOBILE MENU ── */
         #mobileMenu { display: none; }
         #mobileMenu.open { display: block; }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.4); border-radius: 99px; }
+
+        /* ── ANNOUNCE BANNER ── */
+        .announce-bar {
+            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(16,185,129,0.1));
+            border-bottom: 1px solid var(--border);
+            padding: 8px 16px; text-align: center;
+            font-size: 12px; color: var(--muted); font-weight: 500;
+        }
+        .announce-bar strong { color: var(--text); }
+
+        /* ── UPDATE INDICATOR ── */
+        .update-dot {
+            display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+            background: #34d399; margin-right: 5px; vertical-align: middle;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
+        /* ── COMPARE PANEL ── */
+        #compare-bar {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+            background: var(--surface); border-top: 1px solid var(--border);
+            padding: 12px 24px; display: none; align-items: center; gap: 16px;
+            backdrop-filter: blur(16px);
+        }
+        #compare-bar.visible { display: flex; }
+        .compare-item {
+            flex: 1; background: var(--surface2); border-radius: 10px;
+            padding: 8px 12px; font-size: 13px; font-weight: 600;
+            display: flex; align-items: center; justify-content: space-between;
+            border: 1px solid var(--border);
+        }
+        .compare-item button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; }
+
+        /* Progress bar for loading */
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #34d399);
+            z-index: 9999; transition: width 0.3s ease;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 640px) {
+            .hero { padding: 40px 16px 32px; }
+            .stats-bar { gap: 24px; }
+            .stat-num { font-size: 22px; }
+        }
     </style>
 </head>
-<body class="min-h-screen pb-16">
+<body class="min-h-screen">
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
 
 <!-- TOAST -->
-<div id="toast">✓ Kopyalandı!</div>
+<div id="toast"></div>
+
+<!-- ANNOUNCE BANNER -->
+<div class="announce-bar">
+    <span class="update-dot"></span>
+    <strong>PluginHub v2</strong> — Puanlama, son görüntülenenler ve karşılaştırma modu eklendi!
+</div>
 
 <!-- NAVBAR -->
-<nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-8">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-        <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-            PluginHub
+<nav>
+    <div class="nav-inner">
+        <div class="brand">PluginHub</div>
+        <div class="nav-links hidden md:flex">
+            <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html">Telefon APK</a>
+            <a href="https://t.me/tcltvturk1">Telegram</a>
         </div>
-        <div class="hidden md:flex gap-8 text-sm font-medium items-center">
-            <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
-            <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
-            <!-- THEME TOGGLE -->
-            <button onclick="toggleTheme()" id="themeBtn" title="Tema değiştir"
-                class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-lg leading-none">🌙</button>
-            <!-- FAV FILTER -->
-            <button onclick="toggleFavFilter()" id="favFilterBtn"
-                class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-xs font-bold text-slate-300">
-                <span>❤</span> Favoriler
+        <div class="flex gap-2 items-center">
+            <button onclick="toggleFavFilter()" id="favFilterBtn" class="nav-btn hidden md:flex">
+                <span>♡</span> Favoriler
             </button>
-        </div>
-        <div class="flex gap-2 md:hidden items-center">
-            <button onclick="toggleTheme()" id="themeBtnMobile" class="p-2 hover:bg-slate-800 rounded-lg text-lg">🌙</button>
-            <button onclick="toggleMenu()" class="p-2 hover:bg-slate-800 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
+            <button onclick="toggleTheme()" class="nav-btn" id="themeBtn">🌙</button>
+            <button onclick="toggleMenu()" class="nav-btn md:hidden">☰</button>
         </div>
     </div>
-    <div id="mobileMenu" class="md:hidden border-t border-slate-700 pt-4 mt-4">
-        <div class="flex flex-col gap-3 text-sm font-medium">
-            <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
-            <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
-            <div class="flex gap-2 pt-1">
-                <button onclick="toggleFavFilter()" id="favFilterBtnMobile"
-                    class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-xs font-bold text-slate-300">
-                    <span>❤</span> Favoriler
-                </button>
+    <div id="mobileMenu" class="md:hidden border-t border-white/5 py-4 px-2">
+        <div class="flex flex-col gap-2">
+            <a href="https://tcl-iffalcon.github.io/wiki/" class="nav-links" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telefon APK</a>
+            <a href="https://t.me/tcltvturk1" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telegram</a>
+            <div class="flex gap-2 pt-2">
+                <button onclick="toggleFavFilter()" id="favFilterBtnMobile" class="nav-btn">♡ Favoriler</button>
             </div>
         </div>
     </div>
 </nav>
 
-<main class="max-w-5xl mx-auto px-4">
-    <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Eklenti Ekosistemi</h1>
-        <p class="text-slate-400 max-w-lg mx-auto">Stremio, Nuvio, CloudStream vb. uygulamalara ait eklenti ve repolar.</p>
+<main>
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-eyebrow">🔌 Eklenti Ekosistemi</div>
+        <h1>Tüm <span>Eklentiler</span><br>Tek Yerde</h1>
+        <p>Stremio, Nuvio, CloudStream ve daha fazlası için eklentiler ve repolar.</p>
+        <div class="stats-bar" id="statsBar">
+            <div class="stat"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Eklenti</div></div>
+            <div class="stat"><div class="stat-num" id="statNew">—</div><div class="stat-label">Bu Hafta Yeni</div></div>
+            <div class="stat"><div class="stat-num" id="statApps">—</div><div class="stat-label">Uygulama</div></div>
+        </div>
+    </div>
+
+    <!-- LAST SEEN -->
+    <div class="last-seen-section" id="lastSeenSection" style="display:none">
+        <div class="last-seen-title">🕐 Son Görüntülenenler</div>
+        <div class="last-seen-chips" id="lastSeenChips"></div>
     </div>
 
     <!-- FILTERS -->
-    <div class="glass-card p-6 md:p-8 rounded-3xl mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Uygulama</label>
-                <select id="appSelect" onchange="filterData()" class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer">
+    <div class="filter-bar">
+        <div class="filter-inner">
+            <div class="filter-group">
+                <label>Uygulama</label>
+                <select id="appSelect" onchange="filterData()">
                     <option value="all">Tüm Uygulamalar</option>
                     <option value="Stremio">Stremio</option>
                     <option value="Nuvio">Nuvio</option>
@@ -145,9 +486,9 @@
                     <option value="Diğer">Diğer</option>
                 </select>
             </div>
-            <div class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Kategori</label>
-                <select id="typeSelect" onchange="filterData()" class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none appearance-none cursor-pointer">
+            <div class="filter-group">
+                <label>Kategori</label>
+                <select id="typeSelect" onchange="filterData()">
                     <option value="all">Tüm Kategoriler</option>
                     <option value="4K">4K</option>
                     <option value="Film">Film & Dizi</option>
@@ -159,372 +500,670 @@
                     <option value="Repo">Plugins</option>
                 </select>
             </div>
-            <div class="space-y-2">
-                <label class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Arama</label>
-                <input type="text" id="searchInput" oninput="filterData()" placeholder="Eklenti veya içerik ara..."
-                    class="w-full bg-slate-800 border-none text-white p-4 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none">
+            <div class="filter-group">
+                <label>Arama</label>
+                <input type="text" id="searchInput" oninput="filterData()" placeholder="🔍 Eklenti veya içerik ara..." autocomplete="off">
             </div>
         </div>
     </div>
 
-    <!-- RESULT COUNT + SHARE -->
-    <div class="flex justify-between items-center mb-4 px-1">
-        <p id="resultCount" class="text-sm text-slate-400 font-medium"></p>
-        <button onclick="shareCurrentFilter()"
-            class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-blue-400 transition font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-            Paylaş
-        </button>
+    <!-- CATEGORY TABS -->
+    <div class="category-tabs" id="categoryTabs"></div>
+
+    <!-- RESULT BAR -->
+    <div class="result-bar">
+        <span id="resultCount"></span>
+        <div class="flex gap-8" style="gap:8px">
+            <button onclick="toggleCompareMode()" id="compareToggle" class="nav-btn" style="font-size:11px">⚖️ Karşılaştır</button>
+            <button onclick="shareCurrentFilter()" class="nav-btn" style="font-size:11px">🔗 Paylaş</button>
+        </div>
     </div>
 
     <!-- GRID -->
-    <div id="resultsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    <div id="emptyState" class="hidden text-center py-20 text-slate-500">
-        <div class="text-5xl mb-4">🔍</div>
-        <p class="font-semibold">Sonuç bulunamadı.</p>
-        <p class="text-sm mt-1">Filtrelerinizi değiştirmeyi deneyin.</p>
+    <div class="grid-wrap">
+        <div id="skeletonGrid" class="cards-grid"></div>
+        <div id="resultsGrid" class="cards-grid"></div>
+        <div id="emptyState">
+            <div style="font-size:48px;margin-bottom:16px">🔍</div>
+            <p style="font-weight:700;font-size:16px;color:var(--text)">Sonuç bulunamadı</p>
+            <p style="font-size:14px;margin-top:6px">Filtrelerinizi değiştirmeyi deneyin.</p>
+        </div>
     </div>
 </main>
 
-<!-- ===================== DETAIL MODAL ===================== -->
+<!-- COMPARE BAR -->
+<div id="compare-bar">
+    <div style="font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap">⚖️ KARŞILAŞTIR</div>
+    <div class="compare-item" id="cmp-slot-0"><span>Boş slot</span><button onclick="removeCompare(0)">✕</button></div>
+    <div style="font-size:18px;color:var(--muted)">vs</div>
+    <div class="compare-item" id="cmp-slot-1"><span>Boş slot</span><button onclick="removeCompare(1)">✕</button></div>
+    <button onclick="openCompareModal()" class="btn btn-primary" style="flex:none;padding:10px 20px;border-radius:10px">Karşılaştır</button>
+    <button onclick="cancelCompare()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px">✕</button>
+</div>
+
+<!-- MODAL -->
 <div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div id="modal-box" class="p-6 md:p-8">
-        <div class="flex justify-between items-start mb-6">
+        <div class="flex justify-between items-start mb-5">
             <div>
-                <div class="flex gap-2 mb-2" id="modal-badges"></div>
-                <h2 id="modal-title" class="text-2xl font-extrabold"></h2>
+                <div class="flex gap-2 mb-2 flex-wrap" id="modal-badges"></div>
+                <h2 id="modal-title" style="font-size:22px;font-weight:800;letter-spacing:-0.5px"></h2>
+                <div id="modal-date" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
             </div>
-            <button onclick="closeModal()" class="text-slate-400 hover:text-white transition ml-4 mt-1 text-xl leading-none">✕</button>
+            <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px;transition:color 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">✕</button>
         </div>
 
-        <div id="modal-url-section" class="hidden mb-6">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Bağlantı</p>
-            <div id="modal-url" class="text-xs font-mono bg-black/30 p-3 rounded-xl break-all border border-white/5 text-slate-300"></div>
-            <div class="grid grid-cols-2 gap-3 mt-3">
-                <button id="modal-copy-btn" class="bg-slate-700 hover:bg-slate-600 text-white text-sm font-bold py-3 rounded-xl transition">Kopyala</button>
-                <a id="modal-goto-btn" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold py-3 rounded-xl transition text-center flex items-center justify-center">Siteye Git</a>
+        <!-- RATING IN MODAL -->
+        <div id="modal-rating-section" class="mb-5">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Puanınız</p>
+            <div class="stars" id="modal-stars"></div>
+        </div>
+
+        <!-- URL -->
+        <div id="modal-url-section" class="hidden mb-5">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Bağlantı</p>
+            <div id="modal-url" class="url-mono" style="margin-top:0"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+                <button id="modal-copy-btn" class="btn btn-secondary">Kopyala</button>
+                <a id="modal-goto-btn" href="#" target="_blank" class="btn btn-primary">Siteye Git ↗</a>
             </div>
         </div>
 
-        <div id="modal-code-section" class="hidden mb-6">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Downloader Kodu</p>
-            <div class="flex items-center gap-3">
-                <div id="modal-code" class="text-2xl font-extrabold text-blue-400 bg-black/30 px-5 py-3 rounded-xl border border-white/5"></div>
-                <button id="modal-code-copy-btn" class="bg-slate-700 hover:bg-slate-600 text-white text-sm font-bold px-4 py-3 rounded-xl transition">Kopyala</button>
+        <!-- CODE -->
+        <div id="modal-code-section" class="hidden mb-5">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Downloader Kodu</p>
+            <div style="display:flex;align-items:center;gap:12px">
+                <div id="modal-code" style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#60a5fa;background:var(--surface2);padding:12px 20px;border-radius:12px;border:1px solid var(--border)"></div>
+                <button id="modal-code-copy-btn" class="btn btn-secondary" style="flex:none;padding:12px 16px">Kopyala</button>
             </div>
         </div>
 
         <!-- INSTALL GUIDE -->
-        <div id="modal-guide" class="mt-2"></div>
+        <div id="modal-guide"></div>
     </div>
 </div>
 
-<!-- ===================== SCRIPTS ===================== -->
+<!-- COMPARE MODAL -->
+<div id="cmp-overlay" onclick="if(event.target===this)closeCmpModal()" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1100;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px)">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:24px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;padding:28px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:20px">⚖️ Karşılaştırma</h2>
+            <button onclick="closeCmpModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px">✕</button>
+        </div>
+        <div id="cmp-content" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
+    </div>
+</div>
+
 <script>
-    // -------- DATA (plugins.json'dan çekilir) --------
-    let plugins = [];
+// ═══════════════════════════════
+// DATA & STATE
+// ═══════════════════════════════
+let plugins = [];
+let favorites = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
+let ratings   = JSON.parse(localStorage.getItem('ph_ratings')   || '{}');
+let lastSeen  = JSON.parse(localStorage.getItem('ph_lastseen')  || '[]');
+let showFavsOnly = false;
+let compareMode = false;
+let compareItems = [null, null];
+let isLight = localStorage.getItem('ph_theme') === 'light';
 
-    // -------- INSTALL GUIDES --------
-    const installGuides = {
-        stremio: {
-            title: "Stremio'ya Eklenti Nasıl Kurulur?",
-            steps: [
-                { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak manifest URL'yi kopyalayın." },
-                { icon: "🌐", text: "Stremio Web (<em>web.stremio.com</em>) veya masaüstü uygulamasını açın." },
-                { icon: "🔗", text: "Sol menüden <strong>Eklentiler</strong> simgesine tıklayın." },
-                { icon: "➕", text: "Kopyaladığınız URL'yi Eklenti ekle kısmına yapıştırın ve ekleye tıklayın" },
-                { icon: "✅", text: "Açılan pencerede <strong>Install</strong> butonuna basın. Eklenti aktif olacaktır." }
-            ]
-        },
-        nuvio: {
-            title: "Nuvio'ya Eklenti Nasıl Kurulur?",
-            steps: [
-                { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak URL'yi kopyalayın," },
-                { icon: "📺", text: "Nuvio uygulamasını açın ve <strong>Addons</strong> bölümüne gidin," },
-                { icon: "📲", text: "<strong>Manage from phone</strong> butonuna tıklayın," },
-                { icon: "📷", text: "Çıkan QR kodu telefonunuzda okutun," },
-                { icon: "🔗", text: "Açılacak olan web sitesinde add sekmesine tıklayın, kopyaladığınız eklentinin ve yapıştırın,"},
-                { icon: "✅", text: "Alt kısımdaki Save Changes'e basın ve TV'ye gelen bildirimini onaylayın. Eklenti yüklendi!" }
-            ] 
-        },
-        cloudstream: {
-            title: "CloudStream'e Repo Nasıl Eklenir?",
-            steps: [
-                { icon: "📱", text: "CloudStream uygulamasını açın." },
-                { icon: "⚙️", text: "<strong>Ayarlar → Eklentiler</strong> bölümüne gidin." },
-                { icon: "🔗", text: "\"<strong>Repo Ekle</strong>\" seçeneğine dokunun." },
-                { icon: "✍️", text: "Repo adını yazın (örn: <em>kraptor</em>) — URL otomatik tamamlanır veya tam repo URL'sini girin." },
-                { icon: "⬇️", text: "Repo içindeki istediğiniz eklentiyi seçip <strong>İndir</strong>'e basın." }
-            ]
-        },
-        downloader: {
-            title: "Downloader ile APK Nasıl Yüklenir?",
-            steps: [
-                { icon: "📺", text: "TV'nizde <strong>Downloader</strong> uygulamasını açın (yoksa App Store'dan indirin)." },
-                { icon: "🔢", text: "Yukarıdaki 7 haneli <strong>kodu</strong> kopyalayın veya not edin." },
-                { icon: "✍️", text: "Downloader'da \"Enter a URL or Search Term\" alanına kodu girin." },
-                { icon: "⬇️", text: "<strong>Go / Devam</strong>'a basın. APK otomatik indirilecektir." },
-                { icon: "✅", text: "İndirme tamamlandığında <strong>Yükle</strong>'ye basın." }
-            ]
-        },
-        link: {
-            title: "Bu Uygulamaya Nasıl Erişilir?",
-            steps: [
-                { icon: "🔗", text: "Yukarıdaki <strong>Siteye Git</strong> butonuna tıklayın." },
-                { icon: "📥", text: "Sitenin anasayfasından uygulamayı indirin." },
-                { icon: "✅", text: "Cihazınıza göre kurulum talimatlarını uygulayın." }
-            ]
-        }
-    };
+if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
 
-    // -------- STATE --------
-    let favorites = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
-    let showFavsOnly = false;
-    let isLight = localStorage.getItem('ph_theme') === 'light';
-
-    // Apply saved theme on load
-    if (isLight) {
-        document.body.classList.add('light');
-        setThemeIcon('☀️');
+// ── INSTALL GUIDES ──
+const installGuides = {
+    stremio: {
+        title: "Stremio'ya Nasıl Kurulur?",
+        steps: [
+            { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak manifest URL'yi kopyalayın." },
+            { icon: "🌐", text: "Stremio Web (<em>web.stremio.com</em>) veya masaüstü uygulamasını açın." },
+            { icon: "🔗", text: "Sol menüden <strong>Eklentiler</strong> simgesine tıklayın." },
+            { icon: "➕", text: "Kopyaladığınız URL'yi eklenti ekleme alanına yapıştırın." },
+            { icon: "✅", text: "Açılan pencerede <strong>Install</strong> butonuna basın." }
+        ]
+    },
+    nuvio: {
+        title: "Nuvio'ya Nasıl Kurulur?",
+        steps: [
+            { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak URL'yi kopyalayın." },
+            { icon: "📺", text: "Nuvio uygulamasını açın ve <strong>Addons</strong> bölümüne gidin." },
+            { icon: "📲", text: "<strong>Manage from phone</strong> butonuna tıklayın." },
+            { icon: "📷", text: "Çıkan QR kodu telefonunuzda okutun." },
+            { icon: "🔗", text: "Açılan web sitesinde Add sekmesine tıklayın, URL'yi yapıştırın." },
+            { icon: "✅", text: "Save Changes'e basın ve TV'ye gelen bildirimi onaylayın." }
+        ]
+    },
+    cloudstream: {
+        title: "CloudStream'e Repo Nasıl Eklenir?",
+        steps: [
+            { icon: "📱", text: "CloudStream uygulamasını açın." },
+            { icon: "⚙️", text: "<strong>Ayarlar → Eklentiler</strong> bölümüne gidin." },
+            { icon: "🔗", text: "\"<strong>Repo Ekle</strong>\" seçeneğine dokunun." },
+            { icon: "✍️", text: "Repo adını yazın veya tam URL'yi girin." },
+            { icon: "⬇️", text: "İstediğiniz eklentiyi seçip <strong>İndir</strong>'e basın." }
+        ]
+    },
+    downloader: {
+        title: "Downloader ile APK Kurulumu",
+        steps: [
+            { icon: "📺", text: "TV'nizde <strong>Downloader</strong> uygulamasını açın." },
+            { icon: "🔢", text: "Yukarıdaki 7 haneli <strong>kodu</strong> not alın." },
+            { icon: "✍️", text: "Downloader'da URL/kod alanına girin." },
+            { icon: "⬇️", text: "<strong>Go</strong>'ya basın; APK otomatik indirilir." },
+            { icon: "✅", text: "İndirme sonrası <strong>Yükle</strong>'ye basın." }
+        ]
+    },
+    link: {
+        title: "Bu Uygulamaya Erişim",
+        steps: [
+            { icon: "🔗", text: "Yukarıdaki <strong>Siteye Git</strong> butonuna tıklayın." },
+            { icon: "📥", text: "Anasayfadan uygulamayı indirin." },
+            { icon: "✅", text: "Cihazınıza göre kurulum talimatlarını uygulayın." }
+        ]
     }
+};
 
-    function pluginKey(p) { return `${p.app}|${p.name}|${p.type}|${p.desc}`; }
-    function isFav(p) { return favorites.includes(pluginKey(p)); }
+// ═══════════════════════════════
+// HELPERS
+// ═══════════════════════════════
+function pluginKey(p) { return `${p.app}|${p.name}|${p.type}`; }
+function isFav(p) { return favorites.includes(pluginKey(p)); }
 
-    // -------- THEME --------
-    function toggleTheme() {
-        isLight = !isLight;
-        document.body.classList.toggle('light', isLight);
-        localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
-        setThemeIcon(isLight ? '☀️' : '🌙');
+function showToast(msg, color='#1e293b') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = color;
+    t.classList.add('show');
+    clearTimeout(window._tt);
+    window._tt = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => showToast('✓ Kopyalandı!', '#10b981'));
+}
+
+// ═══════════════════════════════
+// THEME
+// ═══════════════════════════════
+function toggleTheme() {
+    isLight = !isLight;
+    document.body.classList.toggle('light', isLight);
+    localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+}
+
+// ═══════════════════════════════
+// MOBILE MENU
+// ═══════════════════════════════
+function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ═══════════════════════════════
+// FAVORITES
+// ═══════════════════════════════
+function toggleFav(key, btn) {
+    const idx = favorites.indexOf(key);
+    if (idx === -1) { favorites.push(key); showToast('❤ Favorilere eklendi'); }
+    else { favorites.splice(idx, 1); showToast('♡ Favorilerden çıkarıldı'); }
+    localStorage.setItem('ph_favorites', JSON.stringify(favorites));
+    btn.classList.toggle('active', favorites.includes(key));
+    btn.textContent = favorites.includes(key) ? '❤' : '♡';
+    if (showFavsOnly) filterData();
+}
+
+function toggleFavFilter() {
+    showFavsOnly = !showFavsOnly;
+    const btns = ['favFilterBtn','favFilterBtnMobile'].map(id => document.getElementById(id)).filter(Boolean);
+    btns.forEach(b => {
+        b.classList.toggle('active', showFavsOnly);
+        b.innerHTML = showFavsOnly ? '<span>❤</span> Favoriler' : '<span>♡</span> Favoriler';
+    });
+    filterData();
+}
+
+// ═══════════════════════════════
+// RATINGS
+// ═══════════════════════════════
+function setRating(key, val) {
+    ratings[key] = val;
+    localStorage.setItem('ph_ratings', JSON.stringify(ratings));
+    showToast(`⭐ ${val}/5 puan verildi`);
+}
+
+function renderStars(key, container) {
+    const current = ratings[key] || 0;
+    container.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+        const s = document.createElement('span');
+        s.className = 'star' + (i <= current ? ' filled' : '');
+        s.textContent = '★';
+        s.onclick = () => { setRating(key, i); renderStars(key, container); };
+        s.onmouseover = () => { container.querySelectorAll('.star').forEach((el,j) => el.classList.toggle('filled', j < i)); };
+        s.onmouseout  = () => { container.querySelectorAll('.star').forEach((el,j) => el.classList.toggle('filled', j < ratings[key]||0)); };
+        container.appendChild(s);
     }
-    function setThemeIcon(icon) {
-        document.getElementById('themeBtn').textContent = icon;
-        const m = document.getElementById('themeBtnMobile');
-        if (m) m.textContent = icon;
+}
+
+// ═══════════════════════════════
+// LAST SEEN
+// ═══════════════════════════════
+function addLastSeen(item) {
+    const key = pluginKey(item);
+    lastSeen = lastSeen.filter(k => k !== key);
+    lastSeen.unshift(key);
+    lastSeen = lastSeen.slice(0, 5);
+    localStorage.setItem('ph_lastseen', JSON.stringify(lastSeen));
+    renderLastSeen();
+}
+
+function renderLastSeen() {
+    const section = document.getElementById('lastSeenSection');
+    const chips   = document.getElementById('lastSeenChips');
+    const items   = lastSeen.map(k => plugins.find(p => pluginKey(p) === k)).filter(Boolean);
+    if (!items.length) { section.style.display = 'none'; return; }
+    section.style.display = 'block';
+    chips.innerHTML = items.map(p => `
+        <div class="seen-chip" onclick='openModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>${p.name}</div>
+    `).join('');
+}
+
+// ═══════════════════════════════
+// STATUS BADGE
+// ═══════════════════════════════
+function statusBadge(status) {
+    if (!status) return '';
+    const map = { 'aktif': ['badge-status-ok','✅ Aktif'], 'kararsız': ['badge-status-warn','⚠️ Kararsız'], 'çalışmıyor': ['badge-status-err','❌ Çalışmıyor'] };
+    const [cls, label] = map[status?.toLowerCase()] || ['badge-status-ok','✅ Aktif'];
+    return `<span class="badge ${cls}">${label}</span>`;
+}
+
+// ═══════════════════════════════
+// URL PARAMS
+// ═══════════════════════════════
+function applyURLParams() {
+    const p = new URLSearchParams(window.location.search);
+    if (p.get('app'))  document.getElementById('appSelect').value  = p.get('app');
+    if (p.get('type')) document.getElementById('typeSelect').value = p.get('type');
+    if (p.get('q'))    document.getElementById('searchInput').value = p.get('q');
+}
+
+function updateURL(app, type, q) {
+    const p = new URLSearchParams();
+    if (app !== 'all') p.set('app', app);
+    if (type !== 'all') p.set('type', type);
+    if (q) p.set('q', q);
+    history.replaceState({}, '', window.location.pathname + (p.toString() ? '?' + p.toString() : ''));
+}
+
+function shareCurrentFilter() {
+    navigator.clipboard.writeText(window.location.href).then(() => showToast('🔗 Link kopyalandı!', '#3b82f6'));
+}
+
+// ═══════════════════════════════
+// COMPARE MODE
+// ═══════════════════════════════
+function toggleCompareMode() {
+    compareMode = !compareMode;
+    compareItems = [null, null];
+    const btn = document.getElementById('compareToggle');
+    btn.style.color = compareMode ? '#60a5fa' : '';
+    btn.style.borderColor = compareMode ? '#3b82f6' : '';
+    if (!compareMode) {
+        document.getElementById('compare-bar').classList.remove('visible');
+        document.querySelectorAll('.cmp-indicator').forEach(el => el.remove());
+    } else {
+        document.getElementById('compare-bar').classList.add('visible');
+        showToast('⚖️ Karşılaştırmak için 2 kart seçin');
     }
+}
 
-    // -------- MOBILE MENU --------
-    function toggleMenu() {
-        document.getElementById('mobileMenu').classList.toggle('open');
-    }
+function addToCompare(item) {
+    if (!compareMode) return;
+    const key = pluginKey(item);
+    if (compareItems[0] && pluginKey(compareItems[0]) === key) return;
+    if (compareItems[1] && pluginKey(compareItems[1]) === key) return;
+    const slot = compareItems[0] === null ? 0 : (compareItems[1] === null ? 1 : -1);
+    if (slot === -1) { showToast('⚠️ Zaten 2 eklenti seçildi'); return; }
+    compareItems[slot] = item;
+    const slotEl = document.getElementById(`cmp-slot-${slot}`);
+    slotEl.querySelector('span').textContent = item.name;
+    showToast(`✓ Slot ${slot+1}'e eklendi: ${item.name}`);
+    if (compareItems[0] && compareItems[1]) showToast('✅ İki eklenti seçildi — Karşılaştır butonuna basın');
+}
 
-    // -------- FAVORITES --------
-    function toggleFav(key, btn) {
-        const idx = favorites.indexOf(key);
-        if (idx === -1) { favorites.push(key); }
-        else { favorites.splice(idx, 1); }
-        localStorage.setItem('ph_favorites', JSON.stringify(favorites));
-        btn.classList.toggle('active', favorites.includes(key));
-        btn.textContent = favorites.includes(key) ? '❤' : '♡';
-        if (showFavsOnly) filterData();
-    }
+function removeCompare(slot) {
+    compareItems[slot] = null;
+    document.getElementById(`cmp-slot-${slot}`).querySelector('span').textContent = 'Boş slot';
+}
 
-    function toggleFavFilter() {
-        showFavsOnly = !showFavsOnly;
-        const btns = [document.getElementById('favFilterBtn'), document.getElementById('favFilterBtnMobile')];
-        btns.forEach(b => { if (b) b.classList.toggle('text-red-400', showFavsOnly); });
-        filterData();
-    }
+function cancelCompare() {
+    compareMode = false;
+    compareItems = [null, null];
+    document.getElementById('compare-bar').classList.remove('visible');
+    document.getElementById('compareToggle').style.color = '';
+    document.getElementById('compareToggle').style.borderColor = '';
+}
 
-    // -------- URL PARAMS (shareable filters) --------
-    function applyURLParams() {
-        const p = new URLSearchParams(window.location.search);
-        if (p.get('app')) document.getElementById('appSelect').value = p.get('app');
-        if (p.get('type')) document.getElementById('typeSelect').value = p.get('type');
-        if (p.get('q')) document.getElementById('searchInput').value = p.get('q');
-    }
+function openCompareModal() {
+    const a = compareItems[0], b = compareItems[1];
+    if (!a || !b) { showToast('⚠️ 2 eklenti seçin'); return; }
+    const content = document.getElementById('cmp-content');
+    content.innerHTML = [a, b].map(item => {
+        const urlMatch = item.desc?.match(/(https?:\/\/[^\s]+)/g);
+        const url = urlMatch ? urlMatch[0] : null;
+        const key = pluginKey(item);
+        const starCount = ratings[key] || 0;
+        return `
+        <div style="background:var(--surface2);border-radius:16px;padding:20px;border:1px solid var(--border)">
+            <div class="flex gap-2 flex-wrap mb-3">
+                <span class="badge badge-app">${item.app}</span>
+                <span class="badge badge-type">${item.type}</span>
+                ${statusBadge(item.status)}
+            </div>
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;margin-bottom:8px">${item.name}</div>
+            ${item.updatedAt ? `<div style="font-size:11px;color:var(--muted);margin-bottom:8px">📅 ${item.updatedAt}</div>` : ''}
+            <div style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6">${item.desc?.replace(/(https?:\/\/[^\s]+)/g,'').trim() || ''}</div>
+            ${url ? `<div class="url-mono" style="margin-bottom:10px">${url}</div>` : ''}
+            <div style="font-size:12px;color:#f59e0b">${'★'.repeat(starCount)}${'☆'.repeat(5-starCount)} (${starCount}/5)</div>
+        </div>`;
+    }).join('');
+    document.getElementById('cmp-overlay').style.display = 'flex';
+}
 
-    function updateURL(app, type, q) {
-        const p = new URLSearchParams();
-        if (app !== 'all') p.set('app', app);
-        if (type !== 'all') p.set('type', type);
-        if (q) p.set('q', q);
-        const newURL = window.location.pathname + (p.toString() ? '?' + p.toString() : '');
-        history.replaceState({}, '', newURL);
-    }
+function closeCmpModal() { document.getElementById('cmp-overlay').style.display = 'none'; }
 
-    function shareCurrentFilter() {
-        const url = window.location.href;
-        navigator.clipboard.writeText(url).then(() => showToast('🔗 Link kopyalandı!'));
-    }
+// ═══════════════════════════════
+// CATEGORY TABS
+// ═══════════════════════════════
+function buildCategoryTabs() {
+    const types = ['all', ...new Set(plugins.map(p => p.type))];
+    const container = document.getElementById('categoryTabs');
+    container.innerHTML = types.map(t => `
+        <button class="tab-pill ${t==='all'?'active':''}" onclick="setTypeTab('${t}')" data-type="${t}">
+            ${t === 'all' ? 'Tümü' : t}
+        </button>
+    `).join('');
+}
 
-    // -------- FILTER --------
-    function filterData() {
-        const app  = document.getElementById('appSelect').value;
-        const type = document.getElementById('typeSelect').value;
-        const q    = document.getElementById('searchInput').value.toLowerCase().trim();
-        updateURL(app, type, q);
+function setTypeTab(type) {
+    document.getElementById('typeSelect').value = type === 'all' ? 'all' : type;
+    document.querySelectorAll('.tab-pill').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+    filterData();
+}
 
-        const filtered = plugins.filter(p => {
-            const matchApp  = app  === 'all' || p.app  === app;
-            const matchType = type === 'all' || p.type === type;
-            const matchQ    = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
-            const matchFav  = !showFavsOnly || isFav(p);
-            return matchApp && matchType && matchQ && matchFav;
-        });
+// ═══════════════════════════════
+// SKELETON
+// ═══════════════════════════════
+function showSkeleton() {
+    const g = document.getElementById('skeletonGrid');
+    g.innerHTML = Array(6).fill(0).map(() => `
+        <div class="skeleton-card">
+            <div style="display:flex;gap:8px;margin-bottom:16px">
+                <div class="skel-line" style="width:60px;height:20px"></div>
+                <div class="skel-line" style="width:60px;height:20px"></div>
+            </div>
+            <div class="skel-line" style="width:70%"></div>
+            <div class="skel-line" style="width:90%;margin-top:8px"></div>
+            <div class="skel-line" style="width:50%;margin-top:24px"></div>
+        </div>
+    `).join('');
+}
 
-        renderCards(filtered);
-    }
+function hideSkeleton() {
+    document.getElementById('skeletonGrid').innerHTML = '';
+}
 
-    // -------- TOAST --------
-    function showToast(msg) {
-        const t = document.getElementById('toast');
-        t.textContent = msg || '✓ Kopyalandı!';
-        t.classList.add('show');
-        clearTimeout(window._toastTimer);
-        window._toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
-    }
+// ═══════════════════════════════
+// FILTER
+// ═══════════════════════════════
+function filterData() {
+    const app  = document.getElementById('appSelect').value;
+    const type = document.getElementById('typeSelect').value;
+    const q    = document.getElementById('searchInput').value.toLowerCase().trim();
+    updateURL(app, type, q);
 
-    function copyText(text) {
-        navigator.clipboard.writeText(text).then(() => showToast('✓ Kopyalandı!'));
-    }
+    // Sync tabs
+    document.querySelectorAll('.tab-pill').forEach(b => {
+        const t = b.dataset.type;
+        b.classList.toggle('active', t === (type === 'all' ? 'all' : type));
+    });
 
-    // -------- RENDER CARDS --------
-    function renderCards(data) {
-        const container = document.getElementById('resultsGrid');
-        const empty     = document.getElementById('emptyState');
-        const counter   = document.getElementById('resultCount');
-        container.innerHTML = '';
+    const filtered = plugins.filter(p => {
+        const matchApp  = app  === 'all' || p.app  === app;
+        const matchType = type === 'all' || p.type === type;
+        const matchQ    = !q || p.name.toLowerCase().includes(q) || p.desc?.toLowerCase().includes(q);
+        const matchFav  = !showFavsOnly || isFav(p);
+        return matchApp && matchType && matchQ && matchFav;
+    });
 
-        counter.textContent = data.length > 0 ? `${data.length} eklenti bulundu` : '';
+    renderCards(filtered);
+}
 
-        if (data.length === 0) { empty.classList.remove('hidden'); return; }
-        empty.classList.add('hidden');
+// ═══════════════════════════════
+// RENDER CARDS
+// ═══════════════════════════════
+function renderCards(data) {
+    const grid   = document.getElementById('resultsGrid');
+    const empty  = document.getElementById('emptyState');
+    const count  = document.getElementById('resultCount');
+    grid.innerHTML = '';
+    count.textContent = data.length > 0 ? `${data.length} eklenti bulundu` : '';
 
-        data.forEach((item, i) => {
-            const urlMatch = item.desc.match(/(https?:\/\/[^\s]+)/g);
-            const url      = urlMatch ? urlMatch[0] : null;
-            const codeMatch = item.desc.match(/Downloader Kodu:\s*(\d+)/);
-            const code     = codeMatch ? codeMatch[1] : null;
-            const key      = pluginKey(item);
-            const favActive = isFav(item);
-            const delay    = Math.min(i * 40, 400);
+    if (!data.length) { empty.style.display = 'block'; return; }
+    empty.style.display = 'none';
 
-            container.innerHTML += `
-            <div class="plugin-card glass-card p-6 rounded-2xl hover:scale-[1.02] transition-transform duration-300 flex flex-col h-full cursor-pointer"
-                 style="animation-delay:${delay}ms"
-                 onclick="openModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-
-                <!-- TOP ROW -->
-                <div class="flex justify-between items-start mb-3">
-                    <div class="flex gap-2 flex-wrap">
-                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-blue-500/20 text-blue-400 uppercase tracking-tighter">${item.app}</span>
-                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 uppercase tracking-tighter">${item.type}</span>
-                        ${item.isNew ? '<span class="text-[10px] font-bold px-2 py-1 rounded bg-yellow-400/20 text-yellow-300 uppercase tracking-tighter animate-pulse">Yeni</span>' : ''}
-                    </div>
-                    <button class="fav-btn text-slate-500 text-lg leading-none ml-2 ${favActive ? 'active' : ''}"
-                        onclick="event.stopPropagation(); toggleFav('${key}', this)">
-                        ${favActive ? '❤' : '♡'}
-                    </button>
-                </div>
-
-                <!-- NAME -->
-                <h3 class="text-lg font-bold mb-2 leading-tight">${item.name}</h3>
-
-                <!-- DESC PREVIEW -->
-                <div class="flex-grow text-sm text-slate-400 leading-relaxed mb-4">
-                    ${url
-                        ? `<span class="text-[11px] font-mono bg-black/30 block px-2 py-1.5 rounded border border-white/5 truncate">${url}</span>`
-                        : (code
-                            ? `<span class="text-blue-400 font-bold text-xl">${code}</span>`
-                            : item.desc)
-                    }
-                </div>
-
-                <!-- ACTIONS -->
-                <div class="mt-auto flex gap-2" onclick="event.stopPropagation()">
-                    ${url ? `
-                        <button onclick="copyText('${url}')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-xl transition">Kopyala</button>
-                        <a href="${url}" target="_blank" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold py-2.5 rounded-xl transition text-center">Git</a>
-                    ` : (code ? `
-                        <button onclick="copyText('${code}')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-xl transition">Kodu Kopyala</button>
-                        <button onclick="openModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold py-2.5 rounded-xl transition">Nasıl Yüklenir?</button>
-                    ` : '')}
-                </div>
-            </div>`;
-        });
-    }
-
-    // -------- MODAL --------
-    function openModal(item) {
-        const urlMatch  = item.desc.match(/(https?:\/\/[^\s]+)/g);
+    data.forEach((item, i) => {
+        const urlMatch  = item.desc?.match(/(https?:\/\/[^\s]+)/g);
         const url       = urlMatch ? urlMatch[0] : null;
-        const codeMatch = item.desc.match(/Downloader Kodu:\s*(\d+)/);
+        const codeMatch = item.desc?.match(/Downloader Kodu:\s*(\d+)/);
         const code      = codeMatch ? codeMatch[1] : null;
+        const key       = pluginKey(item);
+        const favActive = isFav(item);
+        const starCount = ratings[key] || 0;
+        const delay     = Math.min(i * 35, 350);
 
-        // Badges
-        document.getElementById('modal-badges').innerHTML = `
-            <span class="text-[10px] font-bold px-2 py-1 rounded bg-blue-500/20 text-blue-400 uppercase tracking-tighter">${item.app}</span>
-            <span class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 uppercase tracking-tighter">${item.type}</span>
-            ${item.isNew ? '<span class="text-[10px] font-bold px-2 py-1 rounded bg-yellow-400/20 text-yellow-300 uppercase tracking-tighter">Yeni</span>' : ''}
-        `;
-        document.getElementById('modal-title').textContent = item.name;
-
-        // URL section
-        const urlSec = document.getElementById('modal-url-section');
-        if (url) {
-            urlSec.classList.remove('hidden');
-            document.getElementById('modal-url').textContent = url;
-            document.getElementById('modal-copy-btn').onclick = () => { copyText(url); };
-            document.getElementById('modal-goto-btn').href = url;
-        } else { urlSec.classList.add('hidden'); }
-
-        // Code section
-        const codeSec = document.getElementById('modal-code-section');
-        if (code) {
-            codeSec.classList.remove('hidden');
-            document.getElementById('modal-code').textContent = code;
-            document.getElementById('modal-code-copy-btn').onclick = () => { copyText(code); };
-        } else { codeSec.classList.add('hidden'); }
-
-        // Install guide
-        const guide = installGuides[item.installGuide];
-        const guideEl = document.getElementById('modal-guide');
-        if (guide) {
-            guideEl.innerHTML = `
-                <div class="border-t border-white/10 pt-5">
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4">${guide.title}</p>
-                    <div class="space-y-3">
-                        ${guide.steps.map((s, i) => `
-                            <div class="flex gap-3 items-start">
-                                <div class="step-num">${i + 1}</div>
-                                <div class="text-sm text-slate-300 leading-relaxed pt-0.5">${s.icon} ${s.text}</div>
-                            </div>
-                        `).join('')}
-                    </div>
+        const card = document.createElement('div');
+        card.className = 'plugin-card';
+        card.style.animationDelay = delay + 'ms';
+        card.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <span class="badge badge-app">${item.app}</span>
+                    <span class="badge badge-type">${item.type}</span>
+                    ${item.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
+                    ${statusBadge(item.status)}
                 </div>
-            `;
-        } else { guideEl.innerHTML = ''; }
+                <button class="fav-btn ${favActive ? 'active' : ''}"
+                    onclick="event.stopPropagation(); toggleFav('${key}', this)">
+                    ${favActive ? '❤' : '♡'}
+                </button>
+            </div>
 
-        document.getElementById('modal-overlay').classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.3">${item.name}</h3>
 
-    function closeModal() {
-        document.getElementById('modal-overlay').classList.remove('open');
-        document.body.style.overflow = '';
-    }
+            ${item.updatedAt ? `<div style="font-size:11px;color:var(--muted);margin-bottom:8px">📅 ${item.updatedAt}</div>` : ''}
 
-    function closeModalOnBackdrop(e) {
-        if (e.target === document.getElementById('modal-overlay')) closeModal();
-    }
+            <div style="flex:1;margin-bottom:12px">
+                ${url
+                    ? `<div class="url-mono">${url}</div>`
+                    : (code
+                        ? `<span style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#60a5fa">${code}</span>`
+                        : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${(item.desc||'').replace(/(https?:\/\/[^\s]+)/g,'').trim().slice(0,80)}...</p>`
+                    )
+                }
+            </div>
 
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+            <!-- STARS -->
+            <div style="display:flex;gap:3px;margin-bottom:12px" class="stars" id="stars-${key.replace(/[|]/g,'-')}">
+                ${Array.from({length:5},(_,j)=>`<span class="star ${j<starCount?'filled':''}" onclick="event.stopPropagation();setRating('${key}',${j+1});rerenderCardStars('${key}')">★</span>`).join('')}
+            </div>
 
-    // -------- INIT --------
-    applyURLParams();
-    fetch('plugins.json')
-        .then(r => r.json())
-        .then(data => {
-            plugins = data;
-            filterData();
-        })
-        .catch(() => {
-            document.getElementById('emptyState').classList.remove('hidden');
-            document.getElementById('emptyState').innerHTML =
-                '<div class="text-5xl mb-4">⚠️</div><p class="font-semibold">plugins.json yüklenemedi.</p>';
+            <div class="card-actions" onclick="event.stopPropagation()">
+                ${url ? `
+                    <button onclick="copyText('${url}')" class="btn btn-secondary">Kopyala</button>
+                    <a href="${url}" target="_blank" class="btn btn-primary">Git ↗</a>
+                ` : (code ? `
+                    <button onclick="copyText('${code}')" class="btn btn-secondary">Kodu Kopyala</button>
+                    <button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary">Nasıl Yüklenir?</button>
+                ` : `
+                    <button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary" style="flex:2">Detaylar</button>
+                `)}
+            </div>
+        `;
+        card.addEventListener('click', () => {
+            if (compareMode) { addToCompare(item); return; }
+            openModal(item);
         });
+        grid.appendChild(card);
+    });
+}
+
+function rerenderCardStars(key) {
+    const el = document.getElementById('stars-' + key.replace(/[|]/g,'-'));
+    if (!el) return;
+    const count = ratings[key] || 0;
+    el.querySelectorAll('.star').forEach((s,j) => s.classList.toggle('filled', j < count));
+}
+
+// ═══════════════════════════════
+// MODAL
+// ═══════════════════════════════
+function openModal(item) {
+    addLastSeen(item);
+    const urlMatch  = item.desc?.match(/(https?:\/\/[^\s]+)/g);
+    const url       = urlMatch ? urlMatch[0] : null;
+    const codeMatch = item.desc?.match(/Downloader Kodu:\s*(\d+)/);
+    const code      = codeMatch ? codeMatch[1] : null;
+    const key       = pluginKey(item);
+
+    document.getElementById('modal-badges').innerHTML = `
+        <span class="badge badge-app">${item.app}</span>
+        <span class="badge badge-type">${item.type}</span>
+        ${item.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
+        ${statusBadge(item.status)}
+    `;
+    document.getElementById('modal-title').textContent = item.name;
+    document.getElementById('modal-date').textContent  = item.updatedAt ? `📅 Son güncelleme: ${item.updatedAt}` : '';
+
+    // Stars
+    const starsEl = document.getElementById('modal-stars');
+    renderStars(key, starsEl);
+
+    // URL
+    const urlSec = document.getElementById('modal-url-section');
+    if (url) {
+        urlSec.classList.remove('hidden');
+        document.getElementById('modal-url').textContent = url;
+        document.getElementById('modal-copy-btn').onclick = () => copyText(url);
+        document.getElementById('modal-goto-btn').href = url;
+    } else urlSec.classList.add('hidden');
+
+    // Code
+    const codeSec = document.getElementById('modal-code-section');
+    if (code) {
+        codeSec.classList.remove('hidden');
+        document.getElementById('modal-code').textContent = code;
+        document.getElementById('modal-code-copy-btn').onclick = () => copyText(code);
+    } else codeSec.classList.add('hidden');
+
+    // Guide
+    const guide  = installGuides[item.installGuide];
+    const guideEl = document.getElementById('modal-guide');
+    guideEl.innerHTML = guide ? `
+        <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:4px">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px">${guide.title}</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+                ${guide.steps.map((s,i) => `
+                    <div style="display:flex;gap:12px;align-items:flex-start">
+                        <div class="step-num">${i+1}</div>
+                        <div style="font-size:13px;color:var(--muted);line-height:1.6;padding-top:3px">${s.icon} ${s.text}</div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    ` : '';
+
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function closeModalOnBackdrop(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeCmpModal(); } });
+
+// ═══════════════════════════════
+// SEARCH HISTORY (input suggestion)
+// ═══════════════════════════════
+let searchHistory = JSON.parse(localStorage.getItem('ph_searchhistory') || '[]');
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('blur', () => {
+    const v = searchInput.value.trim();
+    if (v && !searchHistory.includes(v)) {
+        searchHistory.unshift(v);
+        searchHistory = searchHistory.slice(0, 8);
+        localStorage.setItem('ph_searchhistory', JSON.stringify(searchHistory));
+    }
+});
+
+// ═══════════════════════════════
+// STATS
+// ═══════════════════════════════
+function updateStats() {
+    document.getElementById('statTotal').textContent = plugins.length;
+    document.getElementById('statNew').textContent = plugins.filter(p => p.isNew).length;
+    document.getElementById('statApps').textContent = new Set(plugins.map(p => p.app)).size;
+}
+
+// ═══════════════════════════════
+// PROGRESS BAR
+// ═══════════════════════════════
+function progressStart() {
+    const bar = document.getElementById('progress-bar');
+    bar.style.width = '0%';
+    bar.style.opacity = '1';
+    setTimeout(() => bar.style.width = '70%', 50);
+}
+function progressDone() {
+    const bar = document.getElementById('progress-bar');
+    bar.style.width = '100%';
+    setTimeout(() => { bar.style.opacity = '0'; bar.style.width = '0%'; }, 400);
+}
+
+// ═══════════════════════════════
+// INIT
+// ═══════════════════════════════
+applyURLParams();
+showSkeleton();
+progressStart();
+
+fetch('plugins.json')
+    .then(r => r.json())
+    .then(data => {
+        plugins = data;
+        hideSkeleton();
+        progressDone();
+        updateStats();
+        buildCategoryTabs();
+        renderLastSeen();
+        filterData();
+    })
+    .catch(() => {
+        hideSkeleton();
+        progressDone();
+        document.getElementById('emptyState').style.display = 'block';
+        document.getElementById('emptyState').innerHTML = `
+            <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+            <p style="font-weight:700;font-size:16px;color:var(--text)">plugins.json yüklenemedi</p>
+            <p style="font-size:14px;margin-top:6px">Dosyanın aynı dizinde olduğundan emin olun.</p>
+        `;
+    });
 </script>
 </body>
 </html>
