@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PluginHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #080c14;
@@ -32,7 +32,7 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
@@ -60,7 +60,6 @@
         main, nav, footer { position: relative; z-index: 1; }
 
         /* ── FONTS ── */
-        h1, h2, h3, .brand { font-family: 'Syne', sans-serif; }
 
         /* ── GLASS ── */
         .glass {
@@ -86,6 +85,7 @@
             font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
             background: linear-gradient(135deg, #60a5fa, #34d399);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .nav-links { display: flex; gap: 6px; align-items: center; }
         .nav-links a {
@@ -132,7 +132,7 @@
             flex-wrap: wrap; margin-bottom: 0;
         }
         .stat { text-align: center; }
-        .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--text); }
+        .stat-num { font-size: 28px; font-weight: 800; color: var(--text); }
         .stat-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
         /* ── SEARCH & FILTERS ── */
@@ -343,7 +343,6 @@
             min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
             border-radius: 50%; background: rgba(59,130,246,0.15); color: #60a5fa;
             font-size: 11px; font-weight: 800; flex-shrink: 0;
-            font-family: 'Syne', sans-serif;
         }
 
         /* ── EMPTY STATE ── */
@@ -378,21 +377,7 @@
             50% { opacity: 0.5; transform: scale(1.5); }
         }
 
-        /* ── COMPARE PANEL ── */
-        #compare-bar {
-            position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-            background: var(--surface); border-top: 1px solid var(--border);
-            padding: 12px 24px; display: none; align-items: center; gap: 16px;
-            backdrop-filter: blur(16px);
-        }
-        #compare-bar.visible { display: flex; }
-        .compare-item {
-            flex: 1; background: var(--surface2); border-radius: 10px;
-            padding: 8px 12px; font-size: 13px; font-weight: 600;
-            display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid var(--border);
-        }
-        .compare-item button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; }
+
 
         /* Progress bar for loading */
         #progress-bar {
@@ -510,11 +495,9 @@
     <!-- CATEGORY TABS -->
     <div class="category-tabs" id="categoryTabs"></div>
 
-    <!-- RESULT BAR -->
-    <div class="result-bar">
+        <div class="result-bar">
         <span id="resultCount"></span>
         <div class="flex gap-8" style="gap:8px">
-            <button onclick="toggleCompareMode()" id="compareToggle" class="nav-btn" style="font-size:11px">⚖️ Karşılaştır</button>
             <button onclick="shareCurrentFilter()" class="nav-btn" style="font-size:11px">🔗 Paylaş</button>
         </div>
     </div>
@@ -531,15 +514,7 @@
     </div>
 </main>
 
-<!-- COMPARE BAR -->
-<div id="compare-bar">
-    <div style="font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap">⚖️ KARŞILAŞTIR</div>
-    <div class="compare-item" id="cmp-slot-0"><span>Boş slot</span><button onclick="removeCompare(0)">✕</button></div>
-    <div style="font-size:18px;color:var(--muted)">vs</div>
-    <div class="compare-item" id="cmp-slot-1"><span>Boş slot</span><button onclick="removeCompare(1)">✕</button></div>
-    <button onclick="openCompareModal()" class="btn btn-primary" style="flex:none;padding:10px 20px;border-radius:10px">Karşılaştır</button>
-    <button onclick="cancelCompare()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px">✕</button>
-</div>
+
 
 <!-- MODAL -->
 <div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
@@ -573,7 +548,7 @@
         <div id="modal-code-section" class="hidden mb-5">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Downloader Kodu</p>
             <div style="display:flex;align-items:center;gap:12px">
-                <div id="modal-code" style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#60a5fa;background:var(--surface2);padding:12px 20px;border-radius:12px;border:1px solid var(--border)"></div>
+                <div id="modal-code" style="font-size:28px;font-weight:800;color:#60a5fa;background:var(--surface2);padding:12px 20px;border-radius:12px;border:1px solid var(--border)"></div>
                 <button id="modal-code-copy-btn" class="btn btn-secondary" style="flex:none;padding:12px 16px">Kopyala</button>
             </div>
         </div>
@@ -583,16 +558,7 @@
     </div>
 </div>
 
-<!-- COMPARE MODAL -->
-<div id="cmp-overlay" onclick="if(event.target===this)closeCmpModal()" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:1100;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px)">
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:24px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;padding:28px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-            <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:20px">⚖️ Karşılaştırma</h2>
-            <button onclick="closeCmpModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px">✕</button>
-        </div>
-        <div id="cmp-content" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
-    </div>
-</div>
+
 
 <script>
 // ═══════════════════════════════
@@ -603,8 +569,7 @@ let favorites = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
 let ratings   = JSON.parse(localStorage.getItem('ph_ratings')   || '{}');
 let lastSeen  = JSON.parse(localStorage.getItem('ph_lastseen')  || '[]');
 let showFavsOnly = false;
-let compareMode = false;
-let compareItems = [null, null];
+let compareMode = false; // removed
 let isLight = localStorage.getItem('ph_theme') === 'light';
 
 if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
@@ -799,78 +764,7 @@ function shareCurrentFilter() {
     navigator.clipboard.writeText(window.location.href).then(() => showToast('🔗 Link kopyalandı!', '#3b82f6'));
 }
 
-// ═══════════════════════════════
-// COMPARE MODE
-// ═══════════════════════════════
-function toggleCompareMode() {
-    compareMode = !compareMode;
-    compareItems = [null, null];
-    const btn = document.getElementById('compareToggle');
-    btn.style.color = compareMode ? '#60a5fa' : '';
-    btn.style.borderColor = compareMode ? '#3b82f6' : '';
-    if (!compareMode) {
-        document.getElementById('compare-bar').classList.remove('visible');
-        document.querySelectorAll('.cmp-indicator').forEach(el => el.remove());
-    } else {
-        document.getElementById('compare-bar').classList.add('visible');
-        showToast('⚖️ Karşılaştırmak için 2 kart seçin');
-    }
-}
-
-function addToCompare(item) {
-    if (!compareMode) return;
-    const key = pluginKey(item);
-    if (compareItems[0] && pluginKey(compareItems[0]) === key) return;
-    if (compareItems[1] && pluginKey(compareItems[1]) === key) return;
-    const slot = compareItems[0] === null ? 0 : (compareItems[1] === null ? 1 : -1);
-    if (slot === -1) { showToast('⚠️ Zaten 2 eklenti seçildi'); return; }
-    compareItems[slot] = item;
-    const slotEl = document.getElementById(`cmp-slot-${slot}`);
-    slotEl.querySelector('span').textContent = item.name;
-    showToast(`✓ Slot ${slot+1}'e eklendi: ${item.name}`);
-    if (compareItems[0] && compareItems[1]) showToast('✅ İki eklenti seçildi — Karşılaştır butonuna basın');
-}
-
-function removeCompare(slot) {
-    compareItems[slot] = null;
-    document.getElementById(`cmp-slot-${slot}`).querySelector('span').textContent = 'Boş slot';
-}
-
-function cancelCompare() {
-    compareMode = false;
-    compareItems = [null, null];
-    document.getElementById('compare-bar').classList.remove('visible');
-    document.getElementById('compareToggle').style.color = '';
-    document.getElementById('compareToggle').style.borderColor = '';
-}
-
-function openCompareModal() {
-    const a = compareItems[0], b = compareItems[1];
-    if (!a || !b) { showToast('⚠️ 2 eklenti seçin'); return; }
-    const content = document.getElementById('cmp-content');
-    content.innerHTML = [a, b].map(item => {
-        const urlMatch = item.desc?.match(/(https?:\/\/[^\s]+)/g);
-        const url = urlMatch ? urlMatch[0] : null;
-        const key = pluginKey(item);
-        const starCount = ratings[key] || 0;
-        return `
-        <div style="background:var(--surface2);border-radius:16px;padding:20px;border:1px solid var(--border)">
-            <div class="flex gap-2 flex-wrap mb-3">
-                <span class="badge badge-app">${item.app}</span>
-                <span class="badge badge-type">${item.type}</span>
-                ${statusBadge(item.status)}
-            </div>
-            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;margin-bottom:8px">${item.name}</div>
-            ${item.updatedAt ? `<div style="font-size:11px;color:var(--muted);margin-bottom:8px">📅 ${item.updatedAt}</div>` : ''}
-            <div style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.6">${item.desc?.replace(/(https?:\/\/[^\s]+)/g,'').trim() || ''}</div>
-            ${url ? `<div class="url-mono" style="margin-bottom:10px">${url}</div>` : ''}
-            <div style="font-size:12px;color:#f59e0b">${'★'.repeat(starCount)}${'☆'.repeat(5-starCount)} (${starCount}/5)</div>
-        </div>`;
-    }).join('');
-    document.getElementById('cmp-overlay').style.display = 'flex';
-}
-
-function closeCmpModal() { document.getElementById('cmp-overlay').style.display = 'none'; }
+// compare removed
 
 // ═══════════════════════════════
 // CATEGORY TABS
@@ -1011,7 +905,6 @@ function renderCards(data) {
             </div>
         `;
         card.addEventListener('click', () => {
-            if (compareMode) { addToCompare(item); return; }
             openModal(item);
         });
         grid.appendChild(card);
@@ -1096,7 +989,7 @@ function closeModalOnBackdrop(e) {
     if (e.target === document.getElementById('modal-overlay')) closeModal();
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeCmpModal(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ═══════════════════════════════
 // SEARCH HISTORY (input suggestion)
