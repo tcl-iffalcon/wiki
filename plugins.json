@@ -69,4 +69,6 @@
   {"app": "Nuvio", "type": "Repo", "name": "Spidey's Providers", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/Abinanthankv/NuvioRepo/refs/heads/master/manifest.json", "isNew": false, "installGuide": "nuvio"},
   {"app": "CloudStream", "type": "4K", "name": "repo: phisher", "desc": "Eklenti: TorraStream", "isNew": false, "installGuide": "cloudstream"},
   {"app": "Stremio", "type": "Dublaj", "name": "SineWix", "desc": "Bağlantı Linki: https://sinewix.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"}
+  {"app": "Nuvio", "type": "Dublaj", "name": "SineWix", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/tcl-iffalcon/PrometheusTV/main/manifest.json", "isNew": false, "installGuide": "stremio"}
+
 ]
