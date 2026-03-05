@@ -71,6 +71,10 @@
   {"app": "Stremio", "type": "Dublaj", "name": "SineWix", "desc": "Bağlantı Linki: https://sinewix.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"},
   {"app": "Nuvio", "type": "Repo", "name": "SineWix", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/tcl-iffalcon/PrometheusTV/main/manifest.json", "isNew": false, "installGuide": "nuvio"},
   {"app": "Nuvio", "type": "Dublaj", "name": "DublajTR", "desc": "Bağlantı Linki: https://cinemetatr.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio"},
+  {"app": "Nuvio", "type": "Canlı", "name": "TCLTVTURK Canlı TV", "desc": "Bağlantı Linki: https://tcltv.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio"},
+  {"app": "Stremio", "type": "Canlı", "name": "TCLTVTURK Canlı TV", "desc": "Bağlantı Linki: https://tcltv.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"},
+  {"app": "Nuvio", "type": "Film", "name": "TCLTurko", "desc": "Bağlantı Linki: https://tclturko.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio"},
+  {"app": "Stremio", "type": "Film", "name": "TCLTurko", "desc": "Bağlantı Linki: https://tclturko.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"},
   {"app": "Nuvio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio"}
 
 ]
