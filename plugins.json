@@ -75,6 +75,10 @@
   {"app": "Stremio", "type": "Canlı", "name": "TCLTVTURK Canlı TV", "desc": "Bağlantı Linki: https://tcltv.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"},
   {"app": "Nuvio", "type": "Film", "name": "TCLTurko", "desc": "Bağlantı Linki: https://tclturko.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio"},
   {"app": "Stremio", "type": "Film", "name": "TCLTurko", "desc": "Bağlantı Linki: https://tclturko.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"},
+  {"app": "Nuvio", "type": "4K", "name": "NebulaStreams", "desc": "Bağlantı Linki: https://nebulastreams.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio"},
+  {"app": "Stremio", "type": "4K", "name": "NebulaStreams", "desc": "Bağlantı Linki: https://nebulastreams.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio"},
+    {"app": "Nuvio", "type": "4K", "name": "Meteor", "desc": "Bağlantı Linki: https://meteorfortheweebs.midnightignite.me/configure", "isNew": false, "installGuide": "nuvio"},
+  {"app": "Stremio", "type": "4K", "name": "Meteor", "desc": "Bağlantı Linki: https://meteorfortheweebs.midnightignite.me/configure", "isNew": false, "installGuide": "stremio"},
   {"app": "Nuvio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio"}
 
 ]
