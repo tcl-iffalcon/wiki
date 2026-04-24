@@ -40,7 +40,6 @@
             overflow-x: hidden;
         }
 
-        /* ── BG GRID ── */
         body::before {
             content: '';
             position: fixed; inset: 0;
@@ -59,16 +58,12 @@
 
         main, nav, footer { position: relative; z-index: 1; }
 
-        /* ── FONTS ── */
-
-        /* ── GLASS ── */
         .glass {
             background: var(--surface);
             border: 1px solid var(--border);
             backdrop-filter: blur(16px);
         }
 
-        /* ── NAVBAR ── */
         nav {
             position: sticky; top: 0; z-index: 100;
             background: rgba(8,12,20,0.85);
@@ -104,7 +99,6 @@
         .nav-btn:hover { color: var(--text); border-color: var(--accent); }
         .nav-btn.active { color: #ef4444; border-color: rgba(239,68,68,0.4); }
 
-        /* ── HERO ── */
         .hero {
             text-align: center; padding: 72px 16px 56px;
             max-width: 700px; margin: 0 auto;
@@ -126,7 +120,6 @@
         }
         .hero p { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
 
-        /* ── STATS BAR ── */
         .stats-bar {
             display: flex; justify-content: center; gap: 40px;
             flex-wrap: wrap; margin-bottom: 0;
@@ -135,7 +128,6 @@
         .stat-num { font-size: 28px; font-weight: 800; color: var(--text); }
         .stat-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
-        /* ── SEARCH & FILTERS ── */
         .filter-bar {
             max-width: 1200px; margin: 0 auto 32px; padding: 0 16px;
         }
@@ -144,9 +136,12 @@
             border: 1px solid var(--border);
             border-radius: 20px;
             padding: 20px 24px;
-            display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 16px;
+            display: grid; grid-template-columns: 1fr 1fr 1fr 2fr; gap: 16px;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .filter-inner { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 560px) {
             .filter-inner { grid-template-columns: 1fr; }
         }
         .filter-group label {
@@ -157,14 +152,13 @@
         .filter-group input {
             width: 100%; background: var(--surface2); border: 1px solid var(--border);
             color: var(--text); padding: 10px 14px; border-radius: 12px;
-            font-size: 14px; font-family: 'DM Sans', sans-serif;
+            font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif;
             outline: none; appearance: none; transition: border-color 0.2s;
         }
         .filter-group select:focus,
         .filter-group input:focus { border-color: var(--accent); }
         .filter-group input::placeholder { color: var(--muted); }
 
-        /* ── TABS (kategori pills) ── */
         .category-tabs {
             max-width: 1200px; margin: 0 auto 24px;
             padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
@@ -178,14 +172,12 @@
         .tab-pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
         .tab-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-        /* ── RESULT INFO ── */
         .result-bar {
             max-width: 1200px; margin: 0 auto 16px;
             padding: 0 16px; display: flex; justify-content: space-between; align-items: center;
         }
         .result-bar span { font-size: 13px; color: var(--muted); font-weight: 500; }
 
-        /* ── GRID ── */
         .grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 80px; }
         .cards-grid {
             display: grid;
@@ -193,7 +185,6 @@
             gap: 16px;
         }
 
-        /* ── CARD ── */
         .plugin-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -220,7 +211,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── SKELETON ── */
         .skeleton-card {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 18px; padding: 22px; height: 180px;
@@ -238,23 +228,26 @@
             100% { background-position: -100% 0; }
         }
 
-        /* ── BADGE ── */
         .badge {
             display: inline-block; font-size: 9px; font-weight: 800; text-transform: uppercase;
             letter-spacing: 0.8px; padding: 3px 8px; border-radius: 6px;
         }
-        .badge-app { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .badge-app  { background: rgba(59,130,246,0.15); color: #60a5fa; }
         .badge-type { background: rgba(16,185,129,0.15); color: #34d399; }
-        .badge-new { background: rgba(245,158,11,0.15); color: #fbbf24; animation: pulse-badge 2s infinite; }
-        .badge-status-ok { background: rgba(16,185,129,0.15); color: #34d399; }
+        .badge-new  { background: rgba(245,158,11,0.15); color: #fbbf24; animation: pulse-badge 2s infinite; }
+        .badge-status-ok   { background: rgba(16,185,129,0.15); color: #34d399; }
         .badge-status-warn { background: rgba(245,158,11,0.15); color: #fbbf24; }
-        .badge-status-err { background: rgba(239,68,68,0.15); color: #f87171; }
+        .badge-status-err  { background: rgba(239,68,68,0.15); color: #f87171; }
+
+        /* ── DEBRID BADGES ── */
+        .badge-debrid-free     { background: rgba(16,185,129,0.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
+        .badge-debrid-optional { background: rgba(245,158,11,0.12); color: #fcd34d; border: 1px solid rgba(245,158,11,0.25); }
+        .badge-debrid-required { background: rgba(239,68,68,0.12); color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
 
         @keyframes pulse-badge {
             0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
         }
 
-        /* ── FAV BUTTON ── */
         .fav-btn {
             background: none; border: none; cursor: pointer;
             color: var(--muted); font-size: 18px; line-height: 1;
@@ -263,18 +256,16 @@
         .fav-btn:hover { transform: scale(1.3); }
         .fav-btn.active { color: #ef4444; }
 
-        /* ── RATING STARS ── */
         .stars { display: flex; gap: 2px; }
         .star { font-size: 13px; cursor: pointer; color: var(--surface2); transition: color 0.15s; }
         .star.filled { color: #f59e0b; }
         .star:hover { color: #fbbf24; }
 
-        /* ── CARD ACTIONS ── */
         .card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; }
         .btn {
             flex: 1; padding: 9px 0; border-radius: 10px; border: none;
             font-size: 12px; font-weight: 700; cursor: pointer;
-            transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
             text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;
         }
         .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
@@ -283,7 +274,6 @@
         .btn-primary:hover { background: #2563eb; }
         .btn-success { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
 
-        /* ── URL MONO ── */
         .url-mono {
             font-size: 11px; font-family: 'SF Mono', 'Fira Code', monospace;
             background: var(--surface2); border: 1px solid var(--border);
@@ -292,7 +282,6 @@
             white-space: nowrap; margin-top: 8px; margin-bottom: 0;
         }
 
-        /* ── LAST SEEN ── */
         .last-seen-section {
             max-width: 1200px; margin: 0 auto 24px;
             padding: 0 16px;
@@ -309,7 +298,6 @@
         }
         .seen-chip:hover { border-color: var(--accent); color: #60a5fa; }
 
-        /* ── TOAST ── */
         #toast {
             position: fixed; bottom: 24px; left: 50%;
             transform: translateX(-50%) translateY(80px);
@@ -322,7 +310,6 @@
         }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        /* ── MODAL ── */
         #modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.75);
             z-index: 1000; display: flex; align-items: center; justify-content: center;
@@ -338,26 +325,21 @@
         }
         #modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
 
-        /* ── STEP ── */
         .step-num {
             min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
             border-radius: 50%; background: rgba(59,130,246,0.15); color: #60a5fa;
             font-size: 11px; font-weight: 800; flex-shrink: 0;
         }
 
-        /* ── EMPTY STATE ── */
         #emptyState { display: none; text-align: center; padding: 80px 16px; color: var(--muted); }
 
-        /* ── MOBILE MENU ── */
         #mobileMenu { display: none; }
         #mobileMenu.open { display: block; }
 
-        /* ── SCROLLBAR ── */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.4); border-radius: 99px; }
 
-        /* ── ANNOUNCE BANNER ── */
         .announce-bar {
             background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(16,185,129,0.1));
             border-bottom: 1px solid var(--border);
@@ -366,7 +348,6 @@
         }
         .announce-bar strong { color: var(--text); }
 
-        /* ── UPDATE INDICATOR ── */
         .update-dot {
             display: inline-block; width: 6px; height: 6px; border-radius: 50%;
             background: #34d399; margin-right: 5px; vertical-align: middle;
@@ -377,16 +358,12 @@
             50% { opacity: 0.5; transform: scale(1.5); }
         }
 
-
-
-        /* Progress bar for loading */
         #progress-bar {
             position: fixed; top: 0; left: 0; height: 2px; width: 0%;
             background: linear-gradient(90deg, #3b82f6, #34d399);
             z-index: 9999; transition: width 0.3s ease;
         }
 
-        /* ── MOBILE ── */
         @media (max-width: 640px) {
             .hero { padding: 40px 16px 32px; }
             .stats-bar { gap: 24px; }
@@ -396,19 +373,14 @@
 </head>
 <body class="min-h-screen">
 
-<!-- PROGRESS BAR -->
 <div id="progress-bar"></div>
-
-<!-- TOAST -->
 <div id="toast"></div>
 
-<!-- ANNOUNCE BANNER -->
 <div class="announce-bar">
     <span class="update-dot"></span>
     <strong>PluginHub v2</strong> — Puanlama, son görüntülenenler ve karşılaştırma modu eklendi!
 </div>
 
-<!-- NAVBAR -->
 <nav>
     <div class="nav-inner">
         <div class="brand">PluginHub</div>
@@ -428,7 +400,7 @@
     </div>
     <div id="mobileMenu" class="md:hidden border-t border-white/5 py-4 px-2">
         <div class="flex flex-col gap-2">
-            <a href="https://tcl-iffalcon.github.io/wiki/" class="nav-links" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
             <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">TV APK</a>
             <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telefon APK</a>
             <a href="https://t.me/tcltvturk1" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telegram</a>
@@ -440,7 +412,6 @@
 </nav>
 
 <main>
-    <!-- HERO -->
     <div class="hero">
         <div class="hero-eyebrow">🔌 Eklenti Ekosistemi</div>
         <h1>Tüm <span>Eklentiler</span><br>Tek Yerde</h1>
@@ -452,13 +423,11 @@
         </div>
     </div>
 
-    <!-- LAST SEEN -->
     <div class="last-seen-section" id="lastSeenSection" style="display:none">
         <div class="last-seen-title">🕐 Son Görüntülenenler</div>
         <div class="last-seen-chips" id="lastSeenChips"></div>
     </div>
 
-    <!-- FILTERS -->
     <div class="filter-bar">
         <div class="filter-inner">
             <div class="filter-group">
@@ -487,23 +456,30 @@
                 </select>
             </div>
             <div class="filter-group">
+                <label>Debrid</label>
+                <select id="debridSelect" onchange="filterData()">
+                    <option value="all">Tümü</option>
+                    <option value="free">✅ Ücretsiz</option>
+                    <option value="optional">⚡ İsteğe Bağlı</option>
+                    <option value="required">💳 Ücretli (Debrid)</option>
+                </select>
+            </div>
+            <div class="filter-group">
                 <label>Arama</label>
                 <input type="text" id="searchInput" oninput="filterData()" placeholder="🔍 Eklenti veya içerik ara..." autocomplete="off">
             </div>
         </div>
     </div>
 
-    <!-- CATEGORY TABS -->
     <div class="category-tabs" id="categoryTabs"></div>
 
-        <div class="result-bar">
+    <div class="result-bar">
         <span id="resultCount"></span>
         <div class="flex gap-8" style="gap:8px">
             <button onclick="shareCurrentFilter()" class="nav-btn" style="font-size:11px">🔗 Paylaş</button>
         </div>
     </div>
 
-    <!-- GRID -->
     <div class="grid-wrap">
         <div id="skeletonGrid" class="cards-grid"></div>
         <div id="resultsGrid" class="cards-grid"></div>
@@ -515,9 +491,6 @@
     </div>
 </main>
 
-
-
-<!-- MODAL -->
 <div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div id="modal-box" class="p-6 md:p-8">
         <div class="flex justify-between items-start mb-5">
@@ -529,13 +502,11 @@
             <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px;transition:color 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">✕</button>
         </div>
 
-        <!-- RATING IN MODAL -->
         <div id="modal-rating-section" class="mb-5">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Puanınız</p>
             <div class="stars" id="modal-stars"></div>
         </div>
 
-        <!-- URL -->
         <div id="modal-url-section" class="hidden mb-5">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Bağlantı</p>
             <div id="modal-url" class="url-mono" style="margin-top:0"></div>
@@ -545,7 +516,6 @@
             </div>
         </div>
 
-        <!-- CODE -->
         <div id="modal-code-section" class="hidden mb-5">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Downloader Kodu</p>
             <div style="display:flex;align-items:center;gap:12px">
@@ -554,12 +524,9 @@
             </div>
         </div>
 
-        <!-- INSTALL GUIDE -->
         <div id="modal-guide"></div>
     </div>
 </div>
-
-
 
 <script>
 // ═══════════════════════════════
@@ -570,10 +537,22 @@ let favorites = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
 let ratings   = JSON.parse(localStorage.getItem('ph_ratings')   || '{}');
 let lastSeen  = JSON.parse(localStorage.getItem('ph_lastseen')  || '[]');
 let showFavsOnly = false;
-let compareMode = false; // removed
 let isLight = localStorage.getItem('ph_theme') === 'light';
 
 if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
+
+// ── DEBRID BADGE HELPER ──
+function debridBadge(debrid) {
+    if (!debrid) return '';
+    const map = {
+        'free':     ['badge-debrid-free',     '✅ Ücretsiz'],
+        'optional': ['badge-debrid-optional',  '⚡ Debrid Opsiyonel'],
+        'required': ['badge-debrid-required',  '💳 Debrid Gerekli'],
+    };
+    const [cls, label] = map[debrid] || [];
+    if (!cls) return '';
+    return `<span class="badge ${cls}">${label}</span>`;
+}
 
 // ── INSTALL GUIDES ──
 const installGuides = {
@@ -647,9 +626,6 @@ function copyText(text) {
     navigator.clipboard.writeText(text).then(() => showToast('✓ Kopyalandı!', '#10b981'));
 }
 
-// ═══════════════════════════════
-// THEME
-// ═══════════════════════════════
 function toggleTheme() {
     isLight = !isLight;
     document.body.classList.toggle('light', isLight);
@@ -657,16 +633,10 @@ function toggleTheme() {
     document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
 }
 
-// ═══════════════════════════════
-// MOBILE MENU
-// ═══════════════════════════════
 function toggleMenu() {
     document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-// ═══════════════════════════════
-// FAVORITES
-// ═══════════════════════════════
 function toggleFav(key, btn) {
     const idx = favorites.indexOf(key);
     if (idx === -1) { favorites.push(key); showToast('❤ Favorilere eklendi'); }
@@ -687,9 +657,6 @@ function toggleFavFilter() {
     filterData();
 }
 
-// ═══════════════════════════════
-// RATINGS
-// ═══════════════════════════════
 function setRating(key, val) {
     ratings[key] = val;
     localStorage.setItem('ph_ratings', JSON.stringify(ratings));
@@ -710,9 +677,6 @@ function renderStars(key, container) {
     }
 }
 
-// ═══════════════════════════════
-// LAST SEEN
-// ═══════════════════════════════
 function addLastSeen(item) {
     const key = pluginKey(item);
     lastSeen = lastSeen.filter(k => k !== key);
@@ -733,9 +697,6 @@ function renderLastSeen() {
     `).join('');
 }
 
-// ═══════════════════════════════
-// STATUS BADGE
-// ═══════════════════════════════
 function statusBadge(status) {
     if (!status) return '';
     const map = { 'aktif': ['badge-status-ok','✅ Aktif'], 'kararsız': ['badge-status-warn','⚠️ Kararsız'], 'çalışmıyor': ['badge-status-err','❌ Çalışmıyor'] };
@@ -743,20 +704,19 @@ function statusBadge(status) {
     return `<span class="badge ${cls}">${label}</span>`;
 }
 
-// ═══════════════════════════════
-// URL PARAMS
-// ═══════════════════════════════
 function applyURLParams() {
     const p = new URLSearchParams(window.location.search);
-    if (p.get('app'))  document.getElementById('appSelect').value  = p.get('app');
-    if (p.get('type')) document.getElementById('typeSelect').value = p.get('type');
-    if (p.get('q'))    document.getElementById('searchInput').value = p.get('q');
+    if (p.get('app'))    document.getElementById('appSelect').value    = p.get('app');
+    if (p.get('type'))   document.getElementById('typeSelect').value   = p.get('type');
+    if (p.get('debrid')) document.getElementById('debridSelect').value = p.get('debrid');
+    if (p.get('q'))      document.getElementById('searchInput').value  = p.get('q');
 }
 
-function updateURL(app, type, q) {
+function updateURL(app, type, debrid, q) {
     const p = new URLSearchParams();
-    if (app !== 'all') p.set('app', app);
-    if (type !== 'all') p.set('type', type);
+    if (app !== 'all')    p.set('app', app);
+    if (type !== 'all')   p.set('type', type);
+    if (debrid !== 'all') p.set('debrid', debrid);
     if (q) p.set('q', q);
     history.replaceState({}, '', window.location.pathname + (p.toString() ? '?' + p.toString() : ''));
 }
@@ -765,11 +725,6 @@ function shareCurrentFilter() {
     navigator.clipboard.writeText(window.location.href).then(() => showToast('🔗 Link kopyalandı!', '#3b82f6'));
 }
 
-// compare removed
-
-// ═══════════════════════════════
-// CATEGORY TABS
-// ═══════════════════════════════
 function buildCategoryTabs() {
     const types = ['all', ...new Set(plugins.map(p => p.type))];
     const container = document.getElementById('categoryTabs');
@@ -786,9 +741,6 @@ function setTypeTab(type) {
     filterData();
 }
 
-// ═══════════════════════════════
-// SKELETON
-// ═══════════════════════════════
 function showSkeleton() {
     const g = document.getElementById('skeletonGrid');
     g.innerHTML = Array(6).fill(0).map(() => `
@@ -808,39 +760,34 @@ function hideSkeleton() {
     document.getElementById('skeletonGrid').innerHTML = '';
 }
 
-// ═══════════════════════════════
-// FILTER
-// ═══════════════════════════════
 function filterData() {
-    const app  = document.getElementById('appSelect').value;
-    const type = document.getElementById('typeSelect').value;
-    const q    = document.getElementById('searchInput').value.toLowerCase().trim();
-    updateURL(app, type, q);
+    const app    = document.getElementById('appSelect').value;
+    const type   = document.getElementById('typeSelect').value;
+    const debrid = document.getElementById('debridSelect').value;
+    const q      = document.getElementById('searchInput').value.toLowerCase().trim();
+    updateURL(app, type, debrid, q);
 
-    // Sync tabs
     document.querySelectorAll('.tab-pill').forEach(b => {
         const t = b.dataset.type;
         b.classList.toggle('active', t === (type === 'all' ? 'all' : type));
     });
 
     const filtered = plugins.filter(p => {
-        const matchApp  = app  === 'all' || p.app  === app;
-        const matchType = type === 'all' || p.type === type;
-        const matchQ    = !q || p.name.toLowerCase().includes(q) || p.desc?.toLowerCase().includes(q);
-        const matchFav  = !showFavsOnly || isFav(p);
-        return matchApp && matchType && matchQ && matchFav;
+        const matchApp    = app    === 'all' || p.app    === app;
+        const matchType   = type   === 'all' || p.type   === type;
+        const matchDebrid = debrid === 'all' || p.debrid === debrid;
+        const matchQ      = !q || p.name.toLowerCase().includes(q) || p.desc?.toLowerCase().includes(q);
+        const matchFav    = !showFavsOnly || isFav(p);
+        return matchApp && matchType && matchDebrid && matchQ && matchFav;
     });
 
     renderCards(filtered);
 }
 
-// ═══════════════════════════════
-// RENDER CARDS
-// ═══════════════════════════════
 function renderCards(data) {
-    const grid   = document.getElementById('resultsGrid');
-    const empty  = document.getElementById('emptyState');
-    const count  = document.getElementById('resultCount');
+    const grid  = document.getElementById('resultsGrid');
+    const empty = document.getElementById('emptyState');
+    const count = document.getElementById('resultCount');
     grid.innerHTML = '';
     count.textContent = data.length > 0 ? `${data.length} eklenti bulundu` : '';
 
@@ -866,6 +813,7 @@ function renderCards(data) {
                     <span class="badge badge-app">${item.app}</span>
                     <span class="badge badge-type">${item.type}</span>
                     ${item.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
+                    ${debridBadge(item.debrid)}
                     ${statusBadge(item.status)}
                 </div>
                 <button class="fav-btn ${favActive ? 'active' : ''}"
@@ -888,7 +836,6 @@ function renderCards(data) {
                 }
             </div>
 
-            <!-- STARS -->
             <div style="display:flex;gap:3px;margin-bottom:12px" class="stars" id="stars-${key.replace(/[|]/g,'-')}">
                 ${Array.from({length:5},(_,j)=>`<span class="star ${j<starCount?'filled':''}" onclick="event.stopPropagation();setRating('${key}',${j+1});rerenderCardStars('${key}')">★</span>`).join('')}
             </div>
@@ -905,9 +852,7 @@ function renderCards(data) {
                 `)}
             </div>
         `;
-        card.addEventListener('click', () => {
-            openModal(item);
-        });
+        card.addEventListener('click', () => openModal(item));
         grid.appendChild(card);
     });
 }
@@ -919,9 +864,6 @@ function rerenderCardStars(key) {
     el.querySelectorAll('.star').forEach((s,j) => s.classList.toggle('filled', j < count));
 }
 
-// ═══════════════════════════════
-// MODAL
-// ═══════════════════════════════
 function openModal(item) {
     addLastSeen(item);
     const urlMatch  = item.desc?.match(/(https?:\/\/[^\s]+)/g);
@@ -934,16 +876,15 @@ function openModal(item) {
         <span class="badge badge-app">${item.app}</span>
         <span class="badge badge-type">${item.type}</span>
         ${item.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
+        ${debridBadge(item.debrid)}
         ${statusBadge(item.status)}
     `;
     document.getElementById('modal-title').textContent = item.name;
     document.getElementById('modal-date').textContent  = item.updatedAt ? `📅 Son güncelleme: ${item.updatedAt}` : '';
 
-    // Stars
     const starsEl = document.getElementById('modal-stars');
     renderStars(key, starsEl);
 
-    // URL
     const urlSec = document.getElementById('modal-url-section');
     if (url) {
         urlSec.classList.remove('hidden');
@@ -952,7 +893,6 @@ function openModal(item) {
         document.getElementById('modal-goto-btn').href = url;
     } else urlSec.classList.add('hidden');
 
-    // Code
     const codeSec = document.getElementById('modal-code-section');
     if (code) {
         codeSec.classList.remove('hidden');
@@ -960,8 +900,7 @@ function openModal(item) {
         document.getElementById('modal-code-copy-btn').onclick = () => copyText(code);
     } else codeSec.classList.add('hidden');
 
-    // Guide
-    const guide  = installGuides[item.installGuide];
+    const guide   = installGuides[item.installGuide];
     const guideEl = document.getElementById('modal-guide');
     guideEl.innerHTML = guide ? `
         <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:4px">
@@ -992,9 +931,6 @@ function closeModalOnBackdrop(e) {
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// ═══════════════════════════════
-// SEARCH HISTORY (input suggestion)
-// ═══════════════════════════════
 let searchHistory = JSON.parse(localStorage.getItem('ph_searchhistory') || '[]');
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('blur', () => {
@@ -1006,22 +942,15 @@ searchInput.addEventListener('blur', () => {
     }
 });
 
-// ═══════════════════════════════
-// STATS
-// ═══════════════════════════════
 function updateStats() {
     document.getElementById('statTotal').textContent = plugins.length;
     document.getElementById('statNew').textContent = plugins.filter(p => p.isNew).length;
     document.getElementById('statApps').textContent = new Set(plugins.map(p => p.app)).size;
 }
 
-// ═══════════════════════════════
-// PROGRESS BAR
-// ═══════════════════════════════
 function progressStart() {
     const bar = document.getElementById('progress-bar');
-    bar.style.width = '0%';
-    bar.style.opacity = '1';
+    bar.style.width = '0%'; bar.style.opacity = '1';
     setTimeout(() => bar.style.width = '70%', 50);
 }
 function progressDone() {
@@ -1030,9 +959,6 @@ function progressDone() {
     setTimeout(() => { bar.style.opacity = '0'; bar.style.width = '0%'; }, 400);
 }
 
-// ═══════════════════════════════
-// INIT
-// ═══════════════════════════════
 applyURLParams();
 showSkeleton();
 progressStart();
