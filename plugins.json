@@ -73,5 +73,7 @@
   {"app": "Nuvio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "TorrentsDB", "desc": "Bağlantı Linki: https://torrentsdb.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "optional"},
   {"app": "Nuvio", "type": "4K", "name": "HdHub", "desc": "Bağlantı Linki: https://hdhub.thevolecitor.qzz.io", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "4K", "name": "Sootio", "desc": "Bağlantı Linki: https://sooti.info/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional"}
+  {"app": "Nuvio", "type": "4K", "name": "Sootio", "desc": "Bağlantı Linki: https://sooti.info/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional"},
+  {"app": "Nuvio", "type": "Dublaj", "name": "MoonCrown (Plugin)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/mooncrown04/nuviotr/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "Dublaj", "name": "Wekmed (Plugin)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/Wekmed/nuvio/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
 ]
