@@ -77,5 +77,6 @@
   {"app": "Nuvio", "type": "Dublaj", "name": "MoonCrown (Plugin)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/mooncrown04/nuviotr/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Dublaj", "name": "Wekmed (Plugin)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/Wekmed/nuvio/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "WatchNow", "desc": "Bağlantı Linki: https://sword-watch.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "Repo", "name": "D3adlyRocket", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/D3adlyRocket/All-in-One-Nuvio/refs/heads/main/manifest.json", "isNew": true, "installGuide": "nuvio", "debrid": "free"}
+  {"app": "Nuvio", "type": "Repo", "name": "D3adlyRocket", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/D3adlyRocket/All-in-One-Nuvio/refs/heads/main/manifest.json", "isNew": true, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "4K", "name": "Tenies.Site", "desc": "Bağlantı Linki: https://nuvio-addon.onrender.com/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
 ]
