@@ -80,5 +80,7 @@
   {"app": "Nuvio", "type": "Repo", "name": "D3adlyRocket", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/D3adlyRocket/All-in-One-Nuvio/refs/heads/main/manifest.json", "isNew": true, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "Tenies.Site", "desc": "Bağlantı Linki: https://nuvio-addon.onrender.com/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "Flix-Streams", "desc": "Bağlantı Linki: https://flixnest.app/flix-streams/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "Dublaj", "name": "Streailer", "desc": "Bağlantı Linki: https://streailer.elfhosted.com/%7B%22language%22%3A%22tr-TR%22%2C%22externalLink%22%3Afalse%2C%22showRecap%22%3Afalse%2C%22onlyRecaps%22%3Afalse%7D/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
+  {"app": "Nuvio", "type": "Dublaj", "name": "Streailer", "desc": "Bağlantı Linki: https://streailer.elfhosted.com/%7B%22language%22%3A%22tr-TR%22%2C%22externalLink%22%3Afalse%2C%22showRecap%22%3Afalse%2C%22onlyRecaps%22%3Afalse%7D/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "4K", "name": "StreamPeak", "desc": "Bağlantı Linki: https://addon.streampeak.workers.dev/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
+  
 ]
