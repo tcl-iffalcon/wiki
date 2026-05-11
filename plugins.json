@@ -28,25 +28,8 @@
   {"app": "Diğer", "type": "Film", "name": "NetMirror", "desc": "Downloader Kodu: 6166931", "isNew": false, "installGuide": "downloader", "debrid": "free"},
   {"app": "Diğer", "type": "Dublaj", "name": "NetMirror", "desc": "Downloader Kodu: 6166931", "isNew": false, "installGuide": "downloader", "debrid": "free"},
   {"app": "Diğer", "type": "Spor", "name": "Netfly", "desc": "Bağlantı Link: https://netflyapp.com/", "isNew": false, "installGuide": "link", "debrid": "free"},
-  {"app": "Stremio", "type": "Altyazı", "name": "OpenSubtitles", "desc": "Bağlantı Linki: https://opensubtitles-v3.strem.io/manifest.json", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Altyazı", "name": "TurkceAltyazi.org", "desc": "Bağlantı Linki: https://turkcealtyaziorg-stremio-addon.mycodelab.com.tr/addon/manifest.json", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Altyazı", "name": "OpenSubtitles Pro", "desc": "Bağlantı Linki: https://opensubtitlesv3-pro.dexter21767.com/eyJsYW5ncyI6WyJ0dXJraXNoIl0sInNvdXJjZSI6ImFsbCIsImFpVHJhbnNsYXRlZCI6dHJ1ZSwiYXV0b0FkanVzdG1lbnQiOmZhbHNlfQ==/manifest.json", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Altyazı", "name": "SubSource Subtitles", "desc": "Bağlantı Linki: https://subsource.strem.top/configure", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Altyazı", "name": "SubDL Subtitles", "desc": "Bağlantı Linki: https://subdl.strem.top/configure", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Altyazı", "name": "SubMaker", "desc": "Bağlantı Linki: https://submaker.elfhosted.com/configure?config=bedadbea77057c6e79adb38710386e3d", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Katalog", "name": "Streaming Catalogs", "desc": "Bağlantı Linki: https://7a82163c306e-stremio-netflix-catalog-addon.baby-beamup.club/ZG5wLGFtcCxhdHAsbmZ4LGhibSxuZmssY3RzLGNydSxtYmk6OnRyOjE3NTY2NDQ0MTU1MzM6dHJ1ZTowOg%3D%3D/manifest.json", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "4K", "name": "Torrentio", "desc": "Bağlantı Linki: https://torrentio.strem.fun/configure", "isNew": false, "installGuide": "stremio", "debrid": "required"},
-  {"app": "Stremio", "type": "4K", "name": "Comet", "desc": "Bağlantı Linki: https://comet.elfhosted.com/configure", "isNew": false, "installGuide": "stremio", "debrid": "required"},
-  {"app": "Stremio", "type": "4K", "name": "MediaFusion", "desc": "Bağlantı Linki: https://mediafusion.elfhosted.com/configure", "isNew": false, "installGuide": "stremio", "debrid": "optional"},
-  {"app": "Stremio", "type": "4K", "name": "Nuvio", "desc": "Bağlantı Linki: https://nuviostreams.hayd.uk/", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "4K", "name": "Jackettio", "desc": "Bağlantı Linki: https://jackettio.elfhosted.com/configure", "isNew": false, "installGuide": "stremio", "debrid": "required"},
-  {"app": "Stremio", "type": "4K", "name": "StremThruTorz", "desc": "Bağlantı Linki: https://stremthru.elfhosted.com/stremio/torz/configure", "isNew": false, "installGuide": "stremio", "debrid": "required"},
-  {"app": "Stremio", "type": "Katalog", "name": "Watchly", "desc": "Bağlantı Linki: https://watchly.elfhosted.com/", "isNew": false, "installGuide": "stremio", "debrid": "free"},
-  {"app": "Stremio", "type": "Katalog", "name": "Top Streaming TR", "desc": "Bağlantı Linki: https://top-streaming.stream/configure", "isNew": true, "installGuide": "stremio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "WebStreamr", "desc": "Bağlantı Linki: https://87d6a6ef6b58-webstreamrmbg.baby-beamup.club/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Altyazı", "name": "OpenSubtitles", "desc": "Bağlantı Linki: https://opensubtitles-v3.strem.io/", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "Altyazı", "name": "TurkceAltyazi.org", "desc": "Bağlantı Linki: https://turkcealtyaziorg-stremio-addon.mycodelab.live/addon/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Altyazı", "name": "OpenSubtitles Pro", "desc": "Bağlantı Linki: https://opensubtitlesv3-pro.dexter21767.com/eyJsYW5ncyI6WyJ0dXJraXNoIl0sInNvdXJjZSI6ImFsbCIsImFpVHJhbnNsYXRlZCI6dHJ1ZSwiYXV0b0FkanVzdG1lbnQiOmZhbHNlfQ==/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Altyazı", "name": "SubSource Subtitles", "desc": "Bağlantı Linki: https://subsource.strem.top/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Altyazı", "name": "SubDL Subtitles", "desc": "Bağlantı Linki: https://subdl.strem.top/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
@@ -85,7 +68,7 @@
   {"app": "Nuvio", "type": "4K", "name": "Flixoo", "desc": "Bağlantı Linki: https://flixo-o.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "DZ-Film", "desc": "Bağlantı Linki: https://adlencin-13.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "AstralFlow", "desc": "Bağlantı Linki: https://astral-mu-two.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "4K", "name": "Watcho", "desc": "Bağlantı Linki: https://watcho3.rafaelzioneverest.workers.dev/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
-
+  {"app": "Nuvio", "type": "4K", "name": "Watcho", "desc": "Bağlantı Linki: https://watcho3.rafaelzioneverest.workers.dev/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "Film", "name": "Dublaj", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
   
 ]
