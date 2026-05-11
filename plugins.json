@@ -50,9 +50,7 @@
   {"app": "CloudStream", "type": "4K", "name": "repo: phisher", "desc": "Eklenti: TorraStream", "isNew": false, "installGuide": "cloudstream", "debrid": "free"},
   {"app": "Nuvio", "type": "Dublaj", "name": "SineWix", "desc": "Bağlantı Linki: https://sinewix-afdy.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "NebulaStreams", "desc": "Bağlantı Linki: https://nebulastreams.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Stremio", "type": "4K", "name": "NebulaStreams", "desc": "Bağlantı Linki: https://nebulastreams.onrender.com/manifest.json", "isNew": false, "installGuide": "stremio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "Meteor", "desc": "Bağlantı Linki: https://meteorfortheweebs.midnightignite.me/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional"},
-  {"app": "Stremio", "type": "4K", "name": "Meteor", "desc": "Bağlantı Linki: https://meteorfortheweebs.midnightignite.me/configure", "isNew": false, "installGuide": "stremio", "debrid": "optional"},
   {"app": "Nuvio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "TorrentsDB", "desc": "Bağlantı Linki: https://torrentsdb.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "optional"},
   {"app": "Nuvio", "type": "4K", "name": "HdHub", "desc": "Bağlantı Linki: https://hdhub.thevolecitor.qzz.io", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
@@ -69,6 +67,8 @@
   {"app": "Nuvio", "type": "4K", "name": "DZ-Film", "desc": "Bağlantı Linki: https://adlencin-13.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "AstralFlow", "desc": "Bağlantı Linki: https://astral-mu-two.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "Watcho", "desc": "Bağlantı Linki: https://watcho3.rafaelzioneverest.workers.dev/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "Film", "name": "Dublaj", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
+  {"app": "Nuvio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "4K", "name": "TorrentClaw", "desc": "Bağlantı Linki: https://torrentclaw.com/api/stremio/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
+  
   
 ]
