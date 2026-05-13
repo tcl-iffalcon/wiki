@@ -68,7 +68,8 @@
   {"app": "Nuvio", "type": "4K", "name": "AstralFlow", "desc": "Bağlantı Linki: https://astral-mu-two.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "Watcho", "desc": "Bağlantı Linki: https://watcho3.rafaelzioneverest.workers.dev/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "4K", "name": "TorrentClaw", "desc": "Bağlantı Linki: https://torrentclaw.com/api/stremio/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
+  {"app": "Nuvio", "type": "4K", "name": "TorrentClaw", "desc": "Bağlantı Linki: https://torrentclaw.com/api/stremio/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "4K", "name": "YukiStreams", "desc": "Bağlantı Linki: https://stremio.yukistreams.xyz/configure", "isNew": false, "installGuide": "nuvio", "debrid": "required"}
   
   
 ]
