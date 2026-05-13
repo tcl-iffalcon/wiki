@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PluginHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #080c14;
@@ -28,9 +29,7 @@
             --muted: #64748b;
             --glow: rgba(59,130,246,0.08);
         }
-
         * { box-sizing: border-box; }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
@@ -39,7 +38,6 @@
             transition: background 0.3s, color 0.3s;
             overflow-x: hidden;
         }
-
         body::before {
             content: '';
             position: fixed; inset: 0;
@@ -49,21 +47,13 @@
             background-size: 48px 48px;
             pointer-events: none; z-index: 0;
         }
-
         body.light::before {
             background-image:
                 linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
         }
-
         main, nav, footer { position: relative; z-index: 1; }
-
-        .glass {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(16px);
-        }
-
+        .glass { background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(16px); }
         nav {
             position: sticky; top: 0; z-index: 100;
             background: rgba(8,12,20,0.85);
@@ -72,118 +62,85 @@
             padding: 0 24px;
         }
         body.light nav { background: rgba(240,244,252,0.9); }
-        .nav-inner {
-            max-width: 1200px; margin: 0 auto;
-            height: 64px; display: flex; align-items: center; justify-content: space-between;
-        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
         .brand {
             font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
             background: linear-gradient(135deg, #60a5fa, #34d399);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .nav-links { display: flex; gap: 6px; align-items: center; }
-        .nav-links a {
-            font-size: 13px; font-weight: 500; color: var(--muted);
-            text-decoration: none; padding: 6px 12px; border-radius: 8px;
-            transition: color 0.2s, background 0.2s;
-        }
+        .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s; }
         .nav-links a:hover { color: var(--text); background: var(--surface2); }
-        .nav-btn {
-            display: flex; align-items: center; gap-6px;
-            padding: 7px 13px; border-radius: 10px; border: 1px solid var(--border);
-            background: var(--surface2); color: var(--muted);
-            font-size: 12px; font-weight: 700; cursor: pointer;
-            transition: all 0.2s; gap: 6px;
-        }
+        .nav-btn { display: flex; align-items: center; padding: 7px 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; gap: 6px; }
         .nav-btn:hover { color: var(--text); border-color: var(--accent); }
         .nav-btn.active { color: #ef4444; border-color: rgba(239,68,68,0.4); }
-
-        .hero {
-            text-align: center; padding: 72px 16px 56px;
-            max-width: 700px; margin: 0 auto;
-        }
-        .hero-eyebrow {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-            color: var(--accent); background: rgba(59,130,246,0.1);
-            border: 1px solid rgba(59,130,246,0.25); border-radius: 999px;
-            padding: 5px 14px; margin-bottom: 20px;
-        }
-        .hero h1 {
-            font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.1;
-            letter-spacing: -1.5px; margin-bottom: 16px;
-        }
-        .hero h1 span {
-            background: linear-gradient(135deg, #60a5fa 0%, #34d399 50%, #a78bfa 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .hero { text-align: center; padding: 72px 16px 56px; max-width: 700px; margin: 0 auto; }
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); border-radius: 999px; padding: 5px 14px; margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 16px; }
+        .hero h1 span { background: linear-gradient(135deg, #60a5fa 0%, #34d399 50%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
-
-        .stats-bar {
-            display: flex; justify-content: center; gap: 40px;
-            flex-wrap: wrap; margin-bottom: 0;
-        }
+        .stats-bar { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
         .stat { text-align: center; }
         .stat-num { font-size: 28px; font-weight: 800; color: var(--text); }
         .stat-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
-        .filter-bar {
-            max-width: 1200px; margin: 0 auto 32px; padding: 0 16px;
+        /* NEW FEATURE: Announcement Banner */
+        .new-banner {
+            background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(16,185,129,0.12));
+            border-bottom: 1px solid rgba(245,158,11,0.25);
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 600;
+            display: none;
+            cursor: pointer;
+            transition: background 0.2s;
         }
-        .filter-inner {
+        .new-banner:hover { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(16,185,129,0.2)); }
+        .new-banner.visible { display: block; }
+        .new-banner .close-banner { float: right; opacity: 0.5; font-size: 16px; line-height: 1; }
+
+        /* NEW FEATURE: Compare bar */
+        #compare-bar {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
             background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px 24px;
-            display: grid; grid-template-columns: 1fr 1fr 1fr 2fr; gap: 16px;
+            border: 1px solid rgba(59,130,246,0.4);
+            border-radius: 18px;
+            padding: 12px 20px;
+            display: flex; align-items: center; gap: 16px;
+            z-index: 500;
+            transition: transform 0.4s cubic-bezier(.34,1.4,.64,1);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
         }
-        @media (max-width: 900px) {
-            .filter-inner { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 560px) {
-            .filter-inner { grid-template-columns: 1fr; }
-        }
-        .filter-group label {
-            display: block; font-size: 10px; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px;
-        }
-        .filter-group select,
-        .filter-group input {
-            width: 100%; background: var(--surface2); border: 1px solid var(--border);
-            color: var(--text); padding: 10px 14px; border-radius: 12px;
-            font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif;
-            outline: none; appearance: none; transition: border-color 0.2s;
-        }
-        .filter-group select:focus,
-        .filter-group input:focus { border-color: var(--accent); }
+        #compare-bar.visible { transform: translateX(-50%) translateY(0); }
+        #compare-bar-label { font-size: 13px; font-weight: 700; color: var(--text); }
+        #compare-bar-items { display: flex; gap: 8px; flex-wrap: wrap; }
+        .compare-chip { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 8px; background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+        #compare-btn { padding: 8px 16px; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+        #compare-btn:hover { background: #2563eb; }
+        #compare-clear { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        .filter-bar { max-width: 1200px; margin: 0 auto 32px; padding: 0 16px; }
+        .filter-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 2fr; gap: 16px; }
+        @media (max-width: 1024px) { .filter-inner { grid-template-columns: 1fr 1fr 1fr; } }
+        @media (max-width: 640px) { .filter-inner { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 400px) { .filter-inner { grid-template-columns: 1fr; } }
+        .filter-group label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px; }
+        .filter-group select, .filter-group input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 12px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; appearance: none; transition: border-color 0.2s; }
+        .filter-group select:focus, .filter-group input:focus { border-color: var(--accent); }
         .filter-group input::placeholder { color: var(--muted); }
 
-        .category-tabs {
-            max-width: 1200px; margin: 0 auto 24px;
-            padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
-        }
-        .tab-pill {
-            font-size: 12px; font-weight: 600; padding: 6px 14px;
-            border-radius: 999px; border: 1px solid var(--border);
-            background: var(--surface2); color: var(--muted);
-            cursor: pointer; transition: all 0.2s; white-space: nowrap;
-        }
+        .category-tabs { max-width: 1200px; margin: 0 auto 24px; padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .tab-pill { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
         .tab-pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
         .tab-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-        .result-bar {
-            max-width: 1200px; margin: 0 auto 16px;
-            padding: 0 16px; display: flex; justify-content: space-between; align-items: center;
-        }
+        .result-bar { max-width: 1200px; margin: 0 auto 16px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; }
         .result-bar span { font-size: 13px; color: var(--muted); font-weight: 500; }
 
-        .grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 80px; }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 16px;
-        }
+        .grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 120px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
 
         .plugin-card {
             background: var(--surface);
@@ -196,179 +153,99 @@
             animation: fadeUp 0.4s ease both;
             position: relative; overflow: hidden;
         }
-        .plugin-card::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: radial-gradient(circle at 80% 20%, var(--glow), transparent 60%);
-            opacity: 0; transition: opacity 0.3s;
-            pointer-events: none;
-        }
+        .plugin-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, var(--glow), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
         .plugin-card:hover { transform: translateY(-3px); border-color: rgba(59,130,246,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
         .plugin-card:hover::before { opacity: 1; }
+        /* NEW: compare selected state */
+        .plugin-card.compare-selected { border-color: rgba(59,130,246,0.6); box-shadow: 0 0 0 2px rgba(59,130,246,0.3); }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .skeleton-card {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 18px; padding: 22px; height: 180px;
-            animation: shimmer 1.5s infinite;
-        }
-        .skel-line {
-            height: 12px; border-radius: 6px;
-            background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.06) 50%, var(--surface2) 75%);
-            background-size: 400% 100%;
-            animation: shimmer 1.5s infinite;
-            margin-bottom: 10px;
-        }
-        @keyframes shimmer {
-            0% { background-position: 100% 0; }
-            100% { background-position: -100% 0; }
-        }
+        .skeleton-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 22px; height: 180px; }
+        .skel-line { height: 12px; border-radius: 6px; background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.06) 50%, var(--surface2) 75%); background-size: 400% 100%; animation: shimmer 1.5s infinite; margin-bottom: 10px; }
+        @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
 
-        .badge {
-            display: inline-block; font-size: 9px; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 0.8px; padding: 3px 8px; border-radius: 6px;
-        }
+        .badge { display: inline-block; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 8px; border-radius: 6px; }
         .badge-app  { background: rgba(59,130,246,0.15); color: #60a5fa; }
         .badge-type { background: rgba(16,185,129,0.15); color: #34d399; }
         .badge-new  { background: rgba(245,158,11,0.15); color: #fbbf24; animation: pulse-badge 2s infinite; }
-        .badge-status-ok   { background: rgba(16,185,129,0.15); color: #34d399; }
-        .badge-status-warn { background: rgba(245,158,11,0.15); color: #fbbf24; }
-        .badge-status-err  { background: rgba(239,68,68,0.15); color: #f87171; }
-
-        /* ── DEBRID BADGES ── */
         .badge-debrid-free     { background: rgba(16,185,129,0.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
         .badge-debrid-optional { background: rgba(245,158,11,0.12); color: #fcd34d; border: 1px solid rgba(245,158,11,0.25); }
         .badge-debrid-required { background: rgba(239,68,68,0.12); color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
+        /* NEW: platform badges */
+        .badge-platform { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+        @keyframes pulse-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-        @keyframes pulse-badge {
-            0%, 100% { opacity: 1; } 50% { opacity: 0.6; }
-        }
-
-        .fav-btn {
-            background: none; border: none; cursor: pointer;
-            color: var(--muted); font-size: 18px; line-height: 1;
-            transition: transform 0.2s, color 0.2s; padding: 2px;
-        }
+        .fav-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 18px; line-height: 1; transition: transform 0.2s, color 0.2s; padding: 2px; }
         .fav-btn:hover { transform: scale(1.3); }
         .fav-btn.active { color: #ef4444; }
+        /* NEW: compare toggle button */
+        .compare-toggle { background: none; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--muted); font-size: 11px; font-weight: 700; line-height: 1; transition: all 0.2s; padding: 4px 8px; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .compare-toggle:hover { color: var(--text); border-color: rgba(59,130,246,0.5); }
+        .compare-toggle.active { background: rgba(59,130,246,0.15); color: #60a5fa; border-color: rgba(59,130,246,0.4); }
 
         .stars { display: flex; gap: 2px; }
         .star { font-size: 13px; cursor: pointer; color: var(--surface2); transition: color 0.15s; }
         .star.filled { color: #f59e0b; }
-        .star:hover { color: #fbbf24; }
 
         .card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; }
-        .btn {
-            flex: 1; padding: 9px 0; border-radius: 10px; border: none;
-            font-size: 12px; font-weight: 700; cursor: pointer;
-            transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
-            text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center;
-        }
+        .btn { flex: 1; padding: 9px 0; border-radius: 10px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; }
         .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
         .btn-secondary:hover { border-color: rgba(255,255,255,0.2); }
         .btn-primary { background: var(--accent); color: #fff; }
         .btn-primary:hover { background: #2563eb; }
-        .btn-success { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
 
-        .url-mono {
-            font-size: 11px; font-family: 'SF Mono', 'Fira Code', monospace;
-            background: var(--surface2); border: 1px solid var(--border);
-            border-radius: 8px; padding: 8px 10px;
-            color: var(--muted); overflow: hidden; text-overflow: ellipsis;
-            white-space: nowrap; margin-top: 8px; margin-bottom: 0;
-        }
+        .url-mono { font-size: 11px; font-family: 'SF Mono', 'Fira Code', monospace; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 8px; }
 
-        .last-seen-section {
-            max-width: 1200px; margin: 0 auto 24px;
-            padding: 0 16px;
-        }
-        .last-seen-title {
-            font-size: 11px; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 1.5px; color: var(--muted); margin-bottom: 10px;
-        }
+        .last-seen-section { max-width: 1200px; margin: 0 auto 24px; padding: 0 16px; }
+        .last-seen-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 10px; }
         .last-seen-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-        .seen-chip {
-            font-size: 12px; font-weight: 600; padding: 5px 12px;
-            border-radius: 8px; background: var(--surface2); border: 1px solid var(--border);
-            color: var(--text); cursor: pointer; transition: all 0.2s;
-        }
+        .seen-chip { font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); cursor: pointer; transition: all 0.2s; }
         .seen-chip:hover { border-color: var(--accent); color: #60a5fa; }
 
-        #toast {
-            position: fixed; bottom: 24px; left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            padding: 10px 20px; border-radius: 999px;
-            font-size: 13px; font-weight: 700; z-index: 9999;
-            transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
-            opacity: 0; pointer-events: none; white-space: nowrap;
-            background: #1e293b; border: 1px solid var(--border);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-        }
+        #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 9999; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s; opacity: 0; pointer-events: none; white-space: nowrap; background: #1e293b; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        #modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.75);
-            z-index: 1000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 16px;
-            backdrop-filter: blur(4px);
-        }
+        #modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 16px; backdrop-filter: blur(4px); }
         #modal-overlay.open { opacity: 1; pointer-events: all; }
-        #modal-box {
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 24px; width: 100%; max-width: 580px; max-height: 88vh;
-            overflow-y: auto; transform: scale(0.93) translateY(20px);
-            transition: transform 0.3s cubic-bezier(.34,1.4,.64,1);
-        }
+        #modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 580px; max-height: 88vh; overflow-y: auto; transform: scale(0.93) translateY(20px); transition: transform 0.3s cubic-bezier(.34,1.4,.64,1); }
         #modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
 
-        .step-num {
-            min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-            border-radius: 50%; background: rgba(59,130,246,0.15); color: #60a5fa;
-            font-size: 11px; font-weight: 800; flex-shrink: 0;
-        }
+        /* NEW: Compare modal */
+        #compare-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 16px; backdrop-filter: blur(4px); }
+        #compare-overlay.open { opacity: 1; pointer-events: all; }
+        #compare-box { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 900px; max-height: 88vh; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s cubic-bezier(.34,1.4,.64,1); }
+        #compare-overlay.open #compare-box { transform: scale(1); }
+        .compare-col { flex: 1; min-width: 0; }
+        .compare-row { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+        .compare-row:last-child { border-bottom: none; }
+        .compare-cell { flex: 1; padding: 12px 16px; font-size: 13px; border-right: 1px solid var(--border); }
+        .compare-cell:last-child { border-right: none; }
+        .compare-cell.label { color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background: var(--surface2); }
 
+        .step-num { min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(59,130,246,0.15); color: #60a5fa; font-size: 11px; font-weight: 800; flex-shrink: 0; }
         #emptyState { display: none; text-align: center; padding: 80px 16px; color: var(--muted); }
-
         #mobileMenu { display: none; }
         #mobileMenu.open { display: block; }
-
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.4); border-radius: 99px; }
-
-        .announce-bar {
-            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(16,185,129,0.1));
-            border-bottom: 1px solid var(--border);
-            padding: 8px 16px; text-align: center;
-            font-size: 12px; color: var(--muted); font-weight: 500;
-        }
+        .announce-bar { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(16,185,129,0.1)); border-bottom: 1px solid var(--border); padding: 8px 16px; text-align: center; font-size: 12px; color: var(--muted); font-weight: 500; }
         .announce-bar strong { color: var(--text); }
+        .update-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #34d399; margin-right: 5px; vertical-align: middle; animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } }
+        #progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, #3b82f6, #34d399); z-index: 9999; transition: width 0.3s ease; }
 
-        .update-dot {
-            display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-            background: #34d399; margin-right: 5px; vertical-align: middle;
-            animation: pulse-dot 2s infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
-        }
+        /* NEW: Note area in modal */
+        .note-area { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 12px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; resize: vertical; min-height: 80px; transition: border-color 0.2s; }
+        .note-area:focus { border-color: var(--accent); }
+        .note-area::placeholder { color: var(--muted); }
+        .has-note::after { content: '📝'; position: absolute; top: 10px; right: 10px; font-size: 12px; }
 
-        #progress-bar {
-            position: fixed; top: 0; left: 0; height: 2px; width: 0%;
-            background: linear-gradient(90deg, #3b82f6, #34d399);
-            z-index: 9999; transition: width 0.3s ease;
-        }
+        /* highlight fuzzy match */
+        mark { background: rgba(245,158,11,0.25); color: inherit; border-radius: 3px; padding: 0 2px; }
 
-        @media (max-width: 640px) {
-            .hero { padding: 40px 16px 32px; }
-            .stats-bar { gap: 24px; }
-            .stat-num { font-size: 22px; }
-        }
+        @media (max-width: 640px) { .hero { padding: 40px 16px 32px; } .stats-bar { gap: 24px; } .stat-num { font-size: 22px; } }
     </style>
 </head>
 <body class="min-h-screen">
@@ -376,9 +253,15 @@
 <div id="progress-bar"></div>
 <div id="toast"></div>
 
+<!-- NEW: New plugin notification banner -->
+<div class="new-banner" id="newBanner">
+    <span>🆕 <span id="newBannerText"></span> — görmek için tıkla</span>
+    <span class="close-banner" onclick="event.stopPropagation(); dismissBanner()">✕</span>
+</div>
+
 <div class="announce-bar">
     <span class="update-dot"></span>
-    <strong>PluginHub v2</strong> — Puanlama, son görüntülenenler ve karşılaştırma modu eklendi!
+    <strong>PluginHub v3</strong> — Fuzzy arama, cihaz filtresi, karşılaştırma modu, not alanı eklendi!
 </div>
 
 <nav>
@@ -464,6 +347,16 @@
                     <option value="required">💳 Ücretli (Debrid)</option>
                 </select>
             </div>
+            <!-- NEW: Platform filter -->
+            <div class="filter-group">
+                <label>Cihaz</label>
+                <select id="platformSelect" onchange="filterData()">
+                    <option value="all">Tüm Cihazlar</option>
+                    <option value="tv">📺 TV</option>
+                    <option value="mobile">📱 Mobil</option>
+                    <option value="web">🌐 Web</option>
+                </select>
+            </div>
             <div class="filter-group">
                 <label>Arama</label>
                 <input type="text" id="searchInput" oninput="filterData()" placeholder="🔍 Eklenti veya içerik ara..." autocomplete="off">
@@ -475,7 +368,7 @@
 
     <div class="result-bar">
         <span id="resultCount"></span>
-        <div class="flex gap-8" style="gap:8px">
+        <div style="display:flex;gap:8px">
             <button onclick="shareCurrentFilter()" class="nav-btn" style="font-size:11px">🔗 Paylaş</button>
         </div>
     </div>
@@ -491,6 +384,15 @@
     </div>
 </main>
 
+<!-- Compare floating bar -->
+<div id="compare-bar">
+    <div id="compare-bar-label">Karşılaştır</div>
+    <div id="compare-bar-items"></div>
+    <button id="compare-btn" onclick="openCompareModal()">Karşılaştır →</button>
+    <button id="compare-clear" onclick="clearCompare()">✕</button>
+</div>
+
+<!-- Detail Modal -->
 <div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div id="modal-box" class="p-6 md:p-8">
         <div class="flex justify-between items-start mb-5">
@@ -499,7 +401,10 @@
                 <h2 id="modal-title" style="font-size:22px;font-weight:800;letter-spacing:-0.5px"></h2>
                 <div id="modal-date" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
             </div>
-            <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px;transition:color 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">✕</button>
+            <div style="display:flex;gap:8px;align-items:center">
+                <button id="modal-share-btn" onclick="sharePlugin()" class="nav-btn" style="font-size:11px;padding:6px 10px">🔗</button>
+                <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px;transition:color 0.2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">✕</button>
+            </div>
         </div>
 
         <div id="modal-rating-section" class="mb-5">
@@ -524,94 +429,62 @@
             </div>
         </div>
 
+        <!-- NEW: Personal note area -->
+        <div class="mb-5">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Kişisel Notum</p>
+            <textarea id="modal-note" class="note-area" placeholder="Bu eklenti hakkında bir not bırak..."></textarea>
+            <button onclick="saveNote()" class="btn btn-secondary" style="margin-top:8px;flex:none;width:auto;padding:8px 16px;font-size:12px">Notu Kaydet</button>
+        </div>
+
         <div id="modal-guide"></div>
     </div>
 </div>
 
+<!-- NEW: Compare Modal -->
+<div id="compare-overlay" onclick="closeCompareOnBackdrop(event)">
+    <div id="compare-box" class="p-6 md:p-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 style="font-size:20px;font-weight:800">Eklenti Karşılaştırması</h2>
+            <button onclick="closeCompareModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px">✕</button>
+        </div>
+        <div id="compare-table"></div>
+    </div>
+</div>
+
 <script>
-// ═══════════════════════════════
-// DATA & STATE
-// ═══════════════════════════════
+// ─── STATE ───────────────────────────────
 let plugins = [];
-let favorites = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
-let ratings   = JSON.parse(localStorage.getItem('ph_ratings')   || '{}');
-let lastSeen  = JSON.parse(localStorage.getItem('ph_lastseen')  || '[]');
+let fuse;
+let favorites  = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
+let ratings    = JSON.parse(localStorage.getItem('ph_ratings')   || '{}');
+let lastSeen   = JSON.parse(localStorage.getItem('ph_lastseen')  || '[]');
+let notes      = JSON.parse(localStorage.getItem('ph_notes')     || '{}');
 let showFavsOnly = false;
-let isLight = localStorage.getItem('ph_theme') === 'light';
+let compareList  = []; // max 3
+let currentModalItem = null;
 
-if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
-
-// ── DEBRID BADGE HELPER ──
-function debridBadge(debrid) {
-    if (!debrid) return '';
-    const map = {
-        'free':     ['badge-debrid-free',     '✅ Ücretsiz'],
-        'optional': ['badge-debrid-optional',  '⚡ Debrid Opsiyonel'],
-        'required': ['badge-debrid-required',  '💳 Debrid Gerekli'],
-    };
-    const [cls, label] = map[debrid] || [];
-    if (!cls) return '';
-    return `<span class="badge ${cls}">${label}</span>`;
+// ─── THEME: prefer system if no manual override ──
+const manualTheme = localStorage.getItem('ph_theme');
+let isLight;
+if (manualTheme) {
+    isLight = manualTheme === 'light';
+} else {
+    isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
 }
-
-// ── INSTALL GUIDES ──
-const installGuides = {
-    stremio: {
-        title: "Stremio'ya Nasıl Kurulur?",
-        steps: [
-            { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak manifest URL'yi kopyalayın." },
-            { icon: "🌐", text: "Stremio Web (<em>web.stremio.com</em>) veya masaüstü uygulamasını açın." },
-            { icon: "🔗", text: "Sol menüden <strong>Eklentiler</strong> simgesine tıklayın." },
-            { icon: "➕", text: "Kopyaladığınız URL'yi eklenti ekleme alanına yapıştırın." },
-            { icon: "✅", text: "Açılan pencerede <strong>Install</strong> butonuna basın." }
-        ]
-    },
-    nuvio: {
-        title: "Nuvio'ya Nasıl Kurulur?",
-        steps: [
-            { icon: "📋", text: "Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak URL'yi kopyalayın." },
-            { icon: "📺", text: "Nuvio uygulamasını açın ve <strong>Addons</strong> bölümüne gidin." },
-            { icon: "📲", text: "<strong>Manage from phone</strong> butonuna tıklayın." },
-            { icon: "📷", text: "Çıkan QR kodu telefonunuzda okutun." },
-            { icon: "🔗", text: "Açılan web sitesinde Add sekmesine tıklayın, URL'yi yapıştırın." },
-            { icon: "✅", text: "Save Changes'e basın ve TV'ye gelen bildirimi onaylayın." }
-        ]
-    },
-    cloudstream: {
-        title: "CloudStream'e Repo Nasıl Eklenir?",
-        steps: [
-            { icon: "📱", text: "CloudStream uygulamasını açın." },
-            { icon: "⚙️", text: "<strong>Ayarlar → Eklentiler</strong> bölümüne gidin." },
-            { icon: "🔗", text: "\"<strong>Repo Ekle</strong>\" seçeneğine dokunun." },
-            { icon: "✍️", text: "Repo adını yazın veya tam URL'yi girin." },
-            { icon: "⬇️", text: "İstediğiniz eklentiyi seçip <strong>İndir</strong>'e basın." }
-        ]
-    },
-    downloader: {
-        title: "Downloader ile APK Kurulumu",
-        steps: [
-            { icon: "📺", text: "TV'nizde <strong>Downloader</strong> uygulamasını açın." },
-            { icon: "🔢", text: "Yukarıdaki 7 haneli <strong>kodu</strong> not alın." },
-            { icon: "✍️", text: "Downloader'da URL/kod alanına girin." },
-            { icon: "⬇️", text: "<strong>Go</strong>'ya basın; APK otomatik indirilir." },
-            { icon: "✅", text: "İndirme sonrası <strong>Yükle</strong>'ye basın." }
-        ]
-    },
-    link: {
-        title: "Bu Uygulamaya Erişim",
-        steps: [
-            { icon: "🔗", text: "Yukarıdaki <strong>Siteye Git</strong> butonuna tıklayın." },
-            { icon: "📥", text: "Anasayfadan uygulamayı indirin." },
-            { icon: "✅", text: "Cihazınıza göre kurulum talimatlarını uygulayın." }
-        ]
+if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
+// Listen for OS theme change (only if no manual override)
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem('ph_theme')) {
+        isLight = e.matches;
+        document.body.classList.toggle('light', isLight);
+        document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
     }
-};
+});
 
-// ═══════════════════════════════
-// HELPERS
-// ═══════════════════════════════
+// ─── HELPERS ─────────────────────────────
 function pluginKey(p) { return `${p.app}|${p.name}|${p.type}`; }
 function isFav(p) { return favorites.includes(pluginKey(p)); }
+function isComparing(p) { return compareList.some(c => pluginKey(c) === pluginKey(p)); }
 
 function showToast(msg, color='#1e293b') {
     const t = document.getElementById('toast');
@@ -621,10 +494,7 @@ function showToast(msg, color='#1e293b') {
     clearTimeout(window._tt);
     window._tt = setTimeout(() => t.classList.remove('show'), 2200);
 }
-
-function copyText(text) {
-    navigator.clipboard.writeText(text).then(() => showToast('✓ Kopyalandı!', '#10b981'));
-}
+function copyText(text) { navigator.clipboard.writeText(text).then(() => showToast('✓ Kopyalandı!', '#10b981')); }
 
 function toggleTheme() {
     isLight = !isLight;
@@ -632,10 +502,7 @@ function toggleTheme() {
     localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
     document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
 }
-
-function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('open');
-}
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 
 function toggleFav(key, btn) {
     const idx = favorites.indexOf(key);
@@ -646,23 +513,116 @@ function toggleFav(key, btn) {
     btn.textContent = favorites.includes(key) ? '❤' : '♡';
     if (showFavsOnly) filterData();
 }
-
 function toggleFavFilter() {
     showFavsOnly = !showFavsOnly;
-    const btns = ['favFilterBtn','favFilterBtnMobile'].map(id => document.getElementById(id)).filter(Boolean);
-    btns.forEach(b => {
+    ['favFilterBtn','favFilterBtnMobile'].map(id => document.getElementById(id)).filter(Boolean).forEach(b => {
         b.classList.toggle('active', showFavsOnly);
         b.innerHTML = showFavsOnly ? '<span>❤</span> Favoriler' : '<span>♡</span> Favoriler';
     });
     filterData();
 }
 
+// ─── COMPARE ─────────────────────────────
+function toggleCompare(p, btn) {
+    const key = pluginKey(p);
+    const idx = compareList.findIndex(c => pluginKey(c) === key);
+    if (idx === -1) {
+        if (compareList.length >= 3) { showToast('En fazla 3 eklenti karşılaştırabilirsin', '#ef4444'); return; }
+        compareList.push(p);
+        btn && btn.classList.add('active');
+        btn && (btn.textContent = '✓ Seçildi');
+    } else {
+        compareList.splice(idx, 1);
+        btn && btn.classList.remove('active');
+        btn && (btn.textContent = '+ Karşılaştır');
+    }
+    updateCompareBar();
+    // Update card highlight
+    document.querySelectorAll('.plugin-card').forEach(card => {
+        const cardKey = card.dataset.key;
+        card.classList.toggle('compare-selected', compareList.some(c => pluginKey(c) === cardKey));
+    });
+}
+function updateCompareBar() {
+    const bar = document.getElementById('compare-bar');
+    const items = document.getElementById('compare-bar-items');
+    if (compareList.length < 1) { bar.classList.remove('visible'); return; }
+    bar.classList.add('visible');
+    items.innerHTML = compareList.map(p => `<span class="compare-chip">${p.name}</span>`).join('');
+    document.getElementById('compare-btn').disabled = compareList.length < 2;
+}
+function clearCompare() {
+    compareList = [];
+    updateCompareBar();
+    document.querySelectorAll('.plugin-card').forEach(c => c.classList.remove('compare-selected'));
+    document.querySelectorAll('.compare-toggle').forEach(b => { b.classList.remove('active'); b.textContent = '+ Karşılaştır'; });
+}
+function openCompareModal() {
+    if (compareList.length < 2) return;
+    const rows = [
+        { label: 'Uygulama',  key: p => p.app },
+        { label: 'Kategori',  key: p => p.type },
+        { label: 'Debrid',    key: p => ({free:'✅ Ücretsiz', optional:'⚡ Opsiyonel', required:'💳 Gerekli'}[p.debrid] || '-') },
+        { label: 'Platform',  key: p => (p.platform||[]).map(x=>({tv:'📺 TV',mobile:'📱 Mobil',web:'🌐 Web'}[x]||x)).join(', ') },
+        { label: 'Yeni mi',   key: p => p.isNew ? '🆕 Evet' : 'Hayır' },
+        { label: 'Puan',      key: p => { const r = ratings[pluginKey(p)] || 0; return r ? '★'.repeat(r) + '☆'.repeat(5-r) : '—'; } },
+        { label: 'Not',       key: p => notes[pluginKey(p)] || '—' },
+    ];
+    const urlMatch = p => { const m = p.desc?.match(/(https?:\/\/[^\s]+)/g); return m ? `<a href="${m[0]}" target="_blank" style="color:#60a5fa;word-break:break-all;font-size:11px">${m[0].substring(0,50)}...</a>` : '—'; };
+
+    let html = `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px">`;
+    // header
+    html += `<tr>`;
+    html += `<td style="padding:12px 16px;background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);border-bottom:1px solid var(--border);width:90px">Alan</td>`;
+    compareList.forEach(p => {
+        html += `<td style="padding:12px 16px;font-weight:800;font-size:15px;border-bottom:1px solid var(--border);border-left:1px solid var(--border)">${p.name}</td>`;
+    });
+    html += `</tr>`;
+    rows.forEach(row => {
+        html += `<tr>`;
+        html += `<td style="padding:10px 16px;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;background:var(--surface2);border-bottom:1px solid var(--border)">${row.label}</td>`;
+        compareList.forEach(p => {
+            html += `<td style="padding:10px 16px;border-bottom:1px solid var(--border);border-left:1px solid var(--border)">${row.key(p)}</td>`;
+        });
+        html += `</tr>`;
+    });
+    // URL row
+    html += `<tr>`;
+    html += `<td style="padding:10px 16px;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;background:var(--surface2)">Bağlantı</td>`;
+    compareList.forEach(p => { html += `<td style="padding:10px 16px;border-left:1px solid var(--border)">${urlMatch(p)}</td>`; });
+    html += `</tr></table></div>`;
+
+    document.getElementById('compare-table').innerHTML = html;
+    document.getElementById('compare-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeCompareModal() { document.getElementById('compare-overlay').classList.remove('open'); document.body.style.overflow = ''; }
+function closeCompareOnBackdrop(e) { if (e.target === document.getElementById('compare-overlay')) closeCompareModal(); }
+
+// ─── NOTES ───────────────────────────────
+function saveNote() {
+    if (!currentModalItem) return;
+    const key = pluginKey(currentModalItem);
+    const val = document.getElementById('modal-note').value.trim();
+    if (val) notes[key] = val; else delete notes[key];
+    localStorage.setItem('ph_notes', JSON.stringify(notes));
+    showToast('📝 Not kaydedildi', '#10b981');
+}
+
+// ─── SHARE PLUGIN ────────────────────────
+function sharePlugin() {
+    if (!currentModalItem) return;
+    const key = pluginKey(currentModalItem);
+    const url = window.location.origin + window.location.pathname + '?modal=' + encodeURIComponent(key);
+    navigator.clipboard.writeText(url).then(() => showToast('🔗 Paylaşım linki kopyalandı!', '#3b82f6'));
+}
+
+// ─── RATINGS ─────────────────────────────
 function setRating(key, val) {
     ratings[key] = val;
     localStorage.setItem('ph_ratings', JSON.stringify(ratings));
     showToast(`⭐ ${val}/5 puan verildi`);
 }
-
 function renderStars(key, container) {
     const current = ratings[key] || 0;
     container.innerHTML = '';
@@ -671,12 +631,13 @@ function renderStars(key, container) {
         s.className = 'star' + (i <= current ? ' filled' : '');
         s.textContent = '★';
         s.onclick = () => { setRating(key, i); renderStars(key, container); };
-        s.onmouseover = () => { container.querySelectorAll('.star').forEach((el,j) => el.classList.toggle('filled', j < i)); };
-        s.onmouseout  = () => { container.querySelectorAll('.star').forEach((el,j) => el.classList.toggle('filled', j < ratings[key]||0)); };
+        s.onmouseover = () => container.querySelectorAll('.star').forEach((el,j) => el.classList.toggle('filled', j < i));
+        s.onmouseout  = () => container.querySelectorAll('.star').forEach((el,j) => el.classList.toggle('filled', j < (ratings[key]||0)));
         container.appendChild(s);
     }
 }
 
+// ─── LAST SEEN ────────────────────────────
 function addLastSeen(item) {
     const key = pluginKey(item);
     lastSeen = lastSeen.filter(k => k !== key);
@@ -685,112 +646,157 @@ function addLastSeen(item) {
     localStorage.setItem('ph_lastseen', JSON.stringify(lastSeen));
     renderLastSeen();
 }
-
 function renderLastSeen() {
     const section = document.getElementById('lastSeenSection');
     const chips   = document.getElementById('lastSeenChips');
     const items   = lastSeen.map(k => plugins.find(p => pluginKey(p) === k)).filter(Boolean);
     if (!items.length) { section.style.display = 'none'; return; }
     section.style.display = 'block';
-    chips.innerHTML = items.map(p => `
-        <div class="seen-chip" onclick='openModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>${p.name}</div>
-    `).join('');
+    chips.innerHTML = items.map(p => `<div class="seen-chip" onclick='openModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>${p.name}</div>`).join('');
 }
 
-function statusBadge(status) {
-    if (!status) return '';
-    const map = { 'aktif': ['badge-status-ok','✅ Aktif'], 'kararsız': ['badge-status-warn','⚠️ Kararsız'], 'çalışmıyor': ['badge-status-err','❌ Çalışmıyor'] };
-    const [cls, label] = map[status?.toLowerCase()] || ['badge-status-ok','✅ Aktif'];
-    return `<span class="badge ${cls}">${label}</span>`;
+// ─── NEW PLUGIN BANNER ───────────────────
+function checkNewPlugins() {
+    const last = parseInt(localStorage.getItem('ph_lastvisit') || '0');
+    const newItems = plugins.filter(p => p.isNew);
+    if (newItems.length > 0 && last < Date.now() - 3600000) {
+        const banner = document.getElementById('newBanner');
+        const count = newItems.length;
+        document.getElementById('newBannerText').textContent = `${count} yeni eklenti var`;
+        banner.classList.add('visible');
+        banner.addEventListener('click', () => {
+            dismissBanner();
+            document.getElementById('typeSelect').value = 'all';
+            document.getElementById('appSelect').value = 'all';
+            document.getElementById('searchInput').value = '';
+            // Filter only new items by triggering a special mode
+            const filtered = plugins.filter(p => p.isNew);
+            renderCards(filtered);
+            document.getElementById('resultCount').textContent = `${filtered.length} yeni eklenti`;
+            showToast('🆕 Yeni eklentiler gösteriliyor');
+        });
+    }
+    localStorage.setItem('ph_lastvisit', Date.now().toString());
+}
+function dismissBanner() { document.getElementById('newBanner').classList.remove('visible'); }
+
+// ─── DEBRID + PLATFORM BADGES ────────────
+function debridBadge(debrid) {
+    const map = { free:['badge-debrid-free','✅ Ücretsiz'], optional:['badge-debrid-optional','⚡ Opsiyonel'], required:['badge-debrid-required','💳 Debrid'] };
+    const [cls, label] = map[debrid] || [];
+    return cls ? `<span class="badge ${cls}">${label}</span>` : '';
+}
+function platformBadges(platform) {
+    if (!platform || !platform.length) return '';
+    const map = { tv:'📺 TV', mobile:'📱 Mobil', web:'🌐 Web' };
+    return platform.map(p => map[p] ? `<span class="badge badge-platform">${map[p]}</span>` : '').join('');
 }
 
+// ─── INSTALL GUIDES ──────────────────────
+const installGuides = {
+    stremio: { title: "Stremio'ya Nasıl Kurulur?", steps: [{icon:"📋",text:"Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak manifest URL'yi kopyalayın."},{icon:"🌐",text:"Stremio Web (<em>web.stremio.com</em>) veya masaüstü uygulamasını açın."},{icon:"🔗",text:"Sol menüden <strong>Eklentiler</strong> simgesine tıklayın."},{icon:"➕",text:"Kopyaladığınız URL'yi eklenti ekleme alanına yapıştırın."},{icon:"✅",text:"Açılan pencerede <strong>Install</strong> butonuna basın."}] },
+    nuvio: { title: "Nuvio'ya Nasıl Kurulur?", steps: [{icon:"📋",text:"Yukarıdaki <strong>Kopyala</strong> butonuna tıklayarak URL'yi kopyalayın."},{icon:"📺",text:"Nuvio uygulamasını açın ve <strong>Addons</strong> bölümüne gidin."},{icon:"📲",text:"<strong>Manage from phone</strong> butonuna tıklayın."},{icon:"📷",text:"Çıkan QR kodu telefonunuzda okutun."},{icon:"🔗",text:"Açılan web sitesinde Add sekmesine tıklayın, URL'yi yapıştırın."},{icon:"✅",text:"Save Changes'e basın ve TV'ye gelen bildirimi onaylayın."}] },
+    cloudstream: { title: "CloudStream'e Repo Nasıl Eklenir?", steps: [{icon:"📱",text:"CloudStream uygulamasını açın."},{icon:"⚙️",text:"<strong>Ayarlar → Eklentiler</strong> bölümüne gidin."},{icon:"🔗",text:"\"<strong>Repo Ekle</strong>\" seçeneğine dokunun."},{icon:"✍️",text:"Repo adını yazın veya tam URL'yi girin."},{icon:"⬇️",text:"İstediğiniz eklentiyi seçip <strong>İndir</strong>'e basın."}] },
+    downloader: { title: "Downloader ile APK Kurulumu", steps: [{icon:"📺",text:"TV'nizde <strong>Downloader</strong> uygulamasını açın."},{icon:"🔢",text:"Yukarıdaki 7 haneli <strong>kodu</strong> not alın."},{icon:"✍️",text:"Downloader'da URL/kod alanına girin."},{icon:"⬇️",text:"<strong>Go</strong>'ya basın; APK otomatik indirilir."},{icon:"✅",text:"İndirme sonrası <strong>Yükle</strong>'ye basın."}] },
+    link: { title: "Bu Uygulamaya Erişim", steps: [{icon:"🔗",text:"Yukarıdaki <strong>Siteye Git</strong> butonuna tıklayın."},{icon:"📥",text:"Anasayfadan uygulamayı indirin."},{icon:"✅",text:"Cihazınıza göre kurulum talimatlarını uygulayın."}] }
+};
+
+// ─── URL PARAMS ──────────────────────────
 function applyURLParams() {
     const p = new URLSearchParams(window.location.search);
-    if (p.get('app'))    document.getElementById('appSelect').value    = p.get('app');
-    if (p.get('type'))   document.getElementById('typeSelect').value   = p.get('type');
-    if (p.get('debrid')) document.getElementById('debridSelect').value = p.get('debrid');
-    if (p.get('q'))      document.getElementById('searchInput').value  = p.get('q');
+    if (p.get('app'))      document.getElementById('appSelect').value      = p.get('app');
+    if (p.get('type'))     document.getElementById('typeSelect').value     = p.get('type');
+    if (p.get('debrid'))   document.getElementById('debridSelect').value   = p.get('debrid');
+    if (p.get('platform')) document.getElementById('platformSelect').value = p.get('platform');
+    if (p.get('q'))        document.getElementById('searchInput').value    = p.get('q');
+    window._pendingModal = p.get('modal') || null;
 }
-
-function updateURL(app, type, debrid, q) {
+function updateURL(app, type, debrid, platform, q) {
     const p = new URLSearchParams();
-    if (app !== 'all')    p.set('app', app);
-    if (type !== 'all')   p.set('type', type);
-    if (debrid !== 'all') p.set('debrid', debrid);
+    if (app !== 'all')      p.set('app', app);
+    if (type !== 'all')     p.set('type', type);
+    if (debrid !== 'all')   p.set('debrid', debrid);
+    if (platform !== 'all') p.set('platform', platform);
     if (q) p.set('q', q);
     history.replaceState({}, '', window.location.pathname + (p.toString() ? '?' + p.toString() : ''));
 }
-
 function shareCurrentFilter() {
     navigator.clipboard.writeText(window.location.href).then(() => showToast('🔗 Link kopyalandı!', '#3b82f6'));
 }
 
+// ─── TABS ────────────────────────────────
 function buildCategoryTabs() {
     const types = ['all', ...new Set(plugins.map(p => p.type))];
     const container = document.getElementById('categoryTabs');
-    container.innerHTML = types.map(t => `
-        <button class="tab-pill ${t==='all'?'active':''}" onclick="setTypeTab('${t}')" data-type="${t}">
-            ${t === 'all' ? 'Tümü' : t}
-        </button>
-    `).join('');
+    container.innerHTML = types.map(t => `<button class="tab-pill ${t==='all'?'active':''}" onclick="setTypeTab('${t}')" data-type="${t}">${t === 'all' ? 'Tümü' : t}</button>`).join('');
 }
-
 function setTypeTab(type) {
     document.getElementById('typeSelect').value = type === 'all' ? 'all' : type;
     document.querySelectorAll('.tab-pill').forEach(b => b.classList.toggle('active', b.dataset.type === type));
     filterData();
 }
 
+// ─── SKELETON ────────────────────────────
 function showSkeleton() {
-    const g = document.getElementById('skeletonGrid');
-    g.innerHTML = Array(6).fill(0).map(() => `
-        <div class="skeleton-card">
-            <div style="display:flex;gap:8px;margin-bottom:16px">
-                <div class="skel-line" style="width:60px;height:20px"></div>
-                <div class="skel-line" style="width:60px;height:20px"></div>
-            </div>
-            <div class="skel-line" style="width:70%"></div>
-            <div class="skel-line" style="width:90%;margin-top:8px"></div>
-            <div class="skel-line" style="width:50%;margin-top:24px"></div>
-        </div>
-    `).join('');
+    document.getElementById('skeletonGrid').innerHTML = Array(6).fill(0).map(() => `<div class="skeleton-card"><div style="display:flex;gap:8px;margin-bottom:16px"><div class="skel-line" style="width:60px;height:20px"></div><div class="skel-line" style="width:60px;height:20px"></div></div><div class="skel-line" style="width:70%"></div><div class="skel-line" style="width:90%;margin-top:8px"></div><div class="skel-line" style="width:50%;margin-top:24px"></div></div>`).join('');
 }
+function hideSkeleton() { document.getElementById('skeletonGrid').innerHTML = ''; }
 
-function hideSkeleton() {
-    document.getElementById('skeletonGrid').innerHTML = '';
-}
-
+// ─── FILTER + FUSE ────────────────────────
 function filterData() {
-    const app    = document.getElementById('appSelect').value;
-    const type   = document.getElementById('typeSelect').value;
-    const debrid = document.getElementById('debridSelect').value;
-    const q      = document.getElementById('searchInput').value.toLowerCase().trim();
-    updateURL(app, type, debrid, q);
+    const app      = document.getElementById('appSelect').value;
+    const type     = document.getElementById('typeSelect').value;
+    const debrid   = document.getElementById('debridSelect').value;
+    const platform = document.getElementById('platformSelect').value;
+    const q        = document.getElementById('searchInput').value.trim();
+    updateURL(app, type, debrid, platform, q);
 
-    document.querySelectorAll('.tab-pill').forEach(b => {
-        const t = b.dataset.type;
-        b.classList.toggle('active', t === (type === 'all' ? 'all' : type));
-    });
+    document.querySelectorAll('.tab-pill').forEach(b => b.classList.toggle('active', b.dataset.type === (type === 'all' ? 'all' : type)));
 
-    const filtered = plugins.filter(p => {
-        const matchApp    = app    === 'all' || p.app    === app;
-        const matchType   = type   === 'all' || p.type   === type;
-        const matchDebrid = debrid === 'all' || p.debrid === debrid;
-        const matchQ      = !q || p.name.toLowerCase().includes(q) || p.desc?.toLowerCase().includes(q);
-        const matchFav    = !showFavsOnly || isFav(p);
-        return matchApp && matchType && matchDebrid && matchQ && matchFav;
-    });
+    let pool = plugins;
 
-    renderCards(filtered);
+    // Apply dropdown filters first
+    if (app !== 'all')      pool = pool.filter(p => p.app === app);
+    if (type !== 'all')     pool = pool.filter(p => p.type === type);
+    if (debrid !== 'all')   pool = pool.filter(p => p.debrid === debrid);
+    if (platform !== 'all') pool = pool.filter(p => (p.platform||[]).includes(platform));
+    if (showFavsOnly)       pool = pool.filter(p => isFav(p));
+
+    // Fuzzy search on the filtered pool
+    let results;
+    if (q) {
+        const localFuse = new Fuse(pool, { keys: ['name','desc','type','app'], threshold: 0.4, includeMatches: true });
+        const fuseRes = localFuse.search(q);
+        results = fuseRes.map(r => ({ ...r.item, _matches: r.matches }));
+    } else {
+        results = pool;
+    }
+
+    renderCards(results, q);
 }
 
-function renderCards(data) {
+// ─── RENDER CARDS ────────────────────────
+function highlight(text, matches, key) {
+    if (!matches) return text;
+    const m = matches.find(m => m.key === key);
+    if (!m || !m.indices) return text;
+    let result = '';
+    let last = 0;
+    const s = String(text);
+    m.indices.forEach(([a, b]) => {
+        result += s.slice(last, a) + '<mark>' + s.slice(a, b+1) + '</mark>';
+        last = b + 1;
+    });
+    result += s.slice(last);
+    return result;
+}
+
+function renderCards(data, q) {
     const grid  = document.getElementById('resultsGrid');
     const empty = document.getElementById('emptyState');
     const count = document.getElementById('resultCount');
     grid.innerHTML = '';
     count.textContent = data.length > 0 ? `${data.length} eklenti bulundu` : '';
-
     if (!data.length) { empty.style.display = 'block'; return; }
     empty.style.display = 'none';
 
@@ -801,11 +807,15 @@ function renderCards(data) {
         const code      = codeMatch ? codeMatch[1] : null;
         const key       = pluginKey(item);
         const favActive = isFav(item);
+        const cmpActive = isComparing(item);
         const starCount = ratings[key] || 0;
+        const hasNote   = !!notes[key];
         const delay     = Math.min(i * 35, 350);
+        const displayName = highlight(item.name, item._matches, 'name');
 
         const card = document.createElement('div');
-        card.className = 'plugin-card';
+        card.className = 'plugin-card' + (cmpActive ? ' compare-selected' : '');
+        card.dataset.key = key;
         card.style.animationDelay = delay + 'ms';
         card.innerHTML = `
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
@@ -814,42 +824,27 @@ function renderCards(data) {
                     <span class="badge badge-type">${item.type}</span>
                     ${item.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
                     ${debridBadge(item.debrid)}
-                    ${statusBadge(item.status)}
+                    ${platformBadges(item.platform)}
                 </div>
-                <button class="fav-btn ${favActive ? 'active' : ''}"
-                    onclick="event.stopPropagation(); toggleFav('${key}', this)">
-                    ${favActive ? '❤' : '♡'}
-                </button>
+                <div style="display:flex;gap:6px;align-items:center">
+                    ${hasNote ? '<span title="Notun var" style="font-size:13px">📝</span>' : ''}
+                    <button class="fav-btn ${favActive ? 'active' : ''}" onclick="event.stopPropagation();toggleFav('${key}',this)">${favActive?'❤':'♡'}</button>
+                </div>
             </div>
-
-            <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.3">${item.name}</h3>
-
-            ${item.updatedAt ? `<div style="font-size:11px;color:var(--muted);margin-bottom:8px">📅 ${item.updatedAt}</div>` : ''}
-
+            <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.3">${displayName}</h3>
             <div style="flex:1;margin-bottom:12px">
-                ${url
-                    ? `<div class="url-mono">${url}</div>`
-                    : (code
-                        ? `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px">Downloader Kodu</div><span style="font-size:26px;font-weight:800;color:#60a5fa">${code}</span>`
-                        : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${(item.desc||'').replace(/(https?:\/\/[^\s]+)/g,'').trim().slice(0,80)}</p>`
-                    )
-                }
+                ${url ? `<div class="url-mono">${url}</div>`
+                     : code ? `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px">Downloader Kodu</div><span style="font-size:26px;font-weight:800;color:#60a5fa">${code}</span>`
+                     : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${(item.desc||'').replace(/(https?:\/\/[^\s]+)/g,'').trim().slice(0,80)}</p>`}
             </div>
-
-            <div style="display:flex;gap:3px;margin-bottom:12px" class="stars" id="stars-${key.replace(/[|]/g,'-')}">
-                ${Array.from({length:5},(_,j)=>`<span class="star ${j<starCount?'filled':''}" onclick="event.stopPropagation();setRating('${key}',${j+1});rerenderCardStars('${key}')">★</span>`).join('')}
+            <div style="display:flex;gap:3px;margin-bottom:12px" class="stars">
+                ${Array.from({length:5},(_,j)=>`<span class="star ${j<starCount?'filled':''}" onclick="event.stopPropagation();setRating('${key}',${j+1});rerenderCardStars(this.closest('.plugin-card'),${j+1},'${key}')">★</span>`).join('')}
             </div>
-
             <div class="card-actions" onclick="event.stopPropagation()">
-                ${url ? `
-                    <button onclick="copyText('${url}')" class="btn btn-secondary">Kopyala</button>
-                    <a href="${url}" target="_blank" class="btn btn-primary">Git ↗</a>
-                ` : (code ? `
-                    <button onclick="copyText('${code}')" class="btn btn-secondary">Kodu Kopyala</button>
-                    <button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary">Nasıl Yüklenir?</button>
-                ` : `
-                    <button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary" style="flex:2">Detaylar</button>
-                `)}
+                ${url ? `<button onclick="copyText('${url}')" class="btn btn-secondary">Kopyala</button><a href="${url}" target="_blank" class="btn btn-primary">Git ↗</a>`
+                     : code ? `<button onclick="copyText('${code}')" class="btn btn-secondary">Kodu Kopyala</button><button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary">Nasıl Yüklenir?</button>`
+                     : `<button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary" style="flex:2">Detaylar</button>`}
+                <button class="compare-toggle${cmpActive?' active':''}" onclick="toggleCompare(${JSON.stringify(item).replace(/'/g,"&#39;")},this)">${cmpActive?'✓ Seçildi':'+ Karşılaştır'}</button>
             </div>
         `;
         card.addEventListener('click', () => openModal(item));
@@ -857,15 +852,14 @@ function renderCards(data) {
     });
 }
 
-function rerenderCardStars(key) {
-    const el = document.getElementById('stars-' + key.replace(/[|]/g,'-'));
-    if (!el) return;
-    const count = ratings[key] || 0;
-    el.querySelectorAll('.star').forEach((s,j) => s.classList.toggle('filled', j < count));
+function rerenderCardStars(card, val, key) {
+    card.querySelectorAll('.star').forEach((s, j) => s.classList.toggle('filled', j < val));
 }
 
+// ─── MODAL ───────────────────────────────
 function openModal(item) {
     addLastSeen(item);
+    currentModalItem = item;
     const urlMatch  = item.desc?.match(/(https?:\/\/[^\s]+)/g);
     const url       = urlMatch ? urlMatch[0] : null;
     const codeMatch = item.desc?.match(/Downloader Kodu:\s*(\d+)/);
@@ -877,13 +871,12 @@ function openModal(item) {
         <span class="badge badge-type">${item.type}</span>
         ${item.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
         ${debridBadge(item.debrid)}
-        ${statusBadge(item.status)}
+        ${platformBadges(item.platform)}
     `;
     document.getElementById('modal-title').textContent = item.name;
     document.getElementById('modal-date').textContent  = item.updatedAt ? `📅 Son güncelleme: ${item.updatedAt}` : '';
 
-    const starsEl = document.getElementById('modal-stars');
-    renderStars(key, starsEl);
+    renderStars(key, document.getElementById('modal-stars'));
 
     const urlSec = document.getElementById('modal-url-section');
     if (url) {
@@ -900,18 +893,15 @@ function openModal(item) {
         document.getElementById('modal-code-copy-btn').onclick = () => copyText(code);
     } else codeSec.classList.add('hidden');
 
+    // Note
+    document.getElementById('modal-note').value = notes[key] || '';
+
     const guide   = installGuides[item.installGuide];
-    const guideEl = document.getElementById('modal-guide');
-    guideEl.innerHTML = guide ? `
+    document.getElementById('modal-guide').innerHTML = guide ? `
         <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:4px">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px">${guide.title}</p>
             <div style="display:flex;flex-direction:column;gap:10px">
-                ${guide.steps.map((s,i) => `
-                    <div style="display:flex;gap:12px;align-items:flex-start">
-                        <div class="step-num">${i+1}</div>
-                        <div style="font-size:13px;color:var(--muted);line-height:1.6;padding-top:3px">${s.icon} ${s.text}</div>
-                    </div>
-                `).join('')}
+                ${guide.steps.map((s,i)=>`<div style="display:flex;gap:12px;align-items:flex-start"><div class="step-num">${i+1}</div><div style="font-size:13px;color:var(--muted);line-height:1.6;padding-top:3px">${s.icon} ${s.text}</div></div>`).join('')}
             </div>
         </div>
     ` : '';
@@ -923,42 +913,23 @@ function openModal(item) {
 function closeModal() {
     document.getElementById('modal-overlay').classList.remove('open');
     document.body.style.overflow = '';
+    currentModalItem = null;
 }
+function closeModalOnBackdrop(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeCompareModal(); } });
 
-function closeModalOnBackdrop(e) {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-let searchHistory = JSON.parse(localStorage.getItem('ph_searchhistory') || '[]');
-const searchInput = document.getElementById('searchInput');
-searchInput.addEventListener('blur', () => {
-    const v = searchInput.value.trim();
-    if (v && !searchHistory.includes(v)) {
-        searchHistory.unshift(v);
-        searchHistory = searchHistory.slice(0, 8);
-        localStorage.setItem('ph_searchhistory', JSON.stringify(searchHistory));
-    }
-});
-
+// ─── STATS ───────────────────────────────
 function updateStats() {
     document.getElementById('statTotal').textContent = plugins.length;
-    document.getElementById('statNew').textContent = plugins.filter(p => p.isNew).length;
-    document.getElementById('statApps').textContent = new Set(plugins.map(p => p.app)).size;
+    document.getElementById('statNew').textContent   = plugins.filter(p => p.isNew).length;
+    document.getElementById('statApps').textContent  = new Set(plugins.map(p => p.app)).size;
 }
 
-function progressStart() {
-    const bar = document.getElementById('progress-bar');
-    bar.style.width = '0%'; bar.style.opacity = '1';
-    setTimeout(() => bar.style.width = '70%', 50);
-}
-function progressDone() {
-    const bar = document.getElementById('progress-bar');
-    bar.style.width = '100%';
-    setTimeout(() => { bar.style.opacity = '0'; bar.style.width = '0%'; }, 400);
-}
+// ─── PROGRESS ────────────────────────────
+function progressStart() { const b = document.getElementById('progress-bar'); b.style.width='0%'; b.style.opacity='1'; setTimeout(()=>b.style.width='70%',50); }
+function progressDone()  { const b = document.getElementById('progress-bar'); b.style.width='100%'; setTimeout(()=>{b.style.opacity='0';b.style.width='0%';},400); }
 
+// ─── BOOT ────────────────────────────────
 applyURLParams();
 showSkeleton();
 progressStart();
@@ -972,17 +943,18 @@ fetch('plugins.json')
         updateStats();
         buildCategoryTabs();
         renderLastSeen();
+        checkNewPlugins();
         filterData();
+        // Handle ?modal= deep link
+        if (window._pendingModal) {
+            const target = plugins.find(p => pluginKey(p) === decodeURIComponent(window._pendingModal));
+            if (target) setTimeout(() => openModal(target), 300);
+        }
     })
     .catch(() => {
-        hideSkeleton();
-        progressDone();
+        hideSkeleton(); progressDone();
         document.getElementById('emptyState').style.display = 'block';
-        document.getElementById('emptyState').innerHTML = `
-            <div style="font-size:48px;margin-bottom:16px">⚠️</div>
-            <p style="font-weight:700;font-size:16px;color:var(--text)">plugins.json yüklenemedi</p>
-            <p style="font-size:14px;margin-top:6px">Dosyanın aynı dizinde olduğundan emin olun.</p>
-        `;
+        document.getElementById('emptyState').innerHTML = `<div style="font-size:48px;margin-bottom:16px">⚠️</div><p style="font-weight:700;font-size:16px;color:var(--text)">plugins.json yüklenemedi</p><p style="font-size:14px;margin-top:6px">Dosyanın aynı dizinde olduğundan emin olun.</p>`;
     });
 </script>
 </body>
