@@ -29,7 +29,7 @@
   {"app": "Diğer", "type": "Dublaj", "name": "NetMirror", "desc": "Downloader Kodu: 6166931", "isNew": false, "installGuide": "downloader", "debrid": "free"},
   {"app": "Diğer", "type": "Spor", "name": "Netfly", "desc": "Bağlantı Link: https://netflyapp.com/", "isNew": false, "installGuide": "link", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "WebStreamr", "desc": "Bağlantı Linki: https://87d6a6ef6b58-webstreamrmbg.baby-beamup.club/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
-  {"app": "Nuvio", "type": "Altyazı", "name": "OpenSubtitles", "desc": "Bağlantı Linki: https://opensubtitles-v3.strem.io/", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "Altyazı", "name": "OpenSubtitles", "desc": "Bağlantı Linki: https://opensubtitles-v3.strem.io/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Altyazı", "name": "OpenSubtitles Pro", "desc": "Bağlantı Linki: https://opensubtitlesv3-pro.dexter21767.com/eyJsYW5ncyI6WyJ0dXJraXNoIl0sInNvdXJjZSI6ImFsbCIsImFpVHJhbnNsYXRlZCI6dHJ1ZSwiYXV0b0FkanVzdG1lbnQiOmZhbHNlfQ==/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Altyazı", "name": "SubSource Subtitles", "desc": "Bağlantı Linki: https://subsource.strem.top/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "Altyazı", "name": "SubDL Subtitles", "desc": "Bağlantı Linki: https://subdl.strem.top/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
