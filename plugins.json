@@ -70,7 +70,7 @@
   {"app": "Nuvio", "type": "Film", "name": "ZeusTV", "desc": "Bağlantı Linki: https://zeust.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "TorrentClaw", "desc": "Bağlantı Linki: https://torrentclaw.com/api/stremio/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
   {"app": "Nuvio", "type": "4K", "name": "YukiStreams", "desc": "Bağlantı Linki: https://stremio.yukistreams.xyz/configure", "isNew": false, "installGuide": "nuvio", "debrid": "required"},
-  {"app": "Nuvio", "type": "Katalog", "name": "Cinemeta", "desc": "Bağlantı Linki: https://v3-cinemeta.strem.io/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"},
+  {"app": "Nuvio", "type": "Katalog", "name": "Cinemeta", "desc": "Bağlantı Linki: https://v3-cinemeta.strem.io/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free"}
 
   
 ]
