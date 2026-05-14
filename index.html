@@ -463,6 +463,9 @@ let showFavsOnly = false;
 let compareList  = []; // max 3
 let currentModalItem = null;
 
+// Registry: store rendered items by key so onclick can look them up safely
+const pluginRegistry = {};
+
 // ─── THEME: prefer system if no manual override ──
 const manualTheme = localStorage.getItem('ph_theme');
 let isLight;
@@ -640,6 +643,7 @@ function renderStars(key, container) {
 // ─── LAST SEEN ────────────────────────────
 function addLastSeen(item) {
     const key = pluginKey(item);
+    pluginRegistry[key] = item; // ensure it's registered
     lastSeen = lastSeen.filter(k => k !== key);
     lastSeen.unshift(key);
     lastSeen = lastSeen.slice(0, 5);
@@ -652,7 +656,7 @@ function renderLastSeen() {
     const items   = lastSeen.map(k => plugins.find(p => pluginKey(p) === k)).filter(Boolean);
     if (!items.length) { section.style.display = 'none'; return; }
     section.style.display = 'block';
-    chips.innerHTML = items.map(p => `<div class="seen-chip" onclick='openModal(${JSON.stringify(p).replace(/'/g,"&#39;")})'>${p.name}</div>`).join('');
+    chips.innerHTML = items.map(p => `<div class="seen-chip" onclick="openModalByKey('${pluginKey(p).replace(/"/g,'&quot;')}')">${p.name}</div>`).join('');
 }
 
 // ─── NEW PLUGIN BANNER ───────────────────
@@ -801,17 +805,25 @@ function renderCards(data, q) {
     empty.style.display = 'none';
 
     data.forEach((item, i) => {
-        const urlMatch  = item.desc?.match(/(https?:\/\/[^\s]+)/g);
+        // Clean item (strip Fuse internals) and register by key
+        const cleanItem = { app:item.app, type:item.type, name:item.name, desc:item.desc,
+            isNew:item.isNew, installGuide:item.installGuide, debrid:item.debrid,
+            platform:item.platform, updatedAt:item.updatedAt, status:item.status };
+        const key = pluginKey(cleanItem);
+        pluginRegistry[key] = cleanItem;
+
+        const urlMatch  = cleanItem.desc?.match(/(https?:\/\/[^\s]+)/g);
         const url       = urlMatch ? urlMatch[0] : null;
-        const codeMatch = item.desc?.match(/Downloader Kodu:\s*(\d+)/);
+        const codeMatch = cleanItem.desc?.match(/Downloader Kodu:\s*(\d+)/);
         const code      = codeMatch ? codeMatch[1] : null;
-        const key       = pluginKey(item);
-        const favActive = isFav(item);
-        const cmpActive = isComparing(item);
+        const favActive = isFav(cleanItem);
+        const cmpActive = isComparing(cleanItem);
         const starCount = ratings[key] || 0;
         const hasNote   = !!notes[key];
         const delay     = Math.min(i * 35, 350);
-        const displayName = highlight(item.name, item._matches, 'name');
+        const displayName = highlight(cleanItem.name, item._matches, 'name');
+        // Escape key for safe use in attribute strings
+        const safeKey   = key.replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
 
         const card = document.createElement('div');
         card.className = 'plugin-card' + (cmpActive ? ' compare-selected' : '');
@@ -820,37 +832,40 @@ function renderCards(data, q) {
         card.innerHTML = `
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
                 <div style="display:flex;gap:6px;flex-wrap:wrap">
-                    <span class="badge badge-app">${item.app}</span>
-                    <span class="badge badge-type">${item.type}</span>
-                    ${item.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
-                    ${debridBadge(item.debrid)}
-                    ${platformBadges(item.platform)}
+                    <span class="badge badge-app">${cleanItem.app}</span>
+                    <span class="badge badge-type">${cleanItem.type}</span>
+                    ${cleanItem.isNew ? '<span class="badge badge-new">Yeni</span>' : ''}
+                    ${debridBadge(cleanItem.debrid)}
+                    ${platformBadges(cleanItem.platform)}
                 </div>
                 <div style="display:flex;gap:6px;align-items:center">
                     ${hasNote ? '<span title="Notun var" style="font-size:13px">📝</span>' : ''}
-                    <button class="fav-btn ${favActive ? 'active' : ''}" onclick="event.stopPropagation();toggleFav('${key}',this)">${favActive?'❤':'♡'}</button>
+                    <button class="fav-btn ${favActive ? 'active' : ''}" onclick="event.stopPropagation();toggleFav('${safeKey}',this)">${favActive?'❤':'♡'}</button>
                 </div>
             </div>
             <h3 style="font-size:16px;font-weight:700;margin-bottom:6px;line-height:1.3">${displayName}</h3>
             <div style="flex:1;margin-bottom:12px">
                 ${url ? `<div class="url-mono">${url}</div>`
                      : code ? `<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px">Downloader Kodu</div><span style="font-size:26px;font-weight:800;color:#60a5fa">${code}</span>`
-                     : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${(item.desc||'').replace(/(https?:\/\/[^\s]+)/g,'').trim().slice(0,80)}</p>`}
+                     : `<p style="font-size:13px;color:var(--muted);line-height:1.5">${(cleanItem.desc||'').replace(/(https?:\/\/[^\s]+)/g,'').trim().slice(0,80)}</p>`}
             </div>
             <div style="display:flex;gap:3px;margin-bottom:12px" class="stars">
-                ${Array.from({length:5},(_,j)=>`<span class="star ${j<starCount?'filled':''}" onclick="event.stopPropagation();setRating('${key}',${j+1});rerenderCardStars(this.closest('.plugin-card'),${j+1},'${key}')">★</span>`).join('')}
+                ${Array.from({length:5},(_,j)=>`<span class="star ${j<starCount?'filled':''}" onclick="event.stopPropagation();setRating('${safeKey}',${j+1});rerenderCardStars(this.closest('.plugin-card'),${j+1},'${safeKey}')">★</span>`).join('')}
             </div>
             <div class="card-actions" onclick="event.stopPropagation()">
                 ${url ? `<button onclick="copyText('${url}')" class="btn btn-secondary">Kopyala</button><a href="${url}" target="_blank" class="btn btn-primary">Git ↗</a>`
-                     : code ? `<button onclick="copyText('${code}')" class="btn btn-secondary">Kodu Kopyala</button><button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary">Nasıl Yüklenir?</button>`
-                     : `<button onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})' class="btn btn-primary" style="flex:2">Detaylar</button>`}
-                <button class="compare-toggle${cmpActive?' active':''}" onclick="toggleCompare(${JSON.stringify(item).replace(/'/g,"&#39;")},this)">${cmpActive?'✓ Seçildi':'+ Karşılaştır'}</button>
+                     : code ? `<button onclick="copyText('${code}')" class="btn btn-secondary">Kodu Kopyala</button><button onclick="openModalByKey('${safeKey}')" class="btn btn-primary">Nasıl Yüklenir?</button>`
+                     : `<button onclick="openModalByKey('${safeKey}')" class="btn btn-primary" style="flex:2">Detaylar</button>`}
+                <button class="compare-toggle${cmpActive?' active':''}" onclick="toggleCompareByKey('${safeKey}',this)">${cmpActive?'✓ Seçildi':'+ Karşılaştır'}</button>
             </div>
         `;
-        card.addEventListener('click', () => openModal(item));
+        card.addEventListener('click', () => openModal(cleanItem));
         grid.appendChild(card);
     });
 }
+
+function openModalByKey(key) { const item = pluginRegistry[key]; if (item) openModal(item); }
+function toggleCompareByKey(key, btn) { const item = pluginRegistry[key]; if (item) toggleCompare(item, btn); }
 
 function rerenderCardStars(card, val, key) {
     card.querySelectorAll('.star').forEach((s, j) => s.classList.toggle('filled', j < val));
@@ -938,6 +953,8 @@ fetch('plugins.json')
     .then(r => r.json())
     .then(data => {
         plugins = data;
+        // Pre-register all plugins
+        plugins.forEach(p => { pluginRegistry[pluginKey(p)] = p; });
         hideSkeleton();
         progressDone();
         updateStats();
