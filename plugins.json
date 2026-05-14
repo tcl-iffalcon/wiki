@@ -70,5 +70,7 @@
   {"app": "Nuvio", "type": "4K", "name": "TorrentClaw", "desc": "Bağlantı Linki: https://torrentclaw.com/api/stremio/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "4K", "name": "YukiStreams", "desc": "Bağlantı Linki: https://stremio.yukistreams.xyz/configure", "isNew": false, "installGuide": "nuvio", "debrid": "required", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Katalog", "name": "Cinemeta", "desc": "Bağlantı Linki: https://v3-cinemeta.strem.io/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
-  {"app": "Nuvio", "type": "Altyazı", "name": "AltyaziDB", "desc": "Bağlantı Linki: https://altyazidb.online/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
+  {"app": "Nuvio", "type": "Altyazı", "name": "AltyaziDB", "desc": "Bağlantı Linki: https://altyazidb.online/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Katalog", "name": "Scary Only", "desc": "Bağlantı Linki: https://cinemaratona-br.vercel.app/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
+
 ]
