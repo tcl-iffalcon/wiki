@@ -74,7 +74,7 @@
   {"app": "Nuvio", "type": "Katalog", "name": "Scary Only", "desc": "Bağlantı Linki: https://cinemaratona-br.vercel.app/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "4K", "name": "Intelligent Debrid Search", "desc": "Bağlantı Linki: https://stremio-addons.net/addons/intell-debridsearch", "isNew": false, "installGuide": "nuvio", "debrid": "required", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Film", "name": "YouTubio", "desc": "Bağlantı Linki: https://youtubio.elfhosted.com/%7B%7D/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
-  {"app": "Nuvio", "type": "4K", "name": "TheBeginning", "desc": "Bağlantı Linki: https://thebeginningjuststarted.xyz/0f53d56e0c7fd02e/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "TheBeginning", "desc": "Bağlantı Linki: https://thebeginningjuststarted.xyz/", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "4K", "name": "CIN", "desc": "Bağlantı Linki: https://cinnn.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "4K", "name": "By Murph Streams", "desc": "Bağlantı Linki: https://badboysxs-morpheus.hf.space/bWIsbm0sZGYsaGgsa2gsa20sYXcsaG0/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
 ]
