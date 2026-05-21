@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 100 Dolby Atmos Filmleri 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#0f172a;color:#f8fafc;min-height:100vh;scroll-behavior:smooth}
+nav{position:sticky;top:0;z-index:50;background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);padding:14px 24px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-sub{font-size:12px;color:#64748b}
+main{max-width:1100px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:2.5rem;font-weight:700;text-align:center;margin-bottom:8px;letter-spacing:-0.5px}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:36px;font-size:1rem}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;align-items:center}
+.filters input{flex:1;min-width:200px;background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 18px;color:#f8fafc;font-size:14px;font-family:inherit;transition:border-color .2s}
+.filters input::placeholder{color:#475569}
+.filters input:focus{outline:none;border-color:#60a5fa}
+.filters select{background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 16px;color:#f8fafc;font-size:14px;font-family:inherit;cursor:pointer;transition:border-color .2s}
+.filters select:focus{outline:none;border-color:#60a5fa}
+.filters select option{background:#1e293b}
+.stats{display:flex;gap:8px;align-items:center;margin-left:auto;font-size:13px;color:#64748b;white-space:nowrap}
+.count-badge{background:rgba(96,165,250,0.15);color:#60a5fa;padding:4px 12px;border-radius:99px;font-weight:600;font-size:13px}
+.grid{display:grid;gap:14px}
+.card{background:rgba(30,41,59,0.65);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 22px;display:flex;align-items:center;gap:18px;transition:border-color .25s,background .25s;cursor:default}
+.card:hover{border-color:rgba(96,165,250,0.3);background:rgba(30,41,59,0.9)}
+.rank{width:38px;text-align:center;font-size:1.1rem;font-weight:700;color:#334155;flex-shrink:0}
+.rank.top3{color:#f59e0b}
+.info{flex:1;min-width:0}
+.title{font-size:1rem;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{font-size:12px;color:#64748b;margin-top:3px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
+.b-aksiyon{background:rgba(59,130,246,0.2);color:#93c5fd}
+.b-bilimkurgu{background:rgba(139,92,246,0.2);color:#c4b5fd}
+.b-macera{background:rgba(34,197,94,0.2);color:#86efac}
+.b-savas{background:rgba(245,158,11,0.2);color:#fcd34d}
+.b-korku{background:rgba(239,68,68,0.2);color:#fca5a5}
+.b-dram{background:rgba(20,184,166,0.2);color:#5eead4}
+.b-animasyon{background:rgba(236,72,153,0.2);color:#f9a8d4}
+.b-muzik{background:rgba(148,163,184,0.2);color:#cbd5e1}
+.b-gerilim{background:rgba(249,115,22,0.2);color:#fdba74}
+.b-fantastik{background:rgba(217,70,239,0.2);color:#e879f9}
+.b-tarih{background:rgba(161,98,7,0.2);color:#fde68a}
+.b-suc{background:rgba(220,38,38,0.2);color:#fca5a5}
+.platform-col{flex-shrink:0;min-width:130px;text-align:right}
+.platform-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:10px;font-size:12px;font-weight:600;margin:2px}
+.pt-prime{background:rgba(0,168,225,0.15);color:#38bdf8;border:1px solid rgba(0,168,225,0.25)}
+.pt-netflix{background:rgba(229,9,20,0.15);color:#f87171;border:1px solid rgba(229,9,20,0.25)}
+.pt-tvplus{background:rgba(96,165,250,0.15);color:#93c5fd;border:1px solid rgba(96,165,250,0.25)}
+.pt-max{background:rgba(99,102,241,0.15);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25)}
+.pt-disney{background:rgba(37,99,235,0.15);color:#60a5fa;border:1px solid rgba(37,99,235,0.25)}
+.pt-tod{background:rgba(20,184,166,0.15);color:#5eead4;border:1px solid rgba(20,184,166,0.25)}
+.pt-mubi{background:rgba(255,199,0,0.15);color:#fde68a;border:1px solid rgba(255,199,0,0.25)}
+.pt-none{font-size:11px;color:#475569}
+.no-results{text-align:center;padding:60px;color:#475569;font-size:1rem}
+footer{text-align:center;color:#334155;font-size:12px;padding:30px;border-top:1px solid rgba(255,255,255,0.05)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Hello Atmos</div>
+    <div class="nav-sub">Türkiye Streaming Bilgisi ile</div>
+  </div>
+</nav>
+<main>
+  <h1>🎧 Top 100 Dolby Atmos Film</h1>
+  <p class="subtitle">Bağımsız incelemeler, YouTube kanalları ve audiofil forumlarına göre konsensüs sıralaması.</p>
+  <div class="filters">
+    <input type="text" id="search" placeholder="Film ara..." oninput="filter()">
+    <select id="genre" onchange="filter()">
+      <option value="">Tüm Türler</option>
+      <option value="Aksiyon">Aksiyon</option>
+      <option value="Macera">Macera</option>
+      <option value="Animasyon">Animasyon</option>
+      <option value="Bilim Kurgu">Bilim Kurgu</option>
+      <option value="Dram">Dram</option>
+      <option value="Fantastik">Fantastik</option>
+      <option value="Gerilim">Gerilim</option>
+      <option value="Korku">Korku</option>
+      <option value="Müzik">Müzik</option>
+      <option value="Savaş">Savaş</option>
+      <option value="Suç">Suç</option>
+      <option value="Tarih">Tarih</option>
+    </select>
+    <select id="platform" onchange="filter()">
+      <option value="">Tüm Platformlar</option>
+      <option value="Prime">Amazon Prime</option>
+      <option value="Netflix">Netflix</option>
+      <option value="TV+">TV+</option>
+      <option value="Max">Max</option>
+      <option value="Disney+">Disney+</option>
+      <option value="TOD">TOD TV</option>
+      <option value="MUBI">MUBI</option>
+    </select>
+    <div class="stats"><span id="count" class="count-badge">100</span> film</div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="no-results" id="noResults" style="display:none">Sonuç bulunamadı.</div>
+</main>
+<footer>© 2026 Hello Atmos &nbsp;·&nbsp; Türkiye bölgesi streaming verileri</footer>
+
+<script>
+const MOVIES=[
+{r:1,n:"Blade Runner 2049",y:2017,g:"Bilim Kurgu",p:[]},
+{r:2,n:"Dune",y:2021,g:"Bilim Kurgu",p:[]},
+{r:3,n:"Mad Max: Fury Road",y:2015,g:"Aksiyon",p:["Prime"]},
+{r:4,n:"Ready Player One",y:2018,g:"Macera",p:["Prime"]},
+{r:5,n:"The Batman",y:2022,g:"Suç",p:["TV+","Max"]},
+{r:6,n:"Top Gun: Maverick",y:2022,g:"Aksiyon",p:["TV+"]},
+{r:7,n:"Dune: Part Two",y:2024,g:"Bilim Kurgu",p:["TV+","Max"]},
+{r:8,n:"Gravity",y:2013,g:"Bilim Kurgu",p:["Prime"]},
+{r:9,n:"Ford v Ferrari",y:2019,g:"Dram",p:["Disney+","TV+"]},
+{r:10,n:"A Quiet Place",y:2018,g:"Korku",p:[]},
+{r:11,n:"The Matrix",y:1999,g:"Aksiyon",p:[]},
+{r:12,n:"The Lord of the Rings: The Fellowship of the Ring",y:2001,g:"Macera",p:["Netflix","TV+","Max"]},
+{r:13,n:"Pacific Rim",y:2013,g:"Aksiyon",p:["Netflix"]},
+{r:14,n:"1917",y:2019,g:"Savaş",p:["TV+","Max"]},
+{r:15,n:"Master and Commander: The Far Side of the World",y:2003,g:"Macera",p:[]},
+{r:16,n:"Edge of Tomorrow",y:2014,g:"Aksiyon",p:[]},
+{r:17,n:"Spider-Man: Into the Spider-Verse",y:2018,g:"Animasyon",p:["Netflix","TV+"]},
+{r:18,n:"Fury",y:2014,g:"Savaş",p:["TV+"]},
+{r:19,n:"Midway",y:2019,g:"Aksiyon",p:[]},
+{r:20,n:"Saving Private Ryan",y:1998,g:"Savaş",p:["TOD"]},
+{r:21,n:"Deepwater Horizon",y:2016,g:"Dram",p:["TV+"]},
+{r:22,n:"Bohemian Rhapsody",y:2018,g:"Müzik",p:["Disney+","TV+","Max"]},
+{r:23,n:"John Wick: Chapter 3 - Parabellum",y:2019,g:"Aksiyon",p:["TV+"]},
+{r:24,n:"A Quiet Place Part II",y:2021,g:"Bilim Kurgu",p:[]},
+{r:25,n:"Civil War",y:2024,g:"Savaş",p:["TV+","TOD"]},
+{r:26,n:"The Lord of the Rings: The Two Towers",y:2002,g:"Macera",p:["Netflix","TV+","Max"]},
+{r:27,n:"The Lord of the Rings: The Return of the King",y:2003,g:"Macera",p:["Netflix","TV+","Max"]},
+{r:28,n:"Twister",y:1996,g:"Aksiyon",p:["Disney+"]},
+{r:29,n:"Godzilla vs. Kong",y:2021,g:"Aksiyon",p:["TV+","Max"]},
+{r:30,n:"Roma",y:2018,g:"Dram",p:["Netflix"]},
+{r:31,n:"No Time to Die",y:2021,g:"Aksiyon",p:[]},
+{r:32,n:"Transformers",y:2007,g:"Macera",p:["TV+"]},
+{r:33,n:"Hacksaw Ridge",y:2016,g:"Dram",p:["TV+"]},
+{r:34,n:"Oblivion",y:2013,g:"Aksiyon",p:["Prime"]},
+{r:35,n:"Furiosa: A Mad Max Saga",y:2024,g:"Aksiyon",p:["Netflix"]},
+{r:36,n:"Prey",y:2022,g:"Gerilim",p:["Disney+"]},
+{r:37,n:"Alita: Battle Angel",y:2019,g:"Aksiyon",p:["Disney+"]},
+{r:38,n:"TRON: Legacy",y:2010,g:"Macera",p:["Disney+"]},
+{r:39,n:"Baby Driver",y:2017,g:"Aksiyon",p:["TV+","TOD"]},
+{r:40,n:"Warfare",y:2025,g:"Savaş",p:["Prime"]},
+{r:41,n:"Star Wars: Episode I - The Phantom Menace",y:1999,g:"Macera",p:["Disney+"]},
+{r:42,n:"Godzilla Minus One",y:2023,g:"Bilim Kurgu",p:["Netflix"]},
+{r:43,n:"Gran Turismo",y:2023,g:"Macera",p:["TOD"]},
+{r:44,n:"John Wick: Chapter 4",y:2023,g:"Aksiyon",p:["TV+"]},
+{r:45,n:"Hans Zimmer: Live in Prague",y:2017,g:"Müzik",p:[]},
+{r:46,n:"Kong: Skull Island",y:2017,g:"Aksiyon",p:["Netflix","Prime","TV+","Max"]},
+{r:47,n:"Ambulance",y:2022,g:"Gerilim",p:[]},
+{r:48,n:"Twisters",y:2024,g:"Aksiyon",p:["Netflix"]},
+{r:49,n:"Unbroken",y:2014,g:"Dram",p:[]},
+{r:50,n:"John Wick",y:2014,g:"Aksiyon",p:["TV+"]},
+{r:51,n:"Avengers: Endgame",y:2019,g:"Macera",p:["Disney+"]},
+{r:52,n:"Jurassic Park",y:1993,g:"Macera",p:["Netflix","Prime","TV+"]},
+{r:53,n:"Apocalypse Now",y:1979,g:"Dram",p:["MUBI"]},
+{r:54,n:"Blade Runner",y:1982,g:"Bilim Kurgu",p:["Prime","TV+","Max"]},
+{r:55,n:"First Man",y:2018,g:"Tarih",p:["Prime"]},
+{r:56,n:"Man of Steel",y:2013,g:"Aksiyon",p:["Prime"]},
+{r:57,n:"Star Wars: Episode III - Revenge of the Sith",y:2005,g:"Macera",p:["Disney+"]},
+{r:58,n:"The Fifth Element",y:1997,g:"Bilim Kurgu",p:[]},
+{r:59,n:"Soul",y:2020,g:"Animasyon",p:["Disney+"]},
+{r:60,n:"Spider-Man: Across the Spider-Verse",y:2023,g:"Animasyon",p:["Netflix"]},
+{r:61,n:"Black Hawk Down",y:2001,g:"Aksiyon",p:["Prime"]},
+{r:62,n:"13 Hours: The Secret Soldiers of Benghazi",y:2016,g:"Savaş",p:[]},
+{r:63,n:"John Wick: Chapter 2",y:2017,g:"Aksiyon",p:["TV+"]},
+{r:64,n:"Dredd",y:2012,g:"Aksiyon",p:[]},
+{r:65,n:"Star Trek Into Darkness",y:2013,g:"Aksiyon",p:["TOD"]},
+{r:66,n:"Deadpool",y:2016,g:"Aksiyon",p:["Disney+"]},
+{r:67,n:"Nope",y:2022,g:"Korku",p:[]},
+{r:68,n:"Sinners",y:2025,g:"Korku",p:[]},
+{r:69,n:"Brave",y:2012,g:"Animasyon",p:["Disney+"]},
+{r:70,n:"Doctor Sleep",y:2019,g:"Korku",p:[]},
+{r:71,n:"WALL·E",y:2008,g:"Animasyon",p:["Disney+"]},
+{r:72,n:"F1",y:2025,g:"Aksiyon",p:[]},
+{r:73,n:"War of the Worlds",y:2005,g:"Macera",p:["TV+"]},
+{r:74,n:"Mission: Impossible - Fallout",y:2018,g:"Aksiyon",p:["TV+"]},
+{r:75,n:"Us",y:2019,g:"Korku",p:["Netflix","Prime"]},
+{r:76,n:"Alien: Romulus",y:2024,g:"Korku",p:["Disney+","TV+"]},
+{r:77,n:"Everest",y:2015,g:"Macera",p:[]},
+{r:78,n:"Star Wars: The Force Awakens",y:2015,g:"Macera",p:["Disney+"]},
+{r:79,n:"Avatar: The Way of Water",y:2022,g:"Aksiyon",p:["Disney+"]},
+{r:80,n:"Ghostbusters: Afterlife",y:2021,g:"Fantastik",p:[]},
+{r:81,n:"6 Underground",y:2019,g:"Aksiyon",p:["Netflix"]},
+{r:82,n:"Avengers: Infinity War",y:2018,g:"Macera",p:["Disney+"]},
+{r:83,n:"Ballerina",y:2025,g:"Aksiyon",p:["Prime"]},
+{r:84,n:"Aquaman",y:2018,g:"Aksiyon",p:["Netflix","Prime","TV+","Max"]},
+{r:85,n:"Titanic",y:1997,g:"Dram",p:["Disney+"]},
+{r:86,n:"Godzilla: King of the Monsters",y:2019,g:"Bilim Kurgu",p:["Prime"]},
+{r:87,n:"The Guns of Navarone",y:1961,g:"Savaş",p:[]},
+{r:88,n:"Aliens",y:1986,g:"Aksiyon",p:["Disney+"]},
+{r:89,n:"Nosferatu",y:2024,g:"Korku",p:["Prime"]},
+{r:90,n:"Uncut Gems",y:2019,g:"Dram",p:["Netflix"]},
+{r:91,n:"Transformers: Dark of the Moon",y:2011,g:"Aksiyon",p:["TV+"]},
+{r:92,n:"Back to the Future",y:1985,g:"Macera",p:["Prime"]},
+{r:93,n:"Suspiria",y:1977,g:"Korku",p:[]},
+{r:94,n:"Overlord",y:2018,g:"Korku",p:[]},
+{r:95,n:"Top Gun",y:1986,g:"Aksiyon",p:["Netflix"]},
+{r:96,n:"Sicario",y:2015,g:"Aksiyon",p:["TV+"]},
+{r:97,n:"300",y:2007,g:"Aksiyon",p:[]},
+{r:98,n:"Evil Dead Rise",y:2023,g:"Korku",p:[]},
+{r:99,n:"Puss in Boots: The Last Wish",y:2022,g:"Animasyon",p:[]},
+{r:100,n:"A Quiet Place: Day One",y:2024,g:"Korku",p:["Netflix","TV+"]},
+];
+
+const GENRE_CLASS={
+"Aksiyon":"b-aksiyon","Bilim Kurgu":"b-bilimkurgu","Macera":"b-macera",
+"Savaş":"b-savas","Korku":"b-korku","Dram":"b-dram","Animasyon":"b-animasyon",
+"Müzik":"b-muzik","Gerilim":"b-gerilim","Fantastik":"b-fantastik",
+"Tarih":"b-tarih","Suç":"b-suc"
+};
+
+const PT_CLASS={
+"Prime":"pt-prime","Netflix":"pt-netflix","TV+":"pt-tvplus",
+"Max":"pt-max","Disney+":"pt-disney","TOD":"pt-tod","Stream":"pt-tvplus","MUBI":"pt-mubi"
+};
+const PT_LABEL={
+"Prime":"Amazon Prime","Netflix":"Netflix","TV+":"TV+",
+"Max":"Max","Disney+":"Disney+","TOD":"TOD TV","Stream":"Stream","MUBI":"MUBI"
+};
+
+function renderPlatforms(p){
+  if(!p||p.length===0) return '<span class="pt-none">Yalnızca kiralık/satın alma</span>';
+  return p.map(x=>`<span class="platform-tag ${PT_CLASS[x]||'pt-none'}">${PT_LABEL[x]||x}</span>`).join('');
+}
+
+function render(list){
+  const grid=document.getElementById('grid');
+  const noRes=document.getElementById('noResults');
+  document.getElementById('count').textContent=list.length;
+  if(list.length===0){grid.innerHTML='';noRes.style.display='';return;}
+  noRes.style.display='none';
+  grid.innerHTML=list.map(m=>`
+    <div class="card">
+      <div class="rank${m.r<=3?' top3':''}">${m.r}</div>
+      <div class="info">
+        <div class="title">${m.n}</div>
+        <div class="meta">${m.y}</div>
+        <div class="badges"><span class="badge ${GENRE_CLASS[m.g]||''}">${m.g}</span></div>
+      </div>
+      <div class="platform-col">${renderPlatforms(m.p)}</div>
+    </div>
+  `).join('');
+}
+
+function filter(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const g=document.getElementById('genre').value;
+  const pf=document.getElementById('platform').value;
+  const res=MOVIES.filter(m=>{
+    const matchQ=!q||m.n.toLowerCase().includes(q);
+    const matchG=!g||m.g===g;
+    const matchP=!pf||m.p.some(x=>x.includes(pf)||pf.includes(x));
+    return matchQ&&matchG&&matchP;
+  });
+  render(res);
+}
+
+render(MOVIES);
+</script>
+</body>
+</html>
