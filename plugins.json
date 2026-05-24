@@ -55,8 +55,8 @@
   {"app": "Nuvio", "type": "4K", "name": "TorrentsDB", "desc": "Bağlantı Linki: https://torrentsdb.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "4K", "name": "HdHub", "desc": "Bağlantı Linki: https://hdhub.thevolecitor.qzz.io", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile"]},
   {"app": "Nuvio", "type": "4K", "name": "Sootio", "desc": "Bağlantı Linki: https://sooti.info/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
-  {"app": "Nuvio", "type": "Dublaj", "name": "MoonCrown (Plugin)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/mooncrown04/nuviotr/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile"]},
-  {"app": "Nuvio", "type": "Dublaj", "name": "Wekmed (Plugin)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/Wekmed/nuvio/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile"]},
+  {"app": "Nuvio", "type": "Dublaj", "name": "MoonCrown (Plug-in)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/mooncrown04/nuviotr/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile"]},
+  {"app": "Nuvio", "type": "Dublaj", "name": "Wekmed (Plug-in)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/Wekmed/nuvio/refs/heads/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile"]},
   {"app": "Nuvio", "type": "4K", "name": "WatchNow", "desc": "Bağlantı Linki: https://sword-watch.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Repo", "name": "D3adlyRocket", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/D3adlyRocket/All-in-One-Nuvio/refs/heads/main/manifest.json", "isNew": true, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile"]},
   {"app": "Nuvio", "type": "4K", "name": "Tenies.Site", "desc": "Bağlantı Linki: https://nuvio-addon.onrender.com/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile"]},
@@ -80,6 +80,7 @@
   {"app": "Nuvio", "type": "Canlı TV", "name": "NexoTV", "desc": "Bağlantı Linki: https://263f84288ddb-nexotv.baby-beamup.club/", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Katalog", "name": "Sitcom Shuffle", "desc": "Bağlantı Linki: https://typical-noel-sitcom-shuffle-752348e5.koyeb.app/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Dublaj", "name": "TCLTurko", "desc": "Bağlantı Linki: https://tclbot-1.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile", "web"]},
-  {"app": "Nuvio", "type": "4K", "name": "Nexus", "desc": "Bağlantı Linki: https://nexuszen.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
+  {"app": "Nuvio", "type": "4K", "name": "Nexus", "desc": "Bağlantı Linki: https://nexuszen.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Dublaj", "name": "Patr0n (Plug-in)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/patr0nq/nuvioaddons/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
 
 ]
