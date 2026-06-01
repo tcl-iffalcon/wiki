@@ -81,6 +81,20 @@
   {"app": "Nuvio", "type": "Katalog", "name": "Sitcom Shuffle", "desc": "Bağlantı Linki: https://typical-noel-sitcom-shuffle-752348e5.koyeb.app/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Dublaj", "name": "TCLTurko", "desc": "Bağlantı Linki: https://tclbot-1.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile", "web"]},
   {"app": "Nuvio", "type": "4K", "name": "Nexus", "desc": "Bağlantı Linki: https://nexuszen.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
-  {"app": "Nuvio", "type": "Dublaj", "name": "Patr0n (Plug-in)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/patr0nq/nuvioaddons/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
+  {"app": "Nuvio", "type": "Dublaj", "name": "Patr0n (Plug-in)", "desc": "Bağlantı Linki: https://raw.githubusercontent.com/patr0nq/nuvioaddons/main/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "TILL", "desc": "Bağlantı Linki: https://till-8b4w.onrender.com/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "Muvibox", "desc": "Bağlantı Linki: https://mvtmdb.netlify.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "SUPREME", "desc": "Bağlantı Linki: https://sup-sooty-one.vercel.app/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "Torrin", "desc": "Bağlantı Linki: https://addon.torrin.app/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "Cinescrape", "desc": "Bağlantı Linki: https://bc48e59c61df-cinescrape-docker.baby-beamup.club/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "KOD", "desc": "Bağlantı Linki: https://kod-three.vercel.app/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "PEZZHUB AIO", "desc": "Bağlantı Linki: https://pezz8io.dpdns.org/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Katalog", "name": "NTL Movie Collections", "desc": "Bağlantı Linki: https://ntl-collections-en.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
+
+
+
+
+
+
 
 ]
