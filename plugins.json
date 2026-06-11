@@ -91,6 +91,7 @@
   {"app": "Nuvio", "type": "4K", "name": "PEZZHUB AIO", "desc": "Bağlantı Linki: https://pezz8io.dpdns.org/configure", "isNew": false, "installGuide": "nuvio", "debrid": "optional", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Katalog", "name": "NTL Movie Collections", "desc": "Bağlantı Linki: https://ntl-collections-en.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Katalog", "name": "Stremio Stinger Pro", "desc": "Bağlantı Linki: https://stremio-stinger-pro.up.railway.app/", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
-  {"app": "Nuvio", "type": "Spor", "name": "Live Sports Streams", "desc": "Bağlantı Linki: https://sports.highfly.dev/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
+  {"app": "Nuvio", "type": "Spor", "name": "Live Sports Streams", "desc": "Bağlantı Linki: https://sports.highfly.dev/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Spor", "name": "WorldCup 4K", "desc": "Bağlantı Linki: https://worldcup-ns10.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
 
 ]
