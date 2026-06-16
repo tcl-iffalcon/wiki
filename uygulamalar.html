@@ -215,20 +215,26 @@ nav {
 }
 .card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
-/* Downloader code */
+/* Downloader code — sabit, tek tip kutu: sayı üstte, etiket altta.
+   Genişlik en uzun kod (7 hane) baz alınarak hesaplandı, böylece
+   5/6/7 haneli tüm kodlar aynı boyuttaki kutuya taşmadan sığar. */
 .code-box {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
   background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 3px; padding: 10px 14px; flex-shrink: 0;
-  width: 160px; /* Sabit standart genişlik */
+  border-radius: 3px; padding: 10px 8px; flex-shrink: 0;
+  width: 140px; /* Sabit standart genişlik — tüm kart tiplerinde aynı */
 }
 .code-num {
   font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: 26px; color: var(--wc-red); letter-spacing: 3px;
+  font-size: 22px; color: var(--wc-red); letter-spacing: 1px;
+  line-height: 1; white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 .code-label {
   font-size: 9px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 1.5px; color: var(--muted); line-height: 1.4;
+  letter-spacing: 1.2px; color: var(--muted); line-height: 1.35;
+  text-align: center; white-space: nowrap;
 }
 
 /* Buttons */
@@ -289,7 +295,7 @@ nav {
 /* RESPONSIVE */
 @media (max-width: 580px) { 
   .card-body { flex-direction: column; align-items: flex-start; gap: 14px; } 
-  .code-box { width: 100%; justify-content: center; }
+  .code-box { align-self: center; }
   .btn-copy { width: 100%; }
 }
 
