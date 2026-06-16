@@ -5,121 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PluginHub | Uygulama Merkezi</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Ana temanın renk paletini Tailwind'e genişletiyoruz
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        themeBg: '#f5f0e8',
+                        themeSurface: '#ffffff',
+                        themeSurface2: '#ede8df',
+                        themeText: '#1a1208',
+                        themeMuted: '#6b6050',
+                        wcRed: '#c8102e',
+                        wcGold: '#b8860b',
+                        wcGoldLight: '#d4a017',
+                        wcNavy: '#002868',
+                        wcGreen: '#1a6b2e',
+                    },
+                    fontFamily: {
+                        sora: ['Sora', 'sans-serif'],
+                        space: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .btn-gradient { background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%); transition: all 0.3s ease; }
-        .btn-gradient:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(52, 211, 153, 0.5); }
-        .tab-active { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
-        .hidden { display: none; }
+        body { font-family: 'Sora', sans-serif; background-color: #f5f0e8; color: #1a1208; min-height: 100vh; position: relative; }
+        /* Ana temanın ikonik kareli arka plan çizgileri */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: 
+                linear-gradient(rgba(26,107,46,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(26,107,46,0.04) 1px, transparent 1px);
+            background-size: 56px 56px;
+            pointer-events: none; z-index: 0;
+        }
+        main, nav, footer { position: relative; z-index: 1; }
+        /* Hero Bilet Efektinin Üst ve Alt Renkli Çizgileri */
+        .ticket-top::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+            background: repeating-linear-gradient(90deg, #c8102e 0, #c8102e 33.3%, #fff 33.3%, #fff 66.6%, #002868 66.6%, #002868 100%);
+        }
+        .ticket-bottom::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+            background: repeating-linear-gradient(90deg, #002868 0, #002868 33.3%, #fff 33.3%, #fff 66.6%, #c8102e 66.6%, #c8102e 100%);
+        }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="pb-20">
 
-    <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-12">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+    <nav class="sticky top-0 z-50 bg-[#f5f0e8]/95 backdrop-blur-md border-b-2 border-themeMuted/20 px-6 py-4 mb-12">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="https://tcl-iffalcon.github.io/wiki/" class="text-2xl font-bold font-space tracking-wider text-wcNavy">
                 PluginHub
-            </div>
-            <div class="hidden md:flex gap-8 text-sm font-medium">
-                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition"> Telefon APK</a>
-                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
+            </a>
+            <div class="hidden md:flex gap-6 text-xs font-bold uppercase tracking-wider items-center">
+                <a href="https://tcl-iffalcon.github.io/wiki/" class="text-themeMuted hover:text-themeText transition">Ana Sayfa</a>
+                <a href="uygulamalar.html" class="text-wcRed bg-wcRed/10 border border-wcRed/25 px-3 py-1.5 rounded font-extrabold">TV APK</a>
+                <a href="mobil.html" class="text-themeMuted hover:text-themeText transition">Telefon APK</a>
+                <a href="pluginhub.html" class="text-themeMuted hover:text-themeText transition">🔌 Eklentiler</a>
+                <a href="wc2026.html" class="text-themeMuted hover:text-themeText transition">⚽ WC 2026</a>
+                <a href="https://t.me/tcltvturk1" target="_blank" class="text-themeMuted hover:text-themeText border border-black/10 bg-white px-3 py-1.5 rounded transition">Telegram</a>
             </div>
         </div>
     </nav>
 
     <main class="max-w-4xl mx-auto px-4">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-white">
-                Ana Uygulamalar
+        <div class="ticket-top ticket-bottom border-2 border-wcGold rounded-sm bg-themeSurface shadow-[0_4px_32px_rgba(0,0,0,0.06),0_0_0_8px_rgba(184,134,11,0.04)] overflow-hidden relative p-10 md:p-12 text-center mb-10">
+            <div class="font-space font-semibold text-xs tracking-[3px] text-wcGold uppercase mb-4 flex items-center justify-center gap-4">
+                <span class="w-8 h-[1px] bg-wcGold/60"></span>PLUGINHUB<span class="w-8 h-[1px] bg-wcGold/60"></span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold font-space tracking-tight text-wcNavy mb-4">
+                Ana <span class="text-wcRed">Uygulamalar</span>
             </h1>
-            <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed mb-8">
-                Cihazınıza uygun platformu seçerek en iyi medya deneyimine ulaşın.
+            <p class="text-themeMuted text-sm max-w-xl mx-auto leading-relaxed mb-6">
+                Cihazınıza uygun platformu seçerek en iyi medya deneyimine ulaşın. Android TV, Google TV, FireStick ve iOS cihazlar için tam uyumlu araçlar.
             </p>
 
-            <div class="flex justify-center p-1 bg-slate-800/50 rounded-2xl w-fit mx-auto mb-12 border border-white/5">
-                <button onclick="switchTab('android')" id="btn-android" class="tab-active px-8 py-3 rounded-xl font-bold transition-all duration-300">
+            <div class="flex justify-center p-1 bg-themeSurface2 rounded border border-black/5 w-fit mx-auto shadow-inner">
+                <button onclick="switchTab('android')" id="btn-android" class="bg-wcRed text-white shadow px-8 py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition-all duration-300">
                     Android (APK)
                 </button>
-                <button onclick="switchTab('ios')" id="btn-ios" class="px-8 py-3 rounded-xl font-bold transition-all duration-300 text-slate-400 hover:text-white">
+                <button onclick="switchTab('ios')" id="btn-ios" class="px-8 py-2.5 rounded-sm font-bold text-xs uppercase tracking-wider transition-all duration-300 text-themeMuted hover:text-themeText">
                     iOS / Apple
                 </button>
             </div>
         </div>
 
-        <div id="android-content" class="grid grid-cols-1 gap-8">
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-blue-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl">🎬</div>
+        <div id="android-content" class="grid grid-cols-1 gap-4">
+            <div class="bg-themeSurface border border-black/10 rounded-sm overflow-hidden flex flex-col md:flex-row gap-6 items-center p-6 shadow-sm hover:-translate-y-[3px] hover:shadow-md hover:border-wcGold transition-all duration-300 relative">
+                <div class="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-wcRed to-[#e04060]"></div>
+                <div class="w-14 h-14 bg-gradient-to-br from-indigo-600 to-blue-500 rounded-xl flex items-center justify-center text-2xl font-space font-extrabold text-white shrink-0">S</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Stremio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Modern medya merkezi. Android TV ve mobil için tam uyumlu.</p>
+                    <h2 class="text-lg font-bold font-space text-themeText mb-1">Stremio</h2>
+                    <p class="text-themeMuted text-xs leading-relaxed">Tüm torrent ve streaming servislerini tek çatı altında toplayan modern medya merkezi. Eklenti desteği sunar.</p>
                 </div>
-                <a href="https://www.stremio.com/downloads" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
+                <a href="https://www.stremio.com/downloads" target="_blank" class="w-full md:w-auto px-6 py-3 bg-wcRed text-white hover:bg-[#a00d26] font-bold text-xs uppercase tracking-wider rounded-sm text-center transition">İndir ↗</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-purple-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-purple-500/20 rounded-2xl flex items-center justify-center text-3xl">📺</div>
+            <div class="bg-themeSurface border border-black/10 rounded-sm overflow-hidden flex flex-col md:flex-row gap-6 items-center p-6 shadow-sm hover:-translate-y-[3px] hover:shadow-md hover:border-wcGold transition-all duration-300 relative">
+                <div class="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-wcRed to-[#e04060]"></div>
+                <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-2xl font-space font-extrabold text-white shrink-0">N</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Nuvio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Hafif ve hızlı bir alternatif. TV box cihazlarında üstün performans.</p>
+                    <h2 class="text-lg font-bold font-space text-themeText mb-1">Nuvio</h2>
+                    <p class="text-themeMuted text-xs leading-relaxed">Stremio benzeri, daha hafif ve hızlı bir alternatif. Özellikle TV box cihazlarında yüksek performans sergiler.</p>
                 </div>
-                <a href="https://github.com/tapframe/NuvioMobile/releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
+                <a href="https://github.com/tapframe/NuvioTV/releases" target="_blank" class="w-full md:w-auto px-6 py-3 bg-wcRed text-white hover:bg-[#a00d26] font-bold text-xs uppercase tracking-wider rounded-sm text-center transition">İndir ↗</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-emerald-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-3xl">☁️</div>
+            <div class="bg-themeSurface border border-black/10 rounded-sm overflow-hidden flex flex-col md:flex-row gap-6 items-center p-6 shadow-sm hover:-translate-y-[3px] hover:shadow-md hover:border-wcGold transition-all duration-300 relative">
+                <div class="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-wcRed to-[#e04060]"></div>
+                <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center text-2xl font-space font-extrabold text-white shrink-0">C</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">CloudStream</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Reklamsız ve modüler dizi/film izleme uygulaması.</p>
+                    <h2 class="text-lg font-bold font-space text-themeText mb-1">CloudStream</h2>
+                    <p class="text-themeMuted text-xs leading-relaxed">Android tabanlı, reklam barındırmayan ve tamamen modüler dizi/film izleme uygulaması. Repolar ile özelleştirilebilir.</p>
                 </div>
-                <a href="https://github.com/recloudstream/cloudstream/releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
+                <a href="https://github.com/recloudstream/cloudstream/releases" target="_blank" class="w-full md:w-auto px-6 py-3 bg-wcRed text-white hover:bg-[#a00d26] font-bold text-xs uppercase tracking-wider rounded-sm text-center transition">İndir ↗</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-red-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-red-500/20 rounded-2xl flex items-center justify-center text-3xl">🔥</div>
+            <div class="bg-themeSurface border border-black/10 rounded-sm overflow-hidden flex flex-col md:flex-row gap-6 items-center p-6 shadow-sm hover:-translate-y-[3px] hover:shadow-md hover:border-wcGold transition-all duration-300 relative">
+                <div class="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-wcRed to-[#e04060]"></div>
+                <div class="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center text-2xl font-space font-extrabold text-white shrink-0">N</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Netfly</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Yerli ve yabancı içeriklere hızlı erişim.</p>
+                    <h2 class="text-lg font-bold font-space text-themeText mb-1">Netfly</h2>
+                    <p class="text-themeMuted text-xs leading-relaxed">Yerli ve yabancı içeriklere hızlı erişim sağlayan, kullanıcı dostu arayüze sahip popüler streaming uygulaması.</p>
                 </div>
-                <a href="https://netflyapp.com/" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
+                <a href="https://netflyapp.com/" target="_blank" class="w-full md:w-auto px-6 py-3 bg-wcRed text-white hover:bg-[#a00d26] font-bold text-xs uppercase tracking-wider rounded-sm text-center transition">Git ↗</a>
             </div>
         </div>
 
-        <div id="ios-content" class="hidden grid grid-cols-1 gap-8">
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-blue-400/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-blue-400/20 rounded-2xl flex items-center justify-center text-3xl">🍎</div>
+        <div id="ios-content" class="hidden grid grid-cols-1 gap-4">
+            <div class="bg-themeSurface border border-black/10 rounded-sm overflow-hidden flex flex-col md:flex-row gap-6 items-center p-6 shadow-sm hover:-translate-y-[3px] hover:shadow-md hover:border-wcGold transition-all duration-300 relative">
+                <div class="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-wcGold to-wcGoldLight"></div>
+                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-sky-400 rounded-xl flex items-center justify-center text-2xl font-space font-extrabold text-white shrink-0">🍎</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Stremio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">iOS eklenti desteğiyle App Store üzerinden erişilebilir.</p>
+                    <h2 class="text-lg font-bold font-space text-themeText mb-1">Stremio (App Store)</h2>
+                    <p class="text-themeMuted text-xs leading-relaxed">iOS eklenti desteğiyle resmi App Store üzerinden doğrudan indirilebilir durumdadır.</p>
                 </div>
-                <a href="https://apps.apple.com/app/stremio/id1642921384" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
+                <a href="https://apps.apple.com/app/stremio/id1642921384" target="_blank" class="w-full md:w-auto px-6 py-3 bg-wcRed text-white hover:bg-[#a00d26] font-bold text-xs uppercase tracking-wider rounded-sm text-center transition">İndir ↗</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-purple-400/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-purple-400/20 rounded-2xl flex items-center justify-center text-3xl">📱</div>
+            <div class="bg-themeSurface border border-black/10 rounded-sm overflow-hidden flex flex-col md:flex-row gap-6 items-center p-6 shadow-sm hover:-translate-y-[3px] hover:shadow-md hover:border-wcGold transition-all duration-300 relative">
+                <div class="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-wcGold to-wcGoldLight"></div>
+                <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center text-2xl font-space font-extrabold text-white shrink-0">📱</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Nuvio </h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Nuvio deneyimini Apple cihazlarınızda yaşayın.</p>
+                    <h2 class="text-lg font-bold font-space text-themeText mb-1">Nuvio (TestFlight)</h2>
+                    <p class="text-themeMuted text-xs leading-relaxed">Nuvio kalitesini Apple ve iOS ekosistemindeki cihazlarınızda TestFlight ile yaşayın.</p>
                 </div>
-                <a href="https://testflight.apple.com/join/QkKMGRqp" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
+                <a href="https://testflight.apple.com/join/QkKMGRqp" target="_blank" class="w-full md:w-auto px-6 py-3 bg-wcRed text-white hover:bg-[#a00d26] font-bold text-xs uppercase tracking-wider rounded-sm text-center transition">Katıl ↗</a>
             </div>
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-emerald-400/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-emerald-400/20 rounded-2xl flex items-center justify-center text-3xl">🌐</div>
+            <div class="bg-themeSurface border border-black/10 rounded-sm overflow-hidden flex flex-col md:flex-row gap-6 items-center p-6 shadow-sm hover:-translate-y-[3px] hover:shadow-md hover:border-wcGold transition-all duration-300 relative">
+                <div class="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-wcGold to-wcGoldLight"></div>
+                <div class="w-14 h-14 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-xl flex items-center justify-center text-2xl font-space font-extrabold text-white shrink-0">🌐</div>
                 <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Stremio Web</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">iOS'ta kurulumsuz kullanım için en iyi yöntem.</p>
+                    <h2 class="text-lg font-bold font-space text-themeText mb-1">Stremio Web</h2>
+                    <p class="text-themeMuted text-xs leading-relaxed">iOS cihazlarda herhangi bir harici kurulum yapmadan tarayıcı üzerinden en performanslı kullanım yöntemi.</p>
                 </div>
-                <a href="https://web.stremio.com/" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">Web'de Aç</a>
+                <a href="https://web.stremio.com/" target="_blank" class="w-full md:w-auto px-6 py-3 bg-wcRed text-white hover:bg-[#a00d26] font-bold text-xs uppercase tracking-wider rounded-sm text-center transition">Web'de Aç ↗</a>
             </div>
         </div>
     </main>
 
-    <footer class="mt-20 text-center text-slate-600 text-xs">
-        <p>&copy; 2026 PluginHub - Tüm hakları saklıdır.</p>
+    <footer class="mt-20 border-t-2 border-wcGold py-6 text-center bg-themeSurface text-themeMuted text-xs">
+        <div class="flex justify-center gap-4 mb-2 font-semibold">
+            <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-wcRed transition">Ana Sayfa</a> · 
+            <a href="uygulamalar.html" class="hover:text-wcRed transition">TV APK</a> · 
+            <a href="mobil.html" class="hover:text-wcRed transition">Telefon APK</a> · 
+            <a href="pluginhub.html" class="hover:text-wcRed transition">Eklentiler</a> · 
+            <a href="https://t.me/tcltvturk1" target="_blank" class="hover:text-wcRed transition">Telegram</a>
+        </div>
+        <p>PluginHub — TCL TV Türk Topluluğu &copy; 2026</p>
     </footer>
 
     <script>
@@ -129,18 +190,28 @@
             const btnA = document.getElementById('btn-android');
             const btnI = document.getElementById('btn-ios');
 
+            // Aktif/Pasif buton stillerini ana temaya uygun yönetiyoruz
+            const activeClasses = ['bg-wcRed', 'text-white', 'shadow'];
+            const inactiveClasses = ['text-themeMuted', 'hover:text-themeText'];
+
             if (platform === 'android') {
                 android.classList.remove('hidden');
                 ios.classList.add('hidden');
-                btnA.classList.add('tab-active');
-                btnI.classList.remove('tab-active');
-                btnI.classList.add('text-slate-400');
+                
+                btnA.classList.add(...activeClasses);
+                btnA.classList.remove(...inactiveClasses);
+                
+                btnI.classList.remove(...activeClasses);
+                btnI.classList.add(...inactiveClasses);
             } else {
                 android.classList.add('hidden');
                 ios.classList.remove('hidden');
-                btnI.classList.add('tab-active');
-                btnA.classList.remove('tab-active');
-                btnA.classList.add('text-slate-400');
+                
+                btnI.classList.add(...activeClasses);
+                btnI.classList.remove(...inactiveClasses);
+                
+                btnA.classList.remove(...activeClasses);
+                btnA.classList.add(...inactiveClasses);
             }
         }
     </script>
