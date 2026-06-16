@@ -199,11 +199,6 @@ nav {
   justify-content: space-between;
   flex: 1;
 }
-@media (max-width: 580px) { 
-  .card-body { flex-direction: column; align-items: flex-start; gap: 14px; } 
-  .code-box { width: 100%; justify-content: center; }
-  .btn-copy { width: 100%; }
-}
 
 .card-icon {
   width: 54px; height: 54px; border-radius: 14px;
@@ -222,9 +217,10 @@ nav {
 
 /* Downloader code */
 .code-box {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
   background: var(--surface2); border: 1px solid var(--border);
   border-radius: 3px; padding: 10px 14px; flex-shrink: 0;
+  width: 160px; /* Sabit standart genişlik */
 }
 .code-num {
   font-family: 'Space Grotesk', sans-serif; font-weight: 700;
@@ -250,7 +246,8 @@ nav {
 .btn-copy {
   background: var(--surface2); color: var(--text);
   border: 1px solid var(--border);
-  align-self: stretch;
+  width: 100px; /* Kopyala butonu sabit genişlik */
+  flex-shrink: 0;
 }
 .btn-copy:hover { border-color: var(--wc-gold); color: var(--wc-gold); }
 
@@ -288,6 +285,13 @@ nav {
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
 }
 #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* RESPONSIVE */
+@media (max-width: 580px) { 
+  .card-body { flex-direction: column; align-items: flex-start; gap: 14px; } 
+  .code-box { width: 100%; justify-content: center; }
+  .btn-copy { width: 100%; }
+}
 
 /* FOOTER */
 footer {
