@@ -1,264 +1,687 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PluginHub | Uygulama Merkezi</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; scroll-behavior: smooth; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .btn-gradient { background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%); transition: all 0.3s ease; }
-        .btn-gradient:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(52, 211, 153, 0.5); }
-        .code-badge { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .search-input:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 20px rgba(96, 165, 250, 0.15); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Uygulamalar — PluginHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f5f0e8;
+  --surface:  #ffffff;
+  --surface2: #ede8df;
+  --border:   rgba(0,0,0,0.09);
+  --text:     #1a1208;
+  --muted:    #6b6050;
+  --wc-red:   #c8102e;
+  --wc-gold:  #b8860b;
+  --wc-gold-light: #d4a017;
+  --wc-navy:  #002868;
+  --wc-green: #1a6b2e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(26,107,46,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,107,46,0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  pointer-events: none; z-index: 0;
+}
+main, nav, footer { position: relative; z-index: 1; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(245,240,232,0.95);
+  border-bottom: 2px solid var(--wc-gold);
+  backdrop-filter: blur(16px);
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: 22px; letter-spacing: 1px; color: var(--wc-navy);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a {
+  font-size: 13px; font-weight: 600; color: var(--muted);
+  text-decoration: none; padding: 6px 12px; border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: var(--text); background: var(--surface2); }
+.nav-links a.active-nav {
+  color: var(--wc-red); background: rgba(200,16,46,0.08);
+  border: 1px solid rgba(200,16,46,0.25); font-weight: 700;
+}
+.nav-btn {
+  display: flex; align-items: center; padding: 6px 12px;
+  border-radius: 6px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--muted);
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; gap: 5px; font-family: inherit;
+}
+.nav-btn:hover { color: var(--text); border-color: var(--wc-gold); }
+#mobileMenu { display: none; }
+#mobileMenu.open {
+  display: block;
+  border-top: 1px solid var(--border); padding: 12px;
+}
+#mobileMenu a {
+  display: block; padding: 9px 12px; border-radius: 6px;
+  color: var(--muted); text-decoration: none; font-size: 14px;
+}
+#mobileMenu a:hover { background: var(--surface2); color: var(--text); }
+@media (max-width: 768px) { .nav-links { display: none; } }
+
+/* HERO */
+.hero { padding: 0 16px; }
+.hero-ticket {
+  max-width: 720px; margin: 36px auto 0;
+  border: 3px solid var(--wc-gold); border-radius: 3px;
+  background: var(--surface);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10), 0 0 0 8px rgba(184,134,11,0.06);
+  overflow: hidden; position: relative;
+}
+.hero-ticket::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: repeating-linear-gradient(90deg, var(--wc-red) 0, var(--wc-red) 33.3%, #fff 33.3%, #fff 66.6%, var(--wc-navy) 66.6%, var(--wc-navy) 100%);
+}
+.hero-ticket::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+  background: repeating-linear-gradient(90deg, var(--wc-navy) 0, var(--wc-navy) 33.3%, #fff 33.3%, #fff 66.6%, var(--wc-red) 66.6%, var(--wc-red) 100%);
+}
+.hero-inner { padding: 40px 44px 36px; }
+.hero-eyebrow {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+  font-size: 12px; letter-spacing: 3px;
+  color: var(--wc-gold); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; flex: 1; max-width: 36px;
+  height: 1px; background: var(--wc-gold); opacity: 0.6;
+}
+.hero-inner h1 {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: clamp(32px,6vw,56px); line-height: 1;
+  color: var(--wc-navy); letter-spacing: 0.5px; margin-bottom: 8px;
+}
+.hero-inner h1 .accent { color: var(--wc-red); }
+.hero-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-top: 12px; }
+@media (max-width: 600px) { .hero-inner { padding: 28px 20px 24px; } }
+
+/* SEARCH */
+.search-wrap {
+  max-width: 720px; margin: 28px auto 40px; padding: 0 16px;
+}
+.search-inner {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: 3px; padding: 10px 16px;
+  transition: border-color 0.2s;
+}
+.search-inner:focus-within { border-color: var(--wc-gold); }
+.search-inner svg { color: var(--muted); flex-shrink: 0; }
+.search-inner input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: 'Sora', sans-serif; font-size: 14px; color: var(--text);
+}
+.search-inner input::placeholder { color: var(--muted); }
+
+/* SECTION HEADER */
+.section-header {
+  max-width: 900px; margin: 0 auto 20px; padding: 0 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.section-badge {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+  font-size: 11px; letter-spacing: 1.5px;
+  padding: 5px 14px; border-radius: 2px;
+  white-space: nowrap; flex-shrink: 0; text-transform: uppercase;
+}
+.sb-red   { background: var(--wc-red);  color: #fff; }
+.sb-navy  { background: var(--wc-navy); color: #fff; }
+.sb-dl    { background: var(--wc-gold); color: #fff; }
+.section-title {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: clamp(16px,2.5vw,22px); color: var(--text);
+}
+.section-line { flex: 1; height: 1px; background: rgba(0,0,0,0.12); }
+
+/* CARDS GRID */
+.cards-grid {
+  max-width: 900px; margin: 0 auto;
+  padding: 0 16px; margin-bottom: 48px;
+  display: grid; grid-template-columns: 1fr; gap: 14px;
+}
+
+/* APP CARD */
+.app-card {
+  background: var(--surface);
+  border: 1px solid var(--border); border-radius: 3px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  animation: fadeUp 0.35s ease both;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.app-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+  border-color: var(--wc-gold);
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.card-stripe { height: 4px; }
+.stripe-red  { background: linear-gradient(90deg, var(--wc-red), #e04060); }
+.stripe-dl   { background: linear-gradient(90deg, var(--wc-gold), var(--wc-gold-light)); }
+
+.card-body {
+  padding: 20px 22px;
+  display: flex; flex-direction: row; gap: 20px; align-items: center;
+  flex: 1;
+}
+@media (max-width: 580px) { .card-body { flex-direction: column; align-items: flex-start; gap: 14px; } }
+
+.card-icon {
+  width: 54px; height: 54px; border-radius: 14px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 800;
+  font-size: 24px; color: #fff;
+}
+
+.card-info { flex: 1; min-width: 0; }
+.card-name {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: 18px; color: var(--text); margin-bottom: 4px;
+}
+.card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* Downloader code */
+.code-box {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 3px; padding: 10px 14px; flex-shrink: 0;
+}
+.code-num {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: 26px; color: var(--wc-red); letter-spacing: 3px;
+}
+.code-label {
+  font-size: 9px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--muted); line-height: 1.4;
+}
+
+/* Buttons */
+.card-action { flex-shrink: 0; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 11px 22px; border-radius: 2px; border: none;
+  font-size: 11px; font-weight: 800; cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+  text-decoration: none; letter-spacing: 0.5px; text-transform: uppercase;
+  white-space: nowrap;
+}
+.btn-goto { background: var(--wc-red); color: #fff; }
+.btn-goto:hover { background: #a00d26; }
+.btn-copy {
+  background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-copy:hover { border-color: var(--wc-gold); color: var(--wc-gold); }
+
+/* NOTE BOX */
+.note-box { max-width: 900px; margin: 0 auto 48px; padding: 0 16px; }
+.note-inner {
+  background: rgba(184,134,11,0.07);
+  border: 1px solid rgba(184,134,11,0.25);
+  border-left: 4px solid var(--wc-gold);
+  border-radius: 0 3px 3px 0;
+  padding: 14px 18px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.note-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+.note-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.note-text strong { color: var(--text); }
+
+/* EMPTY STATE */
+#emptyState {
+  text-align: center; padding: 60px 16px;
+  color: var(--muted); font-size: 15px; display: none;
+}
+#emptyState .icon { font-size: 40px; margin-bottom: 12px; }
+
+/* TOAST */
+#toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  padding: 10px 20px; border-radius: 3px;
+  font-size: 13px; font-weight: 700;
+  z-index: 9999;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
+  opacity: 0; pointer-events: none; white-space: nowrap;
+  background: #1a1208; color: #fff;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* FOOTER */
+footer {
+  border-top: 2px solid var(--wc-gold);
+  padding: 20px 16px; text-align: center;
+  font-size: 12px; color: var(--muted);
+  background: var(--surface);
+}
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--wc-red); }
+</style>
 </head>
-<body class="min-h-screen pb-20">
+<body>
 
-    <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-8">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">PluginHub</div>
-            <div class="flex gap-6 text-sm font-medium text-slate-400">
-                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
-                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
-            </div>
-        </div>
-    </nav>
+<div id="toast"></div>
 
-    <main class="max-w-4xl mx-auto px-4">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">Ana Uygulamalar</h1>
-            <p class="text-slate-400 text-lg">İhtiyacınız olan tüm medya araçları ve kurulum kodları.</p>
-        </div>
+<nav>
+  <div class="nav-inner">
+    <a href="https://tcl-iffalcon.github.io/wiki/" class="brand">PluginHub</a>
+    <div class="nav-links">
+      <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+      <a href="uygulamalar.html" class="active-nav">TV APK</a>
+      <a href="mobil.html">Telefon APK</a>
+      <a href="pluginhub.html">🔌 Eklentiler</a>
+      <a href="wc2026.html">⚽ WC 2026</a>
+      <a href="https://t.me/tcltvturk1">Telegram</a>
+    </div>
+    <button onclick="toggleMenu()" class="nav-btn" id="menuBtn" style="display:none">☰ Menü</button>
+  </div>
+  <div id="mobileMenu">
+    <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+    <a href="uygulamalar.html">TV APK</a>
+    <a href="mobil.html">Telefon APK</a>
+    <a href="pluginhub.html">🔌 Eklentiler</a>
+    <a href="wc2026.html">⚽ WC 2026</a>
+    <a href="https://t.me/tcltvturk1">Telegram</a>
+  </div>
+</nav>
 
-        <div class="relative max-w-lg mx-auto mb-12">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-            <input type="text" id="appSearch" onkeyup="filterApps()" placeholder="Uygulama ismini yazın..." 
-                   class="search-input w-full bg-slate-800/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 transition-all">
-        </div>
+<main>
 
-        <div id="appList" class="grid grid-cols-1 gap-6">
-            
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-blue-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-indigo-500/20">S</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Stremio</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Tüm torrent ve streaming servislerini tek çatı altında toplayan modern medya merkezi. Eklenti desteği ile sınırsız içerik sunar.</p>
-                </div>
-                <a href="https://www.stremio.com/downloads" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
+<div class="hero">
+  <div class="hero-ticket">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">PLUGINHUB</div>
+      <h1>Ana <span class="accent">Uygulamalar</span></h1>
+      <p class="hero-desc">İhtiyacınız olan tüm medya araçları ve kurulum kodları — Android TV, Google TV ve FireStick için.</p>
+    </div>
+  </div>
+</div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-emerald-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-emerald-500 to-teal-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-emerald-500/20">C</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">CloudStream</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Android tabanlı, reklam barındırmayan ve tamamen modüler dizi/film izleme uygulaması. Repolar ile özelleştirilebilir.</p>
-                </div>
-                <a href="https://github.com/recloudstream/cloudstream/releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
+<div class="search-wrap">
+  <div class="search-inner">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="appSearch" oninput="filterApps()" placeholder="Uygulama ismi ara...">
+  </div>
+</div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-purple-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-purple-500 to-fuchsia-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-purple-500/20">N</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Nuvio</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Stremio benzeri, daha hafif ve hızlı bir alternatif. Özellikle TV box cihazlarında yüksek performans sergiler.</p>
-                </div>
-                <a href="https://github.com/tapframe/NuvioTV/releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
+<!-- ÖNE ÇIKANLAR -->
+<div class="section-header">
+  <span class="section-badge sb-red">⭐ ÖNERILEN</span>
+  <h2 class="section-title">Öne Çıkan Uygulamalar</h2>
+  <div class="section-line"></div>
+</div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-sky-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-sky-400 to-cyan-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-sky-500/20">W</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">WuPlay</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Gizlilik odaklı, hesap gerektirmeyen Android TV streaming uygulaması. Stremio eklentileriyle uyumlu, çoklu profil ve cihazlar arası senkronizasyon sunar.</p>
-                </div>
-                <a href="https://github.com/wuplayapp/wuplay-releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
+<div class="cards-grid" id="appList">
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-red-500/20">N</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Netfly</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yerli ve yabancı içeriklere hızlı erişim sağlayan, kullanıcı dostu arayüze sahip popüler streaming uygulaması.</p>
-                </div>
-                <a href="https://netflyapp.com/" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">Git</a>
-            </div>
+  <div class="app-card app-item" style="animation-delay:0ms">
+    <div class="card-stripe stripe-red"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#4f46e5,#3b82f6)">S</div>
+      <div class="card-info">
+        <div class="card-name app-name">Stremio</div>
+        <div class="card-desc">Tüm torrent ve streaming servislerini tek çatı altında toplayan modern medya merkezi. Eklenti desteği ile sınırsız içerik sunar.</div>
+      </div>
+      <div class="card-action">
+        <a href="https://www.stremio.com/downloads" target="_blank" class="btn btn-goto">İndir ↗</a>
+      </div>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-pink-500 to-rose-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-pink-500/20">V</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Viva TV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Geniş içerik yelpazesi ve farklı sunucu seçenekleri ile donatılmış popüler medya izleme aracı.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">82927</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:50ms">
+    <div class="card-stripe stripe-red"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#10b981,#0d9488)">C</div>
+      <div class="card-info">
+        <div class="card-name app-name">CloudStream</div>
+        <div class="card-desc">Android tabanlı, reklam barındırmayan ve tamamen modüler dizi/film izleme uygulaması. Repolar ile özelleştirilebilir.</div>
+      </div>
+      <div class="card-action">
+        <a href="https://github.com/recloudstream/cloudstream/releases" target="_blank" class="btn btn-goto">İndir ↗</a>
+      </div>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-amber-500 to-yellow-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg">T</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Tea TV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Sinema dünyasından en yeni içerikleri yüksek kalitede sunan köklü streaming platformu.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">679077</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:100ms">
+    <div class="card-stripe stripe-red"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#a855f7,#d946ef)">N</div>
+      <div class="card-info">
+        <div class="card-name app-name">Nuvio</div>
+        <div class="card-desc">Stremio benzeri, daha hafif ve hızlı bir alternatif. Özellikle TV box cihazlarında yüksek performans sergiler.</div>
+      </div>
+      <div class="card-action">
+        <a href="https://github.com/tapframe/NuvioTV/releases" target="_blank" class="btn btn-goto">İndir ↗</a>
+      </div>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center text-3xl font-bold">S</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">SStream</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Hızlı ve akıcı arayüzü ile yerli/yabancı dizi ve filmleri kolayca izlemenizi sağlar.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">959386</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:150ms">
+    <div class="card-stripe stripe-red"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#0ea5e9,#06b6d4)">W</div>
+      <div class="card-info">
+        <div class="card-name app-name">WuPlay</div>
+        <div class="card-desc">Gizlilik odaklı, hesap gerektirmeyen Android TV streaming uygulaması. Stremio eklentileriyle uyumlu, çoklu profil ve cihazlar arası senkronizasyon sunar.</div>
+      </div>
+      <div class="card-action">
+        <a href="https://github.com/wuplayapp/wuplay-releases" target="_blank" class="btn btn-goto">İndir ↗</a>
+      </div>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-cyan-500/20">O</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">OnStream</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Tek tıkla içeriklere ulaşabileceğiniz, minimalist ve oldukça hızlı bir izleme deneyimi.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">814529</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:200ms">
+    <div class="card-stripe stripe-red"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#ef4444,#f97316)">N</div>
+      <div class="card-info">
+        <div class="card-name app-name">Netfly</div>
+        <div class="card-desc">Yerli ve yabancı içeriklere hızlı erişim sağlayan, kullanıcı dostu arayüze sahip popüler streaming uygulaması.</div>
+      </div>
+      <div class="card-action">
+        <a href="https://netflyapp.com/" target="_blank" class="btn btn-goto">Git ↗</a>
+      </div>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-blue-800 to-indigo-900 rounded-2xl flex items-center justify-center text-3xl font-bold">O</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Ocean Streamz</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Birden fazla kaynaktan veri çekerek her zaman çalışan linkler sunan güvenilir alternatif.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">99317</span>
-                </div>
-            </div>
+</div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-violet-600 to-indigo-800 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-purple-500/20">N</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Nova TV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yüksek çözünürlüklü içerikleri ve stabiliteyi ön planda tutan modern streaming aracı.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">70064</span>
-                </div>
-            </div>
+<!-- DOWNLOADER KODLU UYGULAMALAR -->
+<div class="section-header">
+  <span class="section-badge sb-dl">🔢 DOWNLOADER</span>
+  <h2 class="section-title">Kod ile Kurulan Uygulamalar</h2>
+  <div class="section-line"></div>
+</div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-slate-500 to-slate-800 rounded-2xl flex items-center justify-center text-3xl font-bold">H</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">HDO Box</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Özellikle TV ekranları için tasarlanmış şık arayüzü ile popüler film ve dizileri sunar.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">3475826</span>
-                </div>
-            </div>
+<div class="note-box" style="margin-bottom:20px">
+  <div class="note-inner">
+    <div class="note-icon">📥</div>
+    <div class="note-text">
+      TV'nizde <strong>Downloader</strong> uygulamasını açın, aşağıdaki kodu girin ve <strong>Go</strong>'ya basın. Uygulama otomatik indirilir ve kurulur.
+    </div>
+  </div>
+</div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-red-500 to-red-900 rounded-2xl flex items-center justify-center text-3xl font-bold">F</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Flixoid</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Terayix tabanlı, hızlı ve güvenli bir streaming deneyimi arayanlar için ideal çözüm.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">529057</span>
-                </div>
-            </div>
+<div class="cards-grid">
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-orange-400 to-red-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-orange-500/20">F</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Flix Vision</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Zengin kütüphanesi ve sürekli güncellenen kaynakları ile kesintisiz izleme imkanı.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">1504072</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:0ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#ec4899,#be185d)">V</div>
+      <div class="card-info">
+        <div class="card-name app-name">Viva TV</div>
+        <div class="card-desc">Geniş içerik yelpazesi ve farklı sunucu seçenekleri ile donatılmış popüler medya izleme aracı.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">82927</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('82927')">Kopyala</button>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-emerald-400 to-green-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-green-500/20">F</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">FilmPlus</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">En popüler yerli ve yabancı yapımlara kolayca ulaşmanızı sağlayan kullanıcı dostu bir araç.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">52193</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:40ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#f59e0b,#d97706)">T</div>
+      <div class="card-info">
+        <div class="card-name app-name">Tea TV</div>
+        <div class="card-desc">Sinema dünyasından en yeni içerikleri yüksek kalitede sunan köklü streaming platformu.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">679077</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('679077')">Kopyala</button>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-amber-600 to-yellow-800 rounded-2xl flex items-center justify-center text-3xl font-bold">C</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Cinema HD</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Uzun süredir en çok tercih edilen, geniş film arşivi ve altyazı desteği ile bilinen uygulama.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">5726169</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:80ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#3b82f6,#2563eb)">S</div>
+      <div class="card-info">
+        <div class="card-name app-name">SStream</div>
+        <div class="card-desc">Hızlı ve akıcı arayüzü ile yerli/yabancı dizi ve filmleri kolayca izlemenizi sağlar.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">959386</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('959386')">Kopyala</button>
+    </div>
+  </div>
 
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-16 h-16 shrink-0 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-2xl flex items-center justify-center text-3xl font-bold text-slate-900 shadow-lg shadow-yellow-500/30">B</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">BeeTV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yerli içeriklerden dünya sinemasına kadar her şeyi tek bir yerden izlemenize olanak tanır.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center border-emerald-500/10">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">50187</span>
-                </div>
-            </div>
+  <div class="app-card app-item" style="animation-delay:120ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#06b6d4,#0e7490)">O</div>
+      <div class="card-info">
+        <div class="card-name app-name">OnStream</div>
+        <div class="card-desc">Tek tıkla içeriklere ulaşabileceğiniz, minimalist ve oldukça hızlı bir izleme deneyimi.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">814529</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('814529')">Kopyala</button>
+    </div>
+  </div>
 
-        </div>
-    </main>
+  <div class="app-card app-item" style="animation-delay:160ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#1e3a8a,#3b82f6)">O</div>
+      <div class="card-info">
+        <div class="card-name app-name">Ocean Streamz</div>
+        <div class="card-desc">Birden fazla kaynaktan veri çekerek her zaman çalışan linkler sunan güvenilir alternatif.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">99317</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('99317')">Kopyala</button>
+    </div>
+  </div>
 
-    <script>
-        function filterApps() {
-            const input = document.getElementById('appSearch');
-            const filter = input.value.toLowerCase();
-            const appItems = document.getElementsByClassName('app-item');
+  <div class="app-card app-item" style="animation-delay:200ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#7c3aed,#4f46e5)">N</div>
+      <div class="card-info">
+        <div class="card-name app-name">Nova TV</div>
+        <div class="card-desc">Yüksek çözünürlüklü içerikleri ve stabiliteyi ön planda tutan modern streaming aracı.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">70064</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('70064')">Kopyala</button>
+    </div>
+  </div>
 
-            for (let i = 0; i < appItems.length; i++) {
-                const appName = appItems[i].getElementsByClassName('app-name')[0].innerText;
-                if (appName.toLowerCase().indexOf(filter) > -1) {
-                    appItems[i].style.display = "";
-                } else {
-                    appItems[i].style.display = "none";
-                }
-            }
-        }
-    </script>
+  <div class="app-card app-item" style="animation-delay:240ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#475569,#1e293b)">H</div>
+      <div class="card-info">
+        <div class="card-name app-name">HDO Box</div>
+        <div class="card-desc">Özellikle TV ekranları için tasarlanmış şık arayüzü ile popüler film ve dizileri sunar.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">3475826</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('3475826')">Kopyala</button>
+    </div>
+  </div>
 
-    <footer class="mt-20 text-center text-slate-600 text-xs">
-        <p>&copy; 2026 PluginHub - Tüm hakları saklıdır.</p>
-    </footer>
+  <div class="app-card app-item" style="animation-delay:280ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#dc2626,#7f1d1d)">F</div>
+      <div class="card-info">
+        <div class="card-name app-name">Flixoid</div>
+        <div class="card-desc">Terayix tabanlı, hızlı ve güvenli bir streaming deneyimi arayanlar için ideal çözüm.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">529057</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('529057')">Kopyala</button>
+    </div>
+  </div>
 
+  <div class="app-card app-item" style="animation-delay:320ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#f97316,#dc2626)">F</div>
+      <div class="card-info">
+        <div class="card-name app-name">Flix Vision</div>
+        <div class="card-desc">Zengin kütüphanesi ve sürekli güncellenen kaynakları ile kesintisiz izleme imkanı.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">1504072</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('1504072')">Kopyala</button>
+    </div>
+  </div>
+
+  <div class="app-card app-item" style="animation-delay:360ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#16a34a,#15803d)">F</div>
+      <div class="card-info">
+        <div class="card-name app-name">FilmPlus</div>
+        <div class="card-desc">En popüler yerli ve yabancı yapımlara kolayca ulaşmanızı sağlayan kullanıcı dostu bir araç.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">52193</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('52193')">Kopyala</button>
+    </div>
+  </div>
+
+  <div class="app-card app-item" style="animation-delay:400ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#b45309,#92400e)">C</div>
+      <div class="card-info">
+        <div class="card-name app-name">Cinema HD</div>
+        <div class="card-desc">Uzun süredir en çok tercih edilen, geniş film arşivi ve altyazı desteği ile bilinen uygulama.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">5726169</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('5726169')">Kopyala</button>
+    </div>
+  </div>
+
+  <div class="app-card app-item" style="animation-delay:440ms">
+    <div class="card-stripe stripe-dl"></div>
+    <div class="card-body">
+      <div class="card-icon" style="background: linear-gradient(135deg,#eab308,#ca8a04); color:#1a1208">B</div>
+      <div class="card-info">
+        <div class="card-name app-name">BeeTV</div>
+        <div class="card-desc">Yerli içeriklerden dünya sinemasına kadar her şeyi tek bir yerden izlemenize olanak tanır.</div>
+      </div>
+      <div class="code-box">
+        <div class="code-num">50187</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <button class="btn btn-copy" onclick="copyText('50187')">Kopyala</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="emptyState">
+  <div class="icon">🔍</div>
+  <p>Uygulama bulunamadı.</p>
+</div>
+
+</main>
+
+<footer>
+  <div style="margin-bottom:6px">
+    <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a> ·
+    <a href="uygulamalar.html">TV APK</a> ·
+    <a href="mobil.html">Telefon APK</a> ·
+    <a href="pluginhub.html">Eklentiler</a> ·
+    <a href="https://t.me/tcltvturk1">Telegram</a>
+  </div>
+  <div>PluginHub — TCL TV Türk Topluluğu</div>
+</footer>
+
+<script>
+function filterApps() {
+  const q = document.getElementById('appSearch').value.toLowerCase();
+  const items = document.querySelectorAll('.app-item');
+  let visible = 0;
+  items.forEach(el => {
+    const name = el.querySelector('.app-name').textContent.toLowerCase();
+    const show = !q || name.includes(q);
+    el.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function copyText(t) {
+  navigator.clipboard.writeText(t).then(() => {
+    const el = document.getElementById('toast');
+    el.textContent = '✓ Kopyalandı: ' + t;
+    el.classList.add('show');
+    clearTimeout(window._tt);
+    window._tt = setTimeout(() => el.classList.remove('show'), 2200);
+  });
+}
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function checkMobile() {
+  document.getElementById('menuBtn').style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+}
+window.addEventListener('resize', checkMobile);
+checkMobile();
+</script>
 </body>
 </html>
