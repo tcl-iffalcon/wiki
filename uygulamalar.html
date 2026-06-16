@@ -58,6 +58,7 @@ nav {
   font-size: 13px; font-weight: 600; color: var(--muted);
   text-decoration: none; padding: 6px 12px; border-radius: 6px;
   transition: color 0.2s, background 0.2s;
+  white-space: nowrap;
 }
 .nav-links a:hover { color: var(--text); background: var(--surface2); }
 .nav-links a.active-nav {
@@ -195,7 +196,7 @@ nav {
 .card-body {
   padding: 20px 22px;
   display: flex; flex-direction: row; gap: 20px; align-items: center;
-  justify-content: space-between; /* Butonları sağa yaslamak ve dikeyde eşitlemek için eklendi */
+  justify-content: space-between;
   flex: 1;
 }
 @media (max-width: 580px) { 
@@ -249,7 +250,7 @@ nav {
 .btn-copy {
   background: var(--surface2); color: var(--text);
   border: 1px solid var(--border);
-  align-self: stretch; /* Dikey yükseklikte kod kutusuna eşitlemek için eklendi */
+  align-self: stretch;
 }
 .btn-copy:hover { border-color: var(--wc-gold); color: var(--wc-gold); }
 
@@ -307,22 +308,22 @@ footer a:hover { color: var(--wc-red); }
   <div class="nav-inner">
     <a href="https://tcl-iffalcon.github.io/wiki/" class="brand">PluginHub</a>
     <div class="nav-links">
-      <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
-      <a href="uygulamalar.html" class="active-nav">TV APK</a>
-      <a href="mobil.html">Telefon APK</a>
-      <a href="pluginhub.html">🔌 Eklentiler</a>
-      <a href="wc2026.html">⚽ WC 2026</a>
-      <a href="https://t.me/tcltvturk1">Telegram</a>
+      <a href="https://tcl-iffalcon.github.io/wiki/">🏠 Ana Sayfa</a>
+      <a href="uygulamalar.html" class="active-nav">📺 TV APK</a>
+      <a href="mobil.html">📱 Telefon APK</a>
+      <a href="atmos.html">🎧 Dolby Atmos Listesi</a>
+      <a href="wc2026.html">⚽ Dünya Kupası</a>
+      <a href="https://t.me/tcltvturk1">💬 Telegram</a>
     </div>
     <button onclick="toggleMenu()" class="nav-btn" id="menuBtn" style="display:none">☰ Menü</button>
   </div>
   <div id="mobileMenu">
-    <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
-    <a href="uygulamalar.html">TV APK</a>
-    <a href="mobil.html">Telefon APK</a>
-    <a href="pluginhub.html">🔌 Eklentiler</a>
-    <a href="wc2026.html">⚽ WC 2026</a>
-    <a href="https://t.me/tcltvturk1">Telegram</a>
+    <a href="https://tcl-iffalcon.github.io/wiki/">🏠 Ana Sayfa</a>
+    <a href="uygulamalar.html">📺 TV APK</a>
+    <a href="mobil.html">📱 Telefon APK</a>
+    <a href="atmos.html">🎧 Dolby Atmos Listesi</a>
+    <a href="wc2026.html">⚽ Dünya Kupası</a>
+    <a href="https://t.me/tcltvturk1">💬 Telegram</a>
   </div>
 </nav>
 
@@ -645,11 +646,12 @@ footer a:hover { color: var(--wc-red); }
 
 <footer>
   <div style="margin-bottom:6px">
-    <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a> ·
-    <a href="uygulamalar.html">TV APK</a> ·
-    <a href="mobil.html">Telefon APK</a> ·
-    <a href="pluginhub.html">Eklentiler</a> ·
-    <a href="https://t.me/tcltvturk1">Telegram</a>
+    <a href="https://tcl-iffalcon.github.io/wiki/">🏠 Ana Sayfa</a> ·
+    <a href="uygulamalar.html">📺 TV APK</a> ·
+    <a href="mobil.html">📱 Telefon APK</a> ·
+    <a href="atmos.html">🎧 Dolby Atmos Listesi</a> ·
+    <a href="wc2026.html">⚽ Dünya Kupası</a> ·
+    <a href="https://t.me/tcltvturk1">💬 Telegram</a>
   </div>
   <div>PluginHub — TCL TV Türk Topluluğu</div>
 </footer>
