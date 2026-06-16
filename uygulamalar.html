@@ -7,13 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #f5f0e8;
+  --bg:        #f5f0e8;
   --surface:  #ffffff;
   --surface2: #ede8df;
-  --border:   rgba(0,0,0,0.09);
-  --text:     #1a1208;
+  --border:    rgba(0,0,0,0.09);
+  --text:      #1a1208;
   --muted:    #6b6050;
-  --wc-red:   #c8102e;
+  --wc-red:    #c8102e;
   --wc-gold:  #b8860b;
   --wc-gold-light: #d4a017;
   --wc-navy:  #002868;
@@ -190,14 +190,19 @@ nav {
 
 .card-stripe { height: 4px; }
 .stripe-red  { background: linear-gradient(90deg, var(--wc-red), #e04060); }
-.stripe-dl   { background: linear-gradient(90deg, var(--wc-gold), var(--wc-gold-light)); }
+.stripe-dl    { background: linear-gradient(90deg, var(--wc-gold), var(--wc-gold-light)); }
 
 .card-body {
   padding: 20px 22px;
   display: flex; flex-direction: row; gap: 20px; align-items: center;
+  justify-content: space-between; /* Butonları sağa yaslamak ve dikeyde eşitlemek için eklendi */
   flex: 1;
 }
-@media (max-width: 580px) { .card-body { flex-direction: column; align-items: flex-start; gap: 14px; } }
+@media (max-width: 580px) { 
+  .card-body { flex-direction: column; align-items: flex-start; gap: 14px; } 
+  .code-box { width: 100%; justify-content: center; }
+  .btn-copy { width: 100%; }
+}
 
 .card-icon {
   width: 54px; height: 54px; border-radius: 14px;
@@ -244,6 +249,7 @@ nav {
 .btn-copy {
   background: var(--surface2); color: var(--text);
   border: 1px solid var(--border);
+  align-self: stretch; /* Dikey yükseklikte kod kutusuna eşitlemek için eklendi */
 }
 .btn-copy:hover { border-color: var(--wc-gold); color: var(--wc-gold); }
 
@@ -339,7 +345,6 @@ footer a:hover { color: var(--wc-red); }
   </div>
 </div>
 
-<!-- ÖNE ÇIKANLAR -->
 <div class="section-header">
   <span class="section-badge sb-red">⭐ ÖNERILEN</span>
   <h2 class="section-title">Öne Çıkan Uygulamalar</h2>
@@ -420,7 +425,6 @@ footer a:hover { color: var(--wc-red); }
 
 </div>
 
-<!-- DOWNLOADER KODLU UYGULAMALAR -->
 <div class="section-header">
   <span class="section-badge sb-dl">🔢 DOWNLOADER</span>
   <h2 class="section-title">Kod ile Kurulan Uygulamalar</h2>
