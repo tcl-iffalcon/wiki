@@ -8,38 +8,45 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:#0f172a;color:#f8fafc;min-height:100vh;scroll-behavior:smooth}
-nav{position:sticky;top:0;z-index:50;background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);padding:14px 24px}
-.nav-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-sub{font-size:12px;color:#64748b}
+
+/* Üst Menü (Navbar) Navigasyon Alanı */
+nav{position:sticky;top:0;z-index:50;background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);padding:0 24px;height:65px;display:flex;align-items:center}
+.nav-inner{max-width:1100px;width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;flex-shrink:0}
+.nav-menu{display:flex;gap:8px;list-style:none;overflow-x:auto;scrollbar-width:none;padding:4px 0}
+.nav-menu::-webkit-scrollbar{display:none}
+.nav-item{color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;padding:8px 14px;border-radius:10px;transition:all .2s ease}
+.nav-item:hover{color:#f8fafc;background:rgba(255,255,255,0.05)}
+.nav-item.active{color:#60a5fa;background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.15)}
+
 main{max-width:1100px;margin:0 auto;padding:40px 20px 80px}
 h1{font-size:2.5rem;font-weight:700;text-align:center;margin-bottom:8px;letter-spacing:-0.5px}
-.subtitle{text-align:center;color:#94a3b8;margin-bottom:24px;font-size:1rem}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:24px;font-size:1rem;line-height:1.5}
 
-/* Liste Değiştirici Sekmeler (Tabs) */
+/* İç Liste Değiştirici Sekmeler (Tabs) */
 .list-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
-.tab-btn{background:rgba(30,41,59,0.5);border:1px solid rgba(255,255,255,0.08);padding:10px 20px;border-radius:12px;color:#94a3b8;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.tab-btn{background:rgba(30,41,59,0.5);border:1px solid rgba(255,255,255,0.08);padding:10px 20px;border-radius:12px;color:#94a3b8;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s ease}
 .tab-btn:hover{background:rgba(30,41,59,0.9);color:#f8fafc}
 .tab-btn.active{background:linear-gradient(135deg,#3b82f6,#10b981);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(59,130,246,0.25)}
 
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;align-items:center}
-.filters input{flex:1;min-width:200px;background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 18px;color:#f8fafc;font-size:14px;font-family:inherit;transition:border-color .2s}
+.filters input{flex:1;min-width:200px;background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 18px;color:#f8fafc;font-size:14px;font-family:inherit;transition:all .2s ease}
 .filters input::placeholder{color:#475569}
-.filters input:focus{outline:none;border-color:#60a5fa}
+.filters input:focus{outline:none;border-color:#60a5fa;background:rgba(30,41,59,0.9)}
 .filters select{background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 16px;color:#f8fafc;font-size:14px;font-family:inherit;cursor:pointer;transition:border-color .2s}
 .filters select:focus{outline:none;border-color:#60a5fa}
 .filters select option{background:#1e293b}
 .stats{display:flex;gap:8px;align-items:center;margin-left:auto;font-size:13px;color:#64748b;white-space:nowrap}
 .count-badge{background:rgba(96,165,250,0.15);color:#60a5fa;padding:4px 12px;border-radius:99px;font-weight:600;font-size:13px}
-.grid{display:grid;gap:14px}
-.card{background:rgba(30,41,59,0.65);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 22px;display:flex;align-items:center;gap:18px;transition:border-color .25s,background .25s;cursor:default}
-.card:hover{border-color:rgba(96,165,250,0.3);background:rgba(30,41,59,0.9)}
+.grid{display:grid;gap:14px;transition:all 0.3s ease}
+.card{background:rgba(30,41,59,0.65);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 22px;display:flex;align-items:center;gap:18px;transition:all .25s ease;cursor:default}
+.card:hover{border-color:rgba(96,165,250,0.35);background:rgba(30,41,59,0.95);transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,0.2)}
 .rank{width:38px;text-align:center;font-size:1.1rem;font-weight:700;color:#334155;flex-shrink:0}
-.rank.top3{color:#f59e0b}
+.rank.top3{color:#f59e0b;font-size:1.3rem}
 .info{flex:1;min-width:0}
 .title{font-size:1rem;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .meta{font-size:12px;color:#64748b;margin-top:3px}
-.note{font-size:12px;color:#10b981;margin-top:4px;font-style:italic}
+.note{font-size:12px;color:#10b981;margin-top:5px;font-style:italic;background:rgba(16,185,129,0.06);padding:4px 8px;border-radius:6px;display:inline-block}
 .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
 .b-aksiyon{background:rgba(59,130,246,0.2);color:#93c5fd}
@@ -72,6 +79,14 @@ footer{text-align:center;color:#334155;font-size:12px;padding:30px;border-top:1p
 <nav>
   <div class="nav-inner">
     <div class="logo">PluginHub</div>
+    <div class="nav-menu">
+      <a href="#" class="nav-item">🏠 Ana Sayfa</a>
+      <a href="#" class="nav-item">📺 TV APK</a>
+      <a href="#" class="nav-item">📱 Telefon APK</a>
+      <a href="#" class="nav-item active">🎧 Dolby Atmos Listesi</a>
+      <a href="#" class="nav-item">⚽ Dünya Kupası</a>
+      <a href="#" class="nav-item">💬 Telegram</a>
+    </div>
   </div>
 </nav>
 <main>
@@ -120,7 +135,6 @@ footer{text-align:center;color:#334155;font-size:12px;padding:30px;border-top:1p
 <footer>© 2026 PluginHub &nbsp;·&nbsp; Türkiye bölgesi streaming verileri</footer>
 
 <script>
-// Orijinal Top 100 Atmos Listesi (Dokunulmadı)
 const MOVIES=[
 {r:1,n:"Blade Runner 2049",y:2017,g:"Bilim Kurgu",p:[]},
 {r:2,n:"Dune",y:2021,g:"Bilim Kurgu",p:[]},
@@ -221,10 +235,9 @@ const MOVIES=[
 {r:97,n:"300",y:2007,g:"Aksiyon",p:[]},
 {r:98,n:"Evil Dead Rise",y:2023,g:"Korku",p:[]},
 {r:99,n:"Puss in Boots: The Last Wish",y:2022,g:"Animasyon",p:[]},
-{r:100,n:"A Quiet Place: Day One",y:2024,g:"Korku",p:["Netflix","TV+"]},
+{r:100,n:"A Quiet Place: Day One",y:2024,g:"Korku",p:["Netflix","TV+"]}
 ];
 
-// PDF BÖLÜM 1: EN İYİ GENEL SES KALİTESİNE SAHİP FİLMLER
 const GENEL_SES_MOVIES = [
   {r:1,n:"Avatar 1-2-3",y:"2009-2024",g:"Bilim Kurgu",p:["Disney+"]},
   {r:2,n:"Spider-Man: Into the Spider-Verse",y:2018,g:"Animasyon",p:["Netflix","TV+"]},
@@ -235,70 +248,68 @@ const GENEL_SES_MOVIES = [
   {r:7,n:"Blade Runner 2049",y:2017,g:"Bilim Kurgu",p:[]},
   {r:8,n:"The Tomorrow War",y:2021,g:"Aksiyon",p:["Prime"]},
   {r:9,n:"War of the Worlds",y:2005,g:"Macera",p:["TV+"],t:"Açılış sahnesi bilinen en dip frekanslı film"},
-  {r:11,n:"Edge of Tomorrow",y:2014,g:"Aksiyon",p:[]},
-  {r:12,n:"Gravity",y:2013,g:"Bilim Kurgu",p:["Prime"]},
-  {r:13,n:"Ambulance",y:2022,g:"Gerilim",p:[]},
-  {r:14,n:"Resident Evil: Welcome to Raccoon City",y:2021,g:"Korku",p:[]},
-  {r:15,n:"A Quiet Place 1-2",y:"2018-2021",g:"Korku",p:[]},
-  {r:16,n:"Mad Max: Fury Road",y:2015,g:"Aksiyon",p:["Prime"],t:"Açılış sahnesi ve Bölüm 4 Max'in kumdan kafa çıkışı sonrası vadiye varana kadar olan sesler"},
-  {r:17,n:"Top Gun: Maverick",y:2022,g:"Aksiyon",p:["TV+"]},
-  {r:18,n:"Black Hawk Down",y:2001,g:"Savaş",p:["Prime"]},
-  {r:19,n:"No One Will Save You",y:2023,g:"Korku",p:["Disney+"]},
-  {r:20,n:"The Last of the Mohicans",y:1992,g:"Dram",p:[]},
-  {r:21,n:"Overlord",y:2018,g:"Korku",p:[]},
-  {r:22,n:"Angel Has Fallen",y:2019,g:"Aksiyon",p:[],t:"Drone Sahneleri"},
-  {r:23,n:"Civil War",y:2024,g:"Savaş",p:["TV+","TOD"]},
-  {r:24,n:"No Time to Die",y:2021,g:"Aksiyon",p:[],t:"Bond'un Aston Martin içindeki sahneleri"},
-  {r:25,n:"Tenet",y:2020,g:"Aksiyon",p:[],t:"Açılış sahnesi ve otoyol kovalamacası"},
-  {r:26,n:"Jupiter Ascending",y:2015,g:"Bilim Kurgu",p:[],t:"Chicago üzerinde hava savaşı"},
-  {r:27,n:"The Batman",y:2022,g:"Suç",p:["TV+","Max"]},
-  {r:28,n:"Master and Commander: The Far Side of the World",y:2003,g:"Macera",p:[],t:"Açılış savaş sahnesi"},
-  {r:29,n:"Ford v Ferrari",y:2019,g:"Dram",p:["Disney+","TV+"]},
-  {r:30,n:"Mission: Impossible - Ghost Protocol",y:2011,g:"Aksiyon",p:["TV+"],t:"Dead Reckoning'in kum fırtınası, helikopter ve tren sahneleri eklenebilir"},
-  {r:31,n:"Morbius",y:2022,g:"Aksiyon",p:[]},
-  {r:32,n:"Bird Box Barcelona",y:2023,g:"Gerilim",p:["Netflix"],t:"Yaratıkların kafanızın içinde konuşma sahneleri"},
-  {r:33,n:"Unbroken",y:2014,g:"Dram",p:[],t:"Uçak sahnesi"},
-  {r:34,n:"6 Underground",y:2019,g:"Aksiyon",p:["Netflix"]},
-  {r:35,n:"Leave the World Behind",y:2023,g:"Gerilim",p:["Netflix"],t:"Tam bir ambiyans ses harikası"},
-  {r:36,n:"Mortal Kombat",y:2021,g:"Aksiyon",p:[]},
-  {r:37,n:"65",y:2023,g:"Bilim Kurgu",p:[]},
-  {r:38,n:"The Adam Project",y:2022,g:"Bilim Kurgu",p:["Netflix"]},
-  {r:39,n:"Doctor Strange",y:2016,g:"Fantastik",p:["Disney+"]},
-  {r:40,n:"The Fast and the Furious",y:2001,g:"Aksiyon",p:["Netflix","Prime"],t:"Diyaloglar hariç, 20 yıl öncesine göre çok iyi"},
-  {r:41,n:"2 Fast 2 Furious",y:2003,g:"Aksiyon",p:[],t:"Açılış Sahnesi (Universal dahil) ve 50. dk'da gazlama sahnesi"},
-  {r:42,n:"Jumanji",y:1995,g:"Macera",p:[]},
-  {r:43,n:"Alita: Battle Angel",y:2019,g:"Aksiyon",p:["Disney+"]},
-  {r:44,n:"Interstellar",y:2014,g:"Bilim Kurgu",p:[]},
-  {r:45,n:"1917",y:2019,g:"Savaş",p:["TV+","Max"],t:"Savaşın içinde kaçış koşusu"},
-  {r:46,n:"Nobody",y:2021,g:"Aksiyon",p:[]},
-  {r:47,n:"Baby Driver",y:2017,g:"Aksiyon",p:["TV+","TOD"]},
-  {r:48,n:"Sound of Metal",y:2019,g:"Dram",p:["Prime"]},
-  {r:49,n:"Godzilla Minus One",y:2023,g:"Bilim Kurgu",p:["Netflix"]},
-  {r:50,n:"10 Cloverfield Lane",y:2016,g:"Gerilim",p:[],t:"Sığınaktaki uzay gemileri ve kask takma sahnesi"},
-  {r:51,n:"Atlas",y:2024,g:"Bilim Kurgu",p:["Netflix"],t:"Streaming olmasına rağmen başarılı"},
-  {r:52,n:"Twister",y:1996,g:"Aksiyon",p:["Disney+"],t:"1997 Remastered - Tavandan gelen dolu ve savrulan nesneler"},
-  {r:53,n:"Furiosa: A Mad Max Saga",y:2024,g:"Aksiyon",p:["Netflix"]},
-  {r:54,n:"Mortal Kombat",y:1995,g:"Aksiyon",p:[]},
-  {r:55,n:"Game of Thrones - Battle of the Bastards",y:2016,g:"Macera",p:[],t:"Dizi Bölümü"},
-  {r:56,n:"Evil Dead Rise",y:2023,g:"Korku",p:[]},
-  {r:57,n:"Bad Boys: Ride or Die",y:2024,g:"Aksiyon",p:[]},
-  {r:58,n:"Terminator: Dark Fate",y:2019,g:"Aksiyon",p:[]},
-  {r:59,n:"War Horse",y:2011,g:"Dram",p:[]},
-  {r:60,n:"Zero Dark Thirty",y:2012,g:"Gerilim",p:[]},
-  {r:61,n:"Annabelle",y:2014,g:"Korku",p:[]},
-  {r:62,n:"Tarot",y:2024,g:"Korku",p:[]},
-  {r:63,n:"Kraven the Hunter",y:2024,g:"Aksiyon",p:[]},
-  {r:64,n:"Incident in a Ghostland",y:2018,g:"Korku",p:[]},
-  {r:65,n:"The Dark Knight Üçlemesi",y:"2005-2012",g:"Aksiyon",p:[]},
-  {r:66,n:"RRR",y:2022,g:"Aksiyon",p:["Netflix"]},
-  {r:67,n:"The Mummy: Tomb of the Dragon Emperor",y:2008,g:"Macera",p:[],t:"DTS:X Remix"},
-  {r:68,n:"Black Adam",y:2022,g:"Aksiyon",p:[]},
-  {r:69,n:"The Shallows",y:2016,g:"Gerilim",p:[]},
-  {r:70,n:"Max Payne",y:2008,g:"Aksiyon",p:[]},
-  {r:71,n:"Spider-Man: Across the Spider-Verse",y:2023,g:"Animasyon",p:["Netflix"]}
+  {r:10,n:"Edge of Tomorrow",y:2014,g:"Aksiyon",p:[]},
+  {r:11,n:"Gravity",y:2013,g:"Bilim Kurgu",p:["Prime"]},
+  {r:12,n:"Ambulance",y:2022,g:"Gerilim",p:[]},
+  {r:13,n:"Resident Evil: Welcome to Raccoon City",y:2021,g:"Korku",p:[]},
+  {r:14,n:"A Quiet Place 1-2",y:"2018-2021",g:"Korku",p:[]},
+  {r:15,n:"Mad Max: Fury Road",y:2015,g:"Aksiyon",p:["Prime"],t:"Açılış sahnesi ve Bölüm 4 Max'in kumdan kafa çıkışı sonrası vadiye varana kadar olan sesler"},
+  {r:16,n:"Top Gun: Maverick",y:2022,g:"Aksiyon",p:["TV+"]},
+  {r:17,n:"Black Hawk Down",y:2001,g:"Savaş",p:["Prime"]},
+  {r:18,n:"No One Will Save You",y:2023,g:"Korku",p:["Disney+"]},
+  {r:19,n:"The Last of the Mohicans",y:1992,g:"Dram",p:[]},
+  {r:20,n:"Overlord",y:2018,g:"Korku",p:[]},
+  {r:21,n:"Angel Has Fallen",y:2019,g:"Aksiyon",p:[],t:"Drone Sahneleri"},
+  {r:22,n:"Civil War",y:2024,g:"Savaş",p:["TV+","TOD"]},
+  {r:23,n:"No Time to Die",y:2021,g:"Aksiyon",p:[],t:"Bond'un Aston Martin içindeki sahneleri"},
+  {r:24,n:"Tenet",y:2020,g:"Aksiyon",p:[],t:"Açılış sahnesi ve otoyol kovalamacası"},
+  {r:25,n:"Jupiter Ascending",y:2015,g:"Bilim Kurgu",p:[],t:"Chicago üzerinde hava savaşı"},
+  {r:26,n:"The Batman",y:2022,g:"Suç",p:["TV+","Max"]},
+  {r:27,n:"Master and Commander: The Far Side of the World",y:2003,g:"Macera",p:[],t:"Açılış savaş sahnesi"},
+  {r:28,n:"Ford v Ferrari",y:2019,g:"Dram",p:["Disney+","TV+"]},
+  {r:29,n:"Mission: Impossible - Ghost Protocol",y:2011,g:"Aksiyon",p:["TV+"],t:"Dead Reckoning'in kum fırtınası, helikopter ve tren sahneleri eklenebilir"},
+  {r:30,n:"Morbius",y:2022,g:"Aksiyon",p:[]},
+  {r:31,n:"Bird Box Barcelona",y:2023,g:"Gerilim",p:["Netflix"],t:"Yaratıkların kafanızın içinde konuşma sahneleri"},
+  {r:32,n:"Unbroken",y:2014,g:"Dram",p:[],t:"Uçak sahnesi"},
+  {r:33,n:"6 Underground",y:2019,g:"Aksiyon",p:["Netflix"]},
+  {r:34,n:"Leave the World Behind",y:2023,g:"Gerilim",p:["Netflix"],t:"Tam bir ambiyans ses harikası"},
+  {r:35,n:"Mortal Kombat",y:2021,g:"Aksiyon",p:[]},
+  {r:36,n:"65",y:2023,g:"Bilim Kurgu",p:[]},
+  {r:37,n:"Doctor Strange",y:2016,g:"Fantastik",p:["Disney+"]},
+  {r:38,n:"The Fast and the Furious",y:2001,g:"Aksiyon",p:["Netflix","Prime"],t:"Diyaloglar hariç, 20 yıl öncesine göre çok iyi"},
+  {r:39,n:"2 Fast 2 Furious",y:2003,g:"Aksiyon",p:[],t:"Açılış Sahnesi (Universal dahil) ve 50. dk'da gazlama sahnesi"},
+  {r:40,n:"Jumanji",y:1995,g:"Macera",p:[]},
+  {r:41,n:"Alita: Battle Angel",y:2019,g:"Aksiyon",p:["Disney+"]},
+  {r:42,n:"Interstellar",y:2014,g:"Bilim Kurgu",p:[]},
+  {r:43,n:"1917",y:2019,g:"Savaş",p:["TV+","Max"],t:"Savaşın içinde kaçış koşusu"},
+  {r:44,n:"Nobody",y:2021,g:"Aksiyon",p:[]},
+  {r:45,n:"Baby Driver",y:2017,g:"Aksiyon",p:["TV+","TOD"]},
+  {r:46,n:"Sound of Metal",y:2019,g:"Dram",p:["Prime"]},
+  {r:47,n:"Godzilla Minus One",y:2023,g:"Bilim Kurgu",p:["Netflix"]},
+  {r:48,n:"10 Cloverfield Lane",y:2016,g:"Gerilim",p:[],t:"Sığınaktaki uzay gemileri ve kask takma sahnesi"},
+  {r:49,n:"Atlas",y:2024,g:"Bilim Kurgu",p:["Netflix"],t:"Streaming olmasına rağmen başarılı"},
+  {r:50,n:"Twister",y:1996,g:"Aksiyon",p:["Disney+"],t:"1997 Remastered - Tavandan gelen dolu ve savrulan nesneler"},
+  {r:51,n:"Furiosa: A Mad Max Saga",y:2024,g:"Aksiyon",p:["Netflix"]},
+  {r:52,n:"Mortal Kombat",y:1995,g:"Aksiyon",p:[]},
+  {r:53,n:"Game of Childhood - Battle of the Bastards",y:2016,g:"Macera",p:[],t:"Dizi Bölümü"},
+  {r:54,n:"Evil Dead Rise",y:2023,g:"Korku",p:[]},
+  {r:55,n:"Bad Boys: Ride or Die",y:2024,g:"Aksiyon",p:[]},
+  {r:56,n:"Terminator: Dark Fate",y:2019,g:"Aksiyon",p:[]},
+  {r:57,n:"War Horse",y:2011,g:"Dram",p:[]},
+  {r:58,n:"Zero Dark Thirty",y:2012,g:"Gerilim",p:[]},
+  {r:59,n:"Annabelle",y:2014,g:"Korku",p:[]},
+  {r:60,n:"Tarot",y:2024,g:"Korku",p:[]},
+  {r:61,n:"Kraven the Hunter",y:2024,g:"Aksiyon",p:[]},
+  {r:62,n:"Incident in a Ghostland",y:2018,g:"Korku",p:[]},
+  {r:63,n:"The Dark Knight Üçlemesi",y:"2005-2012",g:"Aksiyon",p:[]},
+  {r:64,n:"RRR",y:2022,g:"Aksiyon",p:["Netflix"]},
+  {r:65,n:"The Mummy: Tomb of the Dragon Emperor",y:2008,g:"Macera",p:[],t:"DTS:X Remix"},
+  {r:66,n:"Black Adam",y:2022,g:"Aksiyon",p:[]},
+  {r:67,n:"The Shallows",y:2016,g:"Gerilim",p:[]},
+  {r:68,n:"Max Payne",y:2008,g:"Aksiyon",p:[]},
+  {r:69,n:"Spider-Man: Across the Spider-Verse",y:2023,g:"Animasyon",p:["Netflix"]}
 ];
 
-// PDF BÖLÜM 2: EN İYİ TAVAN HOPARLÖRÜ KULLANIMINA SAHİP FİLMLER
 const TAVAN_MOVIES = [
   {r:1,n:"A Quiet Place",y:2018,g:"Korku",p:[]},
   {r:2,n:"Ready Player One",y:2018,g:"Macera",p:["Prime"]},
@@ -317,7 +328,6 @@ const TAVAN_MOVIES = [
   {r:15,n:"Zero Dark Thirty",y:2012,g:"Gerilim",p:[]}
 ];
 
-// PDF BÖLÜM 3: EN İYİ BAS FİLMLERİ
 const BAS_MOVIES = [
   {r:1,n:"War of the Worlds",y:2005,g:"Macera",p:["TV+"],t:"Bilinen en alt frekansa inen film"},
   {r:2,n:"Dune 1-2",y:"2021-2024",g:"Bilim Kurgu",p:["TV+","Max"],t:"30Hz'e kadar iniyor, devamlı bas kullanımı var"},
@@ -363,11 +373,9 @@ const BAS_MOVIES = [
   {r:42,n:"Annabelle",y:2014,g:"Korku",p:[]},
   {r:43,n:"The Dark Knight",y:2008,g:"Aksiyon",p:[]},
   {r:44,n:"RRR",y:2022,g:"Aksiyon",p:["Netflix"]},
-  {r:45,n:"The Mummy: Tomb of the Dragon Emperor",y:2008,g:"Macera",p:[],t:"DTS:X Remix"},
-  {r:46,n:"Spider-Man: Across the Spider-Verse",y:2023,g:"Animasyon",p:["Netflix"]}
+  {r:45,n:"The Mummy: Tomb of the Dragon Emperor",y:2008,g:"Macera",p:[],t:"DTS:X Remix"}
 ];
 
-// Global Aktif Liste Durumu
 let currentListType = 'atmos';
 
 const GENRE_CLASS={
@@ -379,11 +387,11 @@ const GENRE_CLASS={
 
 const PT_CLASS={
 "Prime":"pt-prime","Netflix":"pt-netflix","TV+":"pt-tvplus",
-"Max":"pt-max","Disney+":"pt-disney","TOD":"pt-tod","Stream":"pt-tvplus","MUBI":"pt-mubi"
+"Max":"pt-max","Disney+":"pt-disney","TOD":"pt-tod","MUBI":"pt-mubi"
 };
 const PT_LABEL={
 "Prime":"Amazon Prime","Netflix":"Netflix","TV+":"TV+",
-"Max":"Max","Disney+":"Disney+","TOD":"TOD TV","Stream":"Stream","MUBI":"MUBI"
+"Max":"Max","Disney+":"Disney+","TOD":"TOD TV","MUBI":"MUBI"
 };
 
 function getActiveList() {
@@ -428,7 +436,7 @@ function filter(){
   const res=activeList.filter(m=>{
     const matchQ=!q||m.n.toLowerCase().includes(q);
     const matchG=!g||m.g===g;
-    const matchP=!pf||(m.p && m.p.some(x=>x.includes(pf)||pf.includes(x)));
+    const matchP=!pf||(m.p && m.p.some(x=>x===pf));
     return matchQ&&matchG&&matchP;
   });
   render(res);
@@ -437,7 +445,6 @@ function filter(){
 function switchList(type) {
   currentListType = type;
   
-  // Tab butonlarının aktifliğini değiştirme
   const buttons = document.querySelectorAll('.tab-btn');
   buttons.forEach(btn => btn.classList.remove('active'));
   
@@ -451,11 +458,9 @@ function switchList(type) {
   document.getElementById('mainTitle').textContent = titles[type].t;
   document.getElementById('mainSubtitle').textContent = titles[type].s;
   
-  // Tıklanan butonu aktif yap
   const index = ['atmos', 'genelSes', 'tavan', 'bas'].indexOf(type);
-  buttons[index].classList.add('active');
+  if(index !== -1) buttons[index].classList.add('active');
   
-  // Filtreleri temizle ve listeyi yeniden render et
   document.getElementById('search').value = '';
   document.getElementById('genre').value = '';
   document.getElementById('platform').value = '';
