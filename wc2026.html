@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA Dünya Kupası 2026 — PluginHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+/* ── SITE TOKENS (mevcut site ile uyumlu) ── */
+:root {
+  --bg: #080c14;
+  --surface: #0d1421;
+  --surface2: #121929;
+  --border: rgba(255,255,255,0.07);
+  --text: #f0f4ff;
+  --muted: #6b7a99;
+  --accent: #3b82f6;
+  --accent2: #10b981;
+  --accent3: #f59e0b;
+  --glow: rgba(59,130,246,0.15);
+
+  /* WC2026 retro palette — 1994 USA kırmızı/mavi/beyaz + 1998 France lacivert/altın */
+  --wc-red:    #c8102e;
+  --wc-gold:   #c9a84c;
+  --wc-cream:  #f5efe0;
+  --wc-navy:   #002868;
+  --wc-green:  #1a6b2e;
+  --wc-green2: #24903f;
+  --wc-stripe: rgba(36,144,63,0.18);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── ÇIMEN GRID ARKAPLAN ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(var(--wc-stripe) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wc-stripe) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none; z-index: 0;
+}
+
+/* ── NAV (mevcut siteyle aynı) ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,12,20,0.9);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #60a5fa, #34d399);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 6px; align-items: center; }
+.nav-links a {
+  font-size: 13px; font-weight: 500; color: var(--muted);
+  text-decoration: none; padding: 6px 12px; border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav-links a:hover { color: var(--text); background: var(--surface2); }
+.nav-links a.active-nav {
+  color: var(--wc-gold);
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+}
+.nav-btn {
+  display: flex; align-items: center; padding: 7px 13px;
+  border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--muted);
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; gap: 6px; text-decoration: none;
+}
+.nav-btn:hover { color: var(--text); border-color: var(--accent); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  #mobileMenu.open { display: block; }
+  #mobileMenu {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 16px;
+  }
+  #mobileMenu a {
+    display: block; padding: 10px 12px; border-radius: 8px;
+    color: var(--muted); text-decoration: none; font-size: 14px;
+    transition: background 0.2s;
+  }
+  #mobileMenu a:hover { background: var(--surface2); color: var(--text); }
+}
+
+/* ── DUYURU ŞERIDI ── */
+.announce-bar {
+  background: linear-gradient(90deg, var(--wc-red), #8b0020, var(--wc-red));
+  background-size: 200% 100%;
+  animation: flagWave 4s ease-in-out infinite;
+  border-bottom: 3px solid var(--wc-gold);
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  position: relative; z-index: 1;
+}
+@keyframes flagWave {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  padding: 0 16px;
+  overflow: hidden;
+}
+
+/* Retro bilet çerçevesi */
+.hero-ticket {
+  max-width: 900px; margin: 40px auto 0;
+  border: 3px solid var(--wc-gold);
+  border-radius: 4px;
+  background: var(--surface);
+  position: relative;
+  box-shadow:
+    0 0 0 8px rgba(201,168,76,0.08),
+    0 0 60px rgba(201,168,76,0.15),
+    inset 0 0 80px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+/* Çimen deseni — hero içi */
+.hero-ticket::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 6px;
+  background: repeating-linear-gradient(
+    90deg, var(--wc-red) 0, var(--wc-red) 33.3%, #fff 33.3%, #fff 66.6%, var(--wc-navy) 66.6%, var(--wc-navy) 100%
+  );
+}
+.hero-ticket::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 6px;
+  background: repeating-linear-gradient(
+    90deg, var(--wc-navy) 0, var(--wc-navy) 33.3%, #fff 33.3%, #fff 66.6%, var(--wc-red) 66.6%, var(--wc-red) 100%
+  );
+}
+
+.hero-inner {
+  padding: 48px 40px 44px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 640px) {
+  .hero-inner { grid-template-columns: 1fr; padding: 36px 24px 32px; }
+  .hero-ball { display: none; }
+}
+
+.hero-eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: var(--wc-gold);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  flex: 1; max-width: 40px;
+  height: 1px; background: var(--wc-gold); opacity: 0.5;
+}
+
+.hero h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(42px, 8vw, 84px);
+  line-height: 0.92;
+  letter-spacing: -1px;
+  color: var(--wc-cream);
+  margin-bottom: 8px;
+}
+.hero h1 .year {
+  display: block;
+  color: var(--wc-gold);
+  text-shadow: 0 0 40px rgba(201,168,76,0.4);
+}
+.hero h1 .sub {
+  font-size: clamp(18px, 3vw, 28px);
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 6px;
+  color: var(--muted);
+  display: block;
+  margin-top: 8px;
+}
+
+.hero-desc {
+  font-size: 14px; color: var(--muted); line-height: 1.7;
+  max-width: 440px; margin-top: 20px;
+}
+
+.hero-tags {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px;
+}
+.hero-tag {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.5px; padding: 4px 10px; border-radius: 3px;
+  border: 1px solid;
+}
+.hero-tag.usa { color: var(--wc-red); border-color: var(--wc-red); background: rgba(200,16,46,0.1); }
+.hero-tag.france { color: #8da9ff; border-color: var(--wc-navy); background: rgba(0,40,104,0.3); }
+.hero-tag.wc26 { color: var(--wc-gold); border-color: var(--wc-gold); background: rgba(201,168,76,0.1); }
+
+/* Futbol topu animasyonu */
+.hero-ball {
+  font-size: 100px;
+  animation: ballFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+  user-select: none;
+}
+@keyframes ballFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(15deg); }
+}
+
+/* ── STATS ŞERITI ── */
+.stats-strip {
+  max-width: 900px; margin: 0 auto;
+  border-left: 3px solid var(--wc-gold);
+  border-right: 3px solid var(--wc-gold);
+  border-bottom: 3px solid var(--wc-gold);
+  border-radius: 0 0 4px 4px;
+  background: rgba(201,168,76,0.06);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  divide-x: 1px solid var(--border);
+  position: relative; z-index: 1;
+  margin-bottom: 48px;
+}
+@media (max-width: 640px) { .stats-strip { grid-template-columns: repeat(2,1fr); } }
+.stat-cell {
+  padding: 16px 20px; text-align: center;
+  border-right: 1px solid rgba(201,168,76,0.15);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px; color: var(--wc-gold);
+  line-height: 1;
+}
+.stat-lbl {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--muted); margin-top: 4px;
+}
+
+/* ── SECTION BAŞLIKLARI (retro plak etiketi gibi) ── */
+.section-header {
+  max-width: 1200px; margin: 0 auto 24px;
+  padding: 0 16px;
+  display: flex; align-items: center; gap: 16px;
+  position: relative; z-index: 1;
+}
+.section-badge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px; letter-spacing: 3px;
+  padding: 5px 14px; border-radius: 2px;
+  white-space: nowrap;
+}
+.section-badge.red { background: var(--wc-red); color: #fff; }
+.section-badge.gold { background: var(--wc-gold); color: #000; }
+.section-badge.navy { background: var(--wc-navy); color: #fff; }
+.section-badge.green { background: var(--wc-green); color: #fff; }
+.section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(20px, 3vw, 28px);
+  letter-spacing: 1px;
+  color: var(--text);
+}
+.section-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ── KART IZGARASI ── */
+.cards-grid {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  position: relative; z-index: 1;
+  margin-bottom: 48px;
+}
+
+/* ── KART (retro bilet/kart stili) ── */
+.wc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  animation: fadeUp 0.4s ease both;
+  position: relative;
+}
+.wc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  border-color: var(--wc-gold);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Kart üst renk şeridi — tür bazlı */
+.wc-card .card-stripe {
+  height: 4px;
+}
+.stripe-apk  { background: linear-gradient(90deg, var(--wc-red), #ff6b6b); }
+.stripe-web  { background: linear-gradient(90deg, var(--wc-navy), #4477dd); }
+.stripe-iptv { background: linear-gradient(90deg, var(--wc-green), var(--wc-green2)); }
+.stripe-vpn  { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+.stripe-downloader { background: linear-gradient(90deg, var(--wc-gold), #e8c97a); }
+
+.card-body { padding: 20px; }
+
+.card-meta {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 14px;
+}
+.card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.cbadge {
+  font-size: 9px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.8px; padding: 3px 7px; border-radius: 2px;
+}
+.cbadge-apk  { background: rgba(200,16,46,0.15); color: #ff8099; border: 1px solid rgba(200,16,46,0.3); }
+.cbadge-web  { background: rgba(0,40,104,0.3); color: #8da9ff; border: 1px solid rgba(0,40,104,0.5); }
+.cbadge-iptv { background: rgba(26,107,46,0.3); color: #6ee7a0; border: 1px solid rgba(26,107,46,0.4); }
+.cbadge-vpn  { background: rgba(124,58,237,0.2); color: #c4b5fd; border: 1px solid rgba(124,58,237,0.3); }
+.cbadge-free { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+.cbadge-4k   { background: rgba(201,168,76,0.15); color: var(--wc-gold); border: 1px solid rgba(201,168,76,0.3); }
+.cbadge-new  {
+  background: rgba(200,16,46,0.2); color: #ff8099;
+  border: 1px solid rgba(200,16,46,0.4);
+  animation: pulseBadge 2s infinite;
+}
+@keyframes pulseBadge { 0%,100%{opacity:1}50%{opacity:.6} }
+
+.platform-icon { font-size: 18px; line-height: 1; }
+
+.card-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px; letter-spacing: 0.5px;
+  color: var(--wc-cream); margin-bottom: 6px;
+}
+.card-desc {
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+/* URL kutusu */
+.url-box {
+  font-size: 10px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 3px; padding: 7px 10px;
+  color: var(--muted); overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+  margin-bottom: 14px;
+}
+
+/* Downloader kodu kutusu */
+.code-box {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px;
+}
+.code-num {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px; color: var(--wc-gold);
+  background: rgba(201,168,76,0.08);
+  border: 2px solid rgba(201,168,76,0.25);
+  border-radius: 3px; padding: 6px 16px;
+  letter-spacing: 3px;
+}
+.code-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); }
+
+.card-actions { display: flex; gap: 8px; }
+.btn {
+  flex: 1; padding: 9px 0; border-radius: 3px; border: none;
+  font-size: 11px; font-weight: 800; cursor: pointer;
+  transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif;
+  text-align: center; text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.btn-copy {
+  background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-copy:hover { border-color: var(--wc-gold); color: var(--wc-gold); }
+.btn-goto {
+  background: var(--wc-red); color: #fff;
+}
+.btn-goto:hover { background: #a50d26; }
+.btn-gold {
+  background: var(--wc-gold); color: #000;
+}
+.btn-gold:hover { background: #b8973f; }
+
+/* ── KURULUM REHBER KARTLARI ── */
+.guide-grid {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  position: relative; z-index: 1;
+  margin-bottom: 48px;
+}
+.guide-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--wc-gold);
+  border-radius: 0 4px 4px 0;
+  padding: 20px;
+  animation: fadeUp 0.4s ease both;
+}
+.guide-app {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 2px;
+  color: var(--wc-gold); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.guide-steps { display: flex; flex-direction: column; gap: 10px; }
+.guide-step { display: flex; gap: 10px; align-items: flex-start; }
+.step-num {
+  min-width: 24px; height: 24px;
+  background: var(--wc-red); color: #fff;
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2px; flex-shrink: 0; margin-top: 1px;
+}
+.step-text { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.step-text strong { color: var(--text); }
+
+/* ── NOT KUTUSU ── */
+.note-box {
+  max-width: 1200px; margin: 0 auto 48px;
+  padding: 0 16px;
+  position: relative; z-index: 1;
+}
+.note-inner {
+  background: rgba(201,168,76,0.06);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-left: 4px solid var(--wc-gold);
+  border-radius: 0 4px 4px 0;
+  padding: 16px 20px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.note-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.note-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.note-text strong { color: var(--wc-gold); }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 12px; color: var(--muted);
+}
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--wc-gold); }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  padding: 10px 20px; border-radius: 3px;
+  font-size: 13px; font-weight: 700;
+  z-index: 9999;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
+  opacity: 0; pointer-events: none; white-space: nowrap;
+  background: var(--surface2); border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .guide-grid  { grid-template-columns: 1fr; }
+  .stats-strip { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- DUYURU ŞERİDİ -->
+<div class="announce-bar">
+  ⚽ FIFA Dünya Kupası 2026 — ABD · Kanada · Meksika · 11 Haziran – 19 Temmuz 2026 ⚽
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="https://tcl-iffalcon.github.io/wiki/" class="brand">PluginHub</a>
+    <div class="nav-links">
+      <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+      <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html">TV APK</a>
+      <a href="https://tcl-iffalcon.github.io/wiki/mobil.html">Telefon APK</a>
+      <a href="wc2026.html" class="active-nav">⚽ WC 2026</a>
+      <a href="https://t.me/tcltvturk1">Telegram</a>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button onclick="toggleMenu()" class="nav-btn" id="menuBtn" style="display:none">☰</button>
+    </div>
+  </div>
+  <div id="mobileMenu">
+    <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+    <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html">TV APK</a>
+    <a href="https://tcl-iffalcon.github.io/wiki/mobil.html">Telefon APK</a>
+    <a href="wc2026.html" style="color:var(--wc-gold)!important">⚽ WC 2026</a>
+    <a href="https://t.me/tcltvturk1">Telegram</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ticket">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">FIFA WORLD CUP</div>
+        <h1>
+          DÜNYA<br>KUPASI
+          <span class="year">2026</span>
+          <span class="sub">Nerede İzlerim?</span>
+        </h1>
+        <p class="hero-desc">
+          Türkiye'den 4K kalitede maçları izlemek için APK'lar, web siteleri, IPTV kanalları ve VPN çözümleri — hepsi tek sayfada.
+        </p>
+        <div class="hero-tags">
+          <span class="hero-tag usa">1994 ABD Ruhu</span>
+          <span class="hero-tag france">1998 Fransa Estetiği</span>
+          <span class="hero-tag wc26">2026 İçeriği</span>
+        </div>
+      </div>
+      <div class="hero-ball">⚽</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stat-cell">
+      <div class="stat-num">48</div>
+      <div class="stat-lbl">Takım</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">104</div>
+      <div class="stat-lbl">Maç</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">3</div>
+      <div class="stat-lbl">Ev Sahibi</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">4K</div>
+      <div class="stat-lbl">Kalite</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TV & TV APK'LAR ─── -->
+<div class="section-header" style="margin-top:8px">
+  <span class="section-badge red">📺 TV APK</span>
+  <h2 class="section-title">Android TV / Google TV Uygulamaları</h2>
+  <div class="section-line"></div>
+</div>
+
+<div class="cards-grid">
+
+  <!-- beIN Sports Connect -->
+  <div class="wc-card" style="animation-delay:0ms">
+    <div class="card-stripe stripe-apk"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-apk">APK</span>
+          <span class="cbadge cbadge-4k">4K</span>
+          <span class="cbadge cbadge-new">Önerilen</span>
+        </div>
+        <span class="platform-icon">📺</span>
+      </div>
+      <div class="card-title">beIN Sports Connect</div>
+      <div class="card-desc">
+        Türkiye'nin resmi WC 2026 yayıncısı. beIN Sports 1-4 + MAX kanalları canlı akış. 4K HDR destekli.
+      </div>
+      <div class="url-box">https://www.beinsports.com/tr/connect</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://www.beinsports.com/tr/connect')">Kopyala</button>
+        <a href="https://www.beinsports.com/tr/connect" target="_blank" class="btn btn-goto">Siteye Git ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRT Spor / TRT Yıldız -->
+  <div class="wc-card" style="animation-delay:60ms">
+    <div class="card-stripe stripe-web"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-web">WEB + APK</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+        </div>
+        <span class="platform-icon">📺</span>
+      </div>
+      <div class="card-title">TRT Spor</div>
+      <div class="card-desc">
+        TRT'nin ücretsiz maç yayınları. TRT Spor + TRT Yıldız. Play Store'dan veya siteye girerek izlenebilir.
+      </div>
+      <div class="url-box">https://www.trtspor.com.tr/canli-yayin</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://www.trtspor.com.tr/canli-yayin')">Kopyala</button>
+        <a href="https://www.trtspor.com.tr/canli-yayin" target="_blank" class="btn btn-goto">İzle ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- A Spor -->
+  <div class="wc-card" style="animation-delay:90ms">
+    <div class="card-stripe stripe-apk"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-apk">APK</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+        </div>
+        <span class="platform-icon">📺</span>
+      </div>
+      <div class="card-title">A Spor</div>
+      <div class="card-desc">
+        A Spor kanalı bazı maçları ücretsiz yayınlayabilir. ATV grubuna ait, Play Store'da mevcut.
+      </div>
+      <div class="url-box">https://www.aspor.com.tr/canli-yayin</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://www.aspor.com.tr/canli-yayin')">Kopyala</button>
+        <a href="https://www.aspor.com.tr/canli-yayin" target="_blank" class="btn btn-goto">İzle ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Peacock Premium -->
+  <div class="wc-card" style="animation-delay:120ms">
+    <div class="card-stripe stripe-apk"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-apk">APK</span>
+          <span class="cbadge cbadge-4k">4K + DV</span>
+        </div>
+        <span class="platform-icon">📺</span>
+      </div>
+      <div class="card-title">Peacock Premium</div>
+      <div class="card-desc">
+        NBCUniversal'ın ABD yayıncısı. 4K Dolby Vision destekli. TCL Google TV ile tam uyumlu. ABD VPN gerektirir.
+      </div>
+      <div class="url-box">https://www.peacocktv.com</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://www.peacocktv.com')">Kopyala</button>
+        <a href="https://www.peacocktv.com" target="_blank" class="btn btn-goto">Siteye Git ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CazéTV -->
+  <div class="wc-card" style="animation-delay:150ms">
+    <div class="card-stripe stripe-iptv"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-iptv">CANLI</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+          <span class="cbadge cbadge-4k">4K</span>
+        </div>
+        <span class="platform-icon">🇧🇷</span>
+      </div>
+      <div class="card-title">CazéTV (Globoplay)</div>
+      <div class="card-desc">
+        Brezilya'nın ücretsiz 4K WC yayıncısı. YouTube kanalı ve Globoplay üzerinden erişilir. Brezilya IP'si (VPN) önerilir.
+      </div>
+      <div class="url-box">https://www.youtube.com/@CazéTV</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://www.youtube.com/@CazéTV')">Kopyala</button>
+        <a href="https://www.youtube.com/@Caz%C3%A9TV" target="_blank" class="btn btn-goto">YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BBC iPlayer -->
+  <div class="wc-card" style="animation-delay:180ms">
+    <div class="card-stripe stripe-web"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-web">WEB + APK</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+        </div>
+        <span class="platform-icon">🇬🇧</span>
+      </div>
+      <div class="card-title">BBC iPlayer</div>
+      <div class="card-desc">
+        BBC Sport üzerinden bazı maçlar canlı. İngiltere IP'si gerektirir. Kayıt ücretsiz, yüksek kalite sunar.
+      </div>
+      <div class="url-box">https://www.bbc.co.uk/iplayer/live/bbcone</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://www.bbc.co.uk/iplayer/live/bbcone')">Kopyala</button>
+        <a href="https://www.bbc.co.uk/iplayer/live/bbcone" target="_blank" class="btn btn-goto">İzle ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── STREMIO / NUVIO ADDON'LAR ─── -->
+<div class="section-header">
+  <span class="section-badge green">🎬 ADDON</span>
+  <h2 class="section-title">Stremio / Nuvio Addon'ları</h2>
+  <div class="section-line"></div>
+</div>
+
+<div class="cards-grid">
+
+  <!-- WC 2026 Live 4K Addon -->
+  <div class="wc-card" style="animation-delay:0ms">
+    <div class="card-stripe stripe-iptv"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-iptv">STREMIO</span>
+          <span class="cbadge cbadge-4k">4K</span>
+          <span class="cbadge cbadge-new">WC 2026</span>
+        </div>
+        <span class="platform-icon">⚽</span>
+      </div>
+      <div class="card-title">WC 2026 Live 4K</div>
+      <div class="card-desc">
+        IPTV tabanlı 4K Dünya Kupası kanalları: beIN UHD, MagentaTV, FOX Sports UHD. Manifest URL'yi kopyala → Stremio'ya ekle.
+      </div>
+      <div class="url-box">https://yd-uxey.onrender.com/manifest.json</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://yd-uxey.onrender.com/manifest.json')">URL Kopyala</button>
+        <a href="stremio://yd-uxey.onrender.com/manifest.json" class="btn btn-goto">Stremio'ya Ekle</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CazéTV Stremio Addon -->
+  <div class="wc-card" style="animation-delay:60ms">
+    <div class="card-stripe stripe-iptv"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-iptv">STREMIO</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+          <span class="cbadge cbadge-4k">4K</span>
+        </div>
+        <span class="platform-icon">🇧🇷</span>
+      </div>
+      <div class="card-title">CazéTV Addon</div>
+      <div class="card-desc">
+        yt-dlp tabanlı CazéTV canlı akış addon'u. Brezilya VPN ile ücretsiz 4K izleme. Render.com'da çalışır.
+      </div>
+      <div class="url-box">https://cazetv-addon.onrender.com/manifest.json</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://cazetv-addon.onrender.com/manifest.json')">URL Kopyala</button>
+        <a href="stremio://cazetv-addon.onrender.com/manifest.json" class="btn btn-goto">Stremio'ya Ekle</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- IPTV-Org Sports M3U -->
+  <div class="wc-card" style="animation-delay:120ms">
+    <div class="card-stripe stripe-iptv"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-iptv">M3U / IPTV</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+        </div>
+        <span class="platform-icon">📡</span>
+      </div>
+      <div class="card-title">IPTV-Org Sports</div>
+      <div class="card-desc">
+        Açık kaynak spor kanalları M3U listesi. beIN Sports, ESPN, FOX Sports dahil. Tivimate veya IPTV Smarters ile açılır.
+      </div>
+      <div class="url-box">https://iptv-org.github.io/iptv/categories/sports.m3u</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://iptv-org.github.io/iptv/categories/sports.m3u')">M3U Kopyala</button>
+        <a href="https://iptv-org.github.io/iptv/categories/sports.m3u" target="_blank" class="btn btn-goto">İndir ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── DOWNLOADER KODLARI ─── -->
+<div class="section-header">
+  <span class="section-badge gold">📥 DOWNLOADER</span>
+  <h2 class="section-title">Downloader APK Kodları</h2>
+  <div class="section-line"></div>
+</div>
+
+<div class="cards-grid">
+
+  <!-- TiviMate -->
+  <div class="wc-card" style="animation-delay:0ms">
+    <div class="card-stripe stripe-downloader"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-apk">APK</span>
+          <span class="cbadge cbadge-iptv">IPTV PLAYER</span>
+        </div>
+        <span class="platform-icon">📺</span>
+      </div>
+      <div class="card-title">TiviMate</div>
+      <div class="card-desc">M3U listelerini TV'de izlemek için en iyi IPTV player. Premium özellikler için ücretli.</div>
+      <div class="code-box">
+        <div class="code-num">648376</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('648376')">Kodu Kopyala</button>
+        <button class="btn btn-gold" onclick="showGuide('downloader')">Nasıl Yüklenir?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IPTV Smarters Pro -->
+  <div class="wc-card" style="animation-delay:60ms">
+    <div class="card-stripe stripe-downloader"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-apk">APK</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+        </div>
+        <span class="platform-icon">📺</span>
+      </div>
+      <div class="card-title">IPTV Smarters Pro</div>
+      <div class="card-desc">Ücretsiz M3U IPTV oynatıcı. Android TV ve Google TV uyumlu, M3U URL girişi destekler.</div>
+      <div class="code-box">
+        <div class="code-num">1689064</div>
+        <div class="code-label">Downloader<br>Kodu</div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('1689064')">Kodu Kopyala</button>
+        <button class="btn btn-gold" onclick="showGuide('downloader')">Nasıl Yüklenir?</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stremio Android TV -->
+  <div class="wc-card" style="animation-delay:120ms">
+    <div class="card-stripe stripe-downloader"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-apk">APK</span>
+          <span class="cbadge cbadge-free">Ücretsiz</span>
+        </div>
+        <span class="platform-icon">📺</span>
+      </div>
+      <div class="card-title">Stremio Android TV</div>
+      <div class="card-desc">Stremio'nun resmi Android TV APK'sı. Addon ekleyerek WC maçlarını izleyebilirsin.</div>
+      <div class="url-box">https://www.stremio.com/downloads</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://www.stremio.com/downloads')">URL Kopyala</button>
+        <a href="https://www.stremio.com/downloads" target="_blank" class="btn btn-goto">İndir ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── VPN ─── -->
+<div class="section-header">
+  <span class="section-badge navy">🔒 VPN</span>
+  <h2 class="section-title">Geo-Kısıtlama Çözümleri</h2>
+  <div class="section-line"></div>
+</div>
+
+<div class="cards-grid">
+
+  <!-- AWS WireGuard -->
+  <div class="wc-card" style="animation-delay:0ms">
+    <div class="card-stripe stripe-vpn"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-vpn">WireGuard</span>
+          <span class="cbadge cbadge-new">CazéTV İçin</span>
+        </div>
+        <span class="platform-icon">🇧🇷</span>
+      </div>
+      <div class="card-title">AWS EC2 — São Paulo</div>
+      <div class="card-desc">
+        Brezilya IP'si almak için AWS EC2 São Paulo instance + WireGuard VPN kurulumu. CazéTV 4K izleme için ideal.
+      </div>
+      <div class="url-box">https://aws.amazon.com/ec2 → sa-east-1 (São Paulo)</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://aws.amazon.com/ec2')">URL Kopyala</button>
+        <button class="btn btn-gold" onclick="showGuide('wireguard')">Kurulum Rehberi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ProtonVPN -->
+  <div class="wc-card" style="animation-delay:60ms">
+    <div class="card-stripe stripe-vpn"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-vpn">VPN</span>
+          <span class="cbadge cbadge-free">Ücretsiz Plan</span>
+        </div>
+        <span class="platform-icon">🔒</span>
+      </div>
+      <div class="card-title">ProtonVPN</div>
+      <div class="card-desc">
+        Ücretsiz planı var, sınırlı ülkeler. Ücretli plan: ABD, Brezilya, İngiltere sunucuları. Android TV uyumlu.
+      </div>
+      <div class="url-box">https://protonvpn.com/download/android-tv</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://protonvpn.com/download/android-tv')">Kopyala</button>
+        <a href="https://protonvpn.com/download/android-tv" target="_blank" class="btn btn-goto">İndir ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mullvad -->
+  <div class="wc-card" style="animation-delay:120ms">
+    <div class="card-stripe stripe-vpn"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges">
+          <span class="cbadge cbadge-vpn">WireGuard VPN</span>
+        </div>
+        <span class="platform-icon">🦅</span>
+      </div>
+      <div class="card-title">Mullvad VPN</div>
+      <div class="card-desc">
+        Aylık sabit €5. WireGuard protokolü, log tutmaz. ABD, Brezilya, İngiltere lokasyonları. Gizliliğe önem verenler için.
+      </div>
+      <div class="url-box">https://mullvad.net</div>
+      <div class="card-actions">
+        <button class="btn btn-copy" onclick="copyText('https://mullvad.net')">Kopyala</button>
+        <a href="https://mullvad.net" target="_blank" class="btn btn-goto">Siteye Git ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── KURULUM REHBERLERİ ─── -->
+<div class="section-header">
+  <span class="section-badge red">📖 REHBER</span>
+  <h2 class="section-title">Hızlı Kurulum Adımları</h2>
+  <div class="section-line"></div>
+</div>
+
+<div class="guide-grid">
+
+  <!-- Stremio Addon Kurulumu -->
+  <div class="guide-card" style="animation-delay:0ms">
+    <div class="guide-app">🎬 Stremio Addon Kurulumu</div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Yukarıdan <strong>URL Kopyala</strong> butonuna bas.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>web.stremio.com</strong> veya masaüstü uygulamasını aç.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Sol menüden <strong>Eklentiler</strong> ikonuna tıkla.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">4</div>
+        <div class="step-text">URL'yi yapıştır → <strong>Install</strong>'a bas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Downloader ile APK -->
+  <div class="guide-card" style="animation-delay:60ms" id="guide-downloader">
+    <div class="guide-app">📥 Downloader ile APK</div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div class="step-text">TV'nde <strong>Downloader</strong> uygulamasını aç.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div class="step-text">Yukarıdaki 6-7 haneli <strong>kodu</strong> veya URL'yi gir.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Go</strong>'ya bas — APK otomatik indirilir.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">4</div>
+        <div class="step-text">İndirme bittikten sonra <strong>Yükle</strong>'ye bas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TiviMate M3U Ekleme -->
+  <div class="guide-card" style="animation-delay:120ms">
+    <div class="guide-app">📡 TiviMate M3U Ekleme</div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>TiviMate</strong>'i aç → Ayarlar → Playlist.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Playlist Ekle</strong> → URL seç.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div class="step-text">IPTV-Org Sports <strong>M3U URL'sini</strong> yapıştır.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">4</div>
+        <div class="step-text">İlerleme çubuğu dolunca <strong>Spor</strong> kategorisini aç.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WireGuard VPN -->
+  <div class="guide-card" style="animation-delay:180ms" id="guide-wireguard">
+    <div class="guide-app">🔒 AWS WireGuard Kurulumu</div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>AWS Console</strong>'dan EC2 → <em>sa-east-1 (São Paulo)</em> seç, Ubuntu 22.04 instance başlat.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">2</div>
+        <div class="step-text">SSH ile bağlan: <strong>sudo apt install wireguard</strong> çalıştır.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>wg genkey</strong> ile anahtar oluştur, /etc/wireguard/wg0.conf dosyasını yapılandır.</div>
+      </div>
+      <div class="guide-step">
+        <div class="step-num">4</div>
+        <div class="step-text">Telefonunda WireGuard uygulamasına config'i ekle, <strong>Bağlan</strong>'a bas.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- NOT KUTUSU -->
+<div class="note-box">
+  <div class="note-inner">
+    <div class="note-icon">⚡</div>
+    <div class="note-text">
+      <strong>TCL Google TV Notu:</strong> Peacock Premium ve beIN Sports Connect, TCL Google TV'de <strong>4K + Dolby Vision</strong> destekli çalışır. CazéTV için AWS São Paulo üzerinden WireGuard VPN kur, ardından YouTube uygulamasından CazéTV kanalını izle. TiviMate M3U yönteminde ise M3U listesinden <em>beIN Sports UHD</em> kanalını seçersen doğrudan 4K akış alabilirsin.
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div style="margin-bottom:8px">
+    <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a> ·
+    <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html">TV APK</a> ·
+    <a href="https://tcl-iffalcon.github.io/wiki/mobil.html">Telefon APK</a> ·
+    <a href="https://t.me/tcltvturk1">Telegram</a>
+  </div>
+  <div>PluginHub — TCL TV Türk Topluluğu · <span style="color:var(--wc-gold)">⚽ WC2026</span></div>
+</footer>
+
+<script>
+function copyText(t) {
+  navigator.clipboard.writeText(t).then(() => {
+    const el = document.getElementById('toast');
+    el.textContent = '✓ Kopyalandı!';
+    el.style.background = '#10b981';
+    el.classList.add('show');
+    clearTimeout(window._tt);
+    window._tt = setTimeout(() => el.classList.remove('show'), 2000);
+  });
+}
+
+function showGuide(type) {
+  const targets = { downloader: 'guide-downloader', wireguard: 'guide-wireguard' };
+  const el = document.getElementById(targets[type]);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.style.borderLeftColor = 'var(--wc-red)';
+    el.style.background = 'rgba(200,16,46,0.06)';
+    setTimeout(() => {
+      el.style.borderLeftColor = '';
+      el.style.background = '';
+    }, 2000);
+  }
+}
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// Mobil menü butonunu göster
+window.addEventListener('resize', checkMobile);
+function checkMobile() {
+  const btn = document.getElementById('menuBtn');
+  if (window.innerWidth <= 768) btn.style.display = 'flex';
+  else btn.style.display = 'none';
+}
+checkMobile();
+</script>
+</body>
+</html>
