@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FIFA Dünya Kupası 2026 — PluginHub</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
 :root {
@@ -28,7 +28,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Sora', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -61,7 +61,7 @@ nav {
   display: flex; align-items: center; justify-content: space-between;
 }
 .brand {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
   font-size: 22px; letter-spacing: 1px; color: var(--wc-navy);
   text-decoration: none;
 }
@@ -153,8 +153,8 @@ nav {
 }
 
 .hero-eyebrow {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 12px; letter-spacing: 5px;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+  font-size: 12px; letter-spacing: 3px;
   color: var(--wc-gold); margin-bottom: 10px;
   display: flex; align-items: center; gap: 10px;
 }
@@ -163,15 +163,15 @@ nav {
   height: 1px; background: var(--wc-gold); opacity: 0.6;
 }
 .hero h1 {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
   font-size: clamp(40px,8vw,80px);
   line-height: 0.9; color: var(--wc-navy);
   letter-spacing: 1px; margin-bottom: 6px;
 }
 .hero h1 .year { color: var(--wc-red); display: block; }
 .hero h1 .sub {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(16px,3vw,26px); letter-spacing: 6px;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+  font-size: clamp(16px,3vw,26px); letter-spacing: 3px;
   color: var(--muted); display: block; margin-top: 8px;
 }
 .hero-desc {
@@ -205,7 +205,7 @@ nav {
 }
 .stat-cell:last-child { border-right: none; }
 .stat-num {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
   font-size: 28px; color: var(--wc-red); line-height: 1;
 }
 .stat-lbl {
@@ -220,8 +220,8 @@ nav {
   display: flex; align-items: center; gap: 14px;
 }
 .section-badge {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 11px; letter-spacing: 3px;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+  font-size: 11px; letter-spacing: 1.5px;
   padding: 5px 14px; border-radius: 2px;
   white-space: nowrap; flex-shrink: 0;
 }
@@ -230,7 +230,7 @@ nav {
 .sb-green { background: var(--wc-green);color: #fff; }
 .sb-gold  { background: var(--wc-gold); color: #fff; }
 .section-title {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
   font-size: clamp(18px,2.5vw,24px); letter-spacing: 0.5px;
   color: var(--text);
 }
@@ -290,7 +290,8 @@ nav {
 .cb-new  { background: var(--wc-red); color: #fff; }
 .cb-dl   { background: rgba(184,134,11,0.15); color: var(--wc-gold); border: 1px solid rgba(184,134,11,0.3); }
 
-.platform-icon { font-size: 17px; line-height: 1; }
+.platform-icon { width: 19px; height: 19px; line-height: 1; color: var(--wc-gold); flex-shrink: 0; }
+.platform-icon svg { width: 100%; height: 100%; display: block; }
 
 .card-title {
   font-family: 'Outfit', sans-serif;
@@ -320,7 +321,7 @@ nav {
   border-radius: 3px; padding: 10px 14px;
 }
 .code-num {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
   font-size: 28px; color: var(--wc-red);
   letter-spacing: 3px; line-height: 1;
 }
@@ -382,7 +383,7 @@ nav {
 }
 .schedule-table th {
   background: var(--wc-navy); color: #fff;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
   font-size: 12px; letter-spacing: 2px;
   padding: 10px 14px; text-align: left;
 }
@@ -400,7 +401,7 @@ nav {
   font-weight: 700; font-size: 14px; color: var(--text);
 }
 .match-score {
-  font-family: 'Anton', sans-serif; font-size: 16px;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px;
   color: var(--wc-red); text-align: center; white-space: nowrap;
 }
 .match-time {
@@ -427,6 +428,66 @@ nav {
 .result-win  { color: var(--wc-green); }
 .result-loss { color: var(--wc-red); }
 .result-draw { color: var(--wc-gold); }
+
+/* ── RETRO DÜNYA KUPASI (1994 / 1998) ── */
+.retro-grid {
+  max-width: 1200px; margin: 0 auto 48px;
+  padding: 0 16px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 720px) { .retro-grid { grid-template-columns: 1fr; } }
+
+.retro-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.retro-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+.retro-art {
+  height: 168px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.retro-art-94 { background: linear-gradient(135deg, #002868 0%, #0a3d91 55%, #c8102e 100%); }
+.retro-art-98 { background: linear-gradient(135deg, #1a6b2e 0%, #0d4a1f 55%, #c8102e 100%); }
+.retro-art svg { width: 100%; height: 100%; }
+
+.retro-body { padding: 18px 20px 20px; }
+.retro-year-row {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
+}
+.retro-year {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: 26px; color: var(--text); letter-spacing: -0.5px;
+}
+.retro-host {
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.retro-stats {
+  display: flex; gap: 18px; margin: 12px 0 14px;
+  padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.retro-stat-item { flex: 1; }
+.retro-stat-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--muted); margin-bottom: 2px;
+}
+.retro-stat-value {
+  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+  font-size: 14px; color: var(--text);
+}
+.retro-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.65;
+}
+.retro-desc strong { color: var(--text); font-weight: 600; }
 
 /* ── NOT KUTUSU ── */
 .note-box {
@@ -673,7 +734,120 @@ footer a:hover { color: var(--wc-red); }
 
 </div>
 
-<!-- ─── ANDROID TV / GOOGLE TV APK ─── -->
+<!-- ─── RETRO: 1994 & 1998 DÜNYA KUPASI ─── -->
+<div class="section-header">
+  <span class="section-badge sb-gold">🕰️ NOSTALJİ</span>
+  <h2 class="section-title">1994 & 1998 Dünya Kupası</h2>
+  <div class="section-line"></div>
+</div>
+
+<div class="retro-grid">
+
+  <!-- 1994 USA -->
+  <div class="retro-card">
+    <div class="retro-art retro-art-94">
+      <svg viewBox="0 0 400 168" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="stripes94" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(20)">
+            <rect width="40" height="40" fill="none"/>
+            <rect width="20" height="40" fill="rgba(255,255,255,0.05)"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="168" fill="url(#stripes94)"/>
+        <!-- yıldızlar -->
+        <g fill="#ffffff" opacity="0.85">
+          <circle cx="40" cy="30" r="2"/><circle cx="60" cy="22" r="1.5"/><circle cx="80" cy="40" r="2"/>
+          <circle cx="100" cy="20" r="1.5"/><circle cx="120" cy="34" r="2"/>
+        </g>
+        <!-- retro top -->
+        <g transform="translate(95,84)">
+          <circle r="46" fill="#f5f0e8" stroke="#1a1208" stroke-width="2.5"/>
+          <path d="M0 -46 L13 -16 L46 -8 L20 12 L28 44 L0 24 L-28 44 L-20 12 L-46 -8 L-13 -16 Z" fill="#1a1208" opacity="0.92"/>
+        </g>
+        <!-- yazı -->
+        <text x="170" y="70" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#ffffff">USA</text>
+        <text x="170" y="98" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#d4a017">'94</text>
+        <line x1="170" y1="112" x2="290" y2="112" stroke="#c8102e" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="retro-body">
+      <div class="retro-year-row">
+        <span class="retro-year">1994</span>
+        <span class="retro-host">ABD</span>
+      </div>
+      <div class="retro-stats">
+        <div class="retro-stat-item">
+          <div class="retro-stat-label">Şampiyon</div>
+          <div class="retro-stat-value">🇧🇷 Brezilya</div>
+        </div>
+        <div class="retro-stat-item">
+          <div class="retro-stat-label">Finalist</div>
+          <div class="retro-stat-value">🇮🇹 İtalya</div>
+        </div>
+        <div class="retro-stat-item">
+          <div class="retro-stat-label">Format</div>
+          <div class="retro-stat-value">24 Takım</div>
+        </div>
+      </div>
+      <div class="retro-desc">
+        Final, normal süre ve uzatmalarda golsüz bitti; <strong>Brezilya</strong> tarihte ilk kez bir Dünya Kupası finalini penaltılarla kazandı. Roberto Baggio'nun kaçırdığı son penaltı, turnuvanın en akılda kalan anlarından biri oldu. Türkiye bu turnuvaya katılamadı.
+      </div>
+    </div>
+  </div>
+
+  <!-- 1998 FRANCE -->
+  <div class="retro-card">
+    <div class="retro-art retro-art-98">
+      <svg viewBox="0 0 400 168" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid98" width="28" height="28" patternUnits="userSpaceOnUse">
+            <path d="M0 0 L28 0 L28 28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="168" fill="url(#grid98)"/>
+        <!-- retro top -->
+        <g transform="translate(95,84)">
+          <circle r="46" fill="#f5f0e8" stroke="#1a1208" stroke-width="2.5"/>
+          <polygon points="0,-22 21,-7 13,18 -13,18 -21,-7" fill="#1a1208" opacity="0.92"/>
+          <circle cx="0" cy="-22" r="6" fill="#1a1208" opacity="0.7"/>
+          <circle cx="21" cy="-7" r="6" fill="#1a1208" opacity="0.7"/>
+          <circle cx="13" cy="18" r="6" fill="#1a1208" opacity="0.7"/>
+          <circle cx="-13" cy="18" r="6" fill="#1a1208" opacity="0.7"/>
+          <circle cx="-21" cy="-7" r="6" fill="#1a1208" opacity="0.7"/>
+        </g>
+        <!-- yazı -->
+        <text x="170" y="70" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#ffffff">FRANCE</text>
+        <text x="170" y="98" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#d4a017">'98</text>
+        <line x1="170" y1="112" x2="290" y2="112" stroke="#c8102e" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="retro-body">
+      <div class="retro-year-row">
+        <span class="retro-year">1998</span>
+        <span class="retro-host">Fransa</span>
+      </div>
+      <div class="retro-stats">
+        <div class="retro-stat-item">
+          <div class="retro-stat-label">Şampiyon</div>
+          <div class="retro-stat-value">🇫🇷 Fransa</div>
+        </div>
+        <div class="retro-stat-item">
+          <div class="retro-stat-label">Finalist</div>
+          <div class="retro-stat-value">🇧🇷 Brezilya</div>
+        </div>
+        <div class="retro-stat-item">
+          <div class="retro-stat-label">Format</div>
+          <div class="retro-stat-value">32 Takım</div>
+        </div>
+      </div>
+      <div class="retro-desc">
+        Turnuva ilk kez <strong>32 takıma</strong> çıkarıldı. Ev sahibi Fransa, finalde Brezilya'yı 3-0 yenerek ilk şampiyonluğuna ulaştı; Zinedine Zidane'ın iki kafa golü unutulmazlar arasına girdi. Türkiye bu turnuvaya da katılamadı, dört yıl sonra 2002'de tarihi üçüncülüğe ulaşacaktı.
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <div class="section-header">
   <span class="section-badge sb-red">📡 APK</span>
   <h2 class="section-title">Android TV / Google TV Uygulamaları</h2>
@@ -701,7 +875,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">SportzX</div>
       <div class="card-desc">100+ ücretsiz canlı spor kanalı. Futbol, kriket, tenis, hokey. Reklamsız, HD kalite. M3U/IPTV desteği var.</div>
@@ -725,7 +899,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">Cricfy TV</div>
       <div class="card-desc">Kriket ve futbol odaklı hafif uygulama. Özel M3U desteği, çoklu sunucu bağlantısı, reklamsız arayüz.</div>
@@ -749,7 +923,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">Sportzfy TV</div>
       <div class="card-desc">Premier League, Serie A, Champions League ve FIFA 2026 canlı yayınları. Xtream Codes API desteği.</div>
@@ -773,7 +947,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">AK47 Sports</div>
       <div class="card-desc">Futbol, dart, kriket, tenis ve PPV etkinlikleri ücretsiz. Reklam yok. M3U playlist ve Xtream Codes desteği.</div>
@@ -797,7 +971,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">Volta TV (Voltra)</div>
       <div class="card-desc">Binlerce canlı kanal, dizi, film ve canlı spor etkinlikleri. AFL, MLB, NBA ve dünya kupası yayınları.</div>
@@ -821,7 +995,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">TFlix</div>
       <div class="card-desc">Spor ağırlıklı canlı yayın uygulaması. FireStick ve Android TV uyumlu. Geniş kanal arşivi.</div>
@@ -845,7 +1019,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">PlayFy TV</div>
       <div class="card-desc">Reklamsız spor yayın uygulaması. 1080p/720p/480p ayarlanabilir. Futbol, kriket, WWE ve MotoGP.</div>
@@ -869,7 +1043,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">MaxLiv TV</div>
       <div class="card-desc">Yeni nesil ücretsiz spor uygulaması. Futbol, kriket, boks, tenis. Tamamen reklamsız. Alçak kalite modu mevcut.</div>
@@ -904,7 +1078,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-new">WC 2026</span>
         </div>
-        <span class="platform-icon">⚽</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/></svg></span>
       </div>
       <div class="card-title">FWC TV</div>
       <div class="card-desc">FIFA Dünya Kupası 2026 özel yayın sitesi. Tüm maç linklerini ve akış kaynaklarını sunar.</div>
@@ -925,7 +1099,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-web">WEB</span>
           <span class="cbadge cb-free">Ücretsiz</span>
         </div>
-        <span class="platform-icon">🏟️</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>
       </div>
       <div class="card-title">VipRow</div>
       <div class="card-desc">Güncel spor programı ve canlı yayın linkleri. Tüm büyük ligler ve turnuvalar için link deposu.</div>
@@ -946,7 +1120,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-web">WEB</span>
           <span class="cbadge cb-free">Ücretsiz</span>
         </div>
-        <span class="platform-icon">🎯</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
       </div>
       <div class="card-title">Streameast</div>
       <div class="card-desc">NFL, NBA, NHL, MLB, futbol ve Dünya Kupası yayınları. Geniş sport kategorileri, HD kalite.</div>
@@ -967,7 +1141,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-web">WEB</span>
           <span class="cbadge cb-free">Ücretsiz</span>
         </div>
-        <span class="platform-icon">⚡</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.5 1.5M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg></span>
       </div>
       <div class="card-title">Sportsurge</div>
       <div class="card-desc">Canlı spor yayınları için güvenilir link toplayıcı. Maç başlamadan önce linkleri listeler.</div>
@@ -989,7 +1163,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-new">WC 2026</span>
         </div>
-        <span class="platform-icon">🌍</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>
       </div>
       <div class="card-title">WC 2026 Live Streams</div>
       <div class="card-desc">Bugünkü Dünya Kupası maçlarını canlı izle. FIFA Watch eşdeğeri, her maç için ayrı yayın sayfaları.</div>
@@ -1011,7 +1185,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-4k">4K</span>
         </div>
-        <span class="platform-icon">🇧🇷</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none"/></svg></span>
       </div>
       <div class="card-title">CazéTV (YouTube)</div>
       <div class="card-desc">Brezilya'nın ücretsiz 4K WC yayıncısı. YouTube'dan izlenebilir. Brezilya IP'si (VPN) önerilir.</div>
@@ -1032,7 +1206,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-web">Reddit</span>
           <span class="cbadge cb-free">Ücretsiz</span>
         </div>
-        <span class="platform-icon">👾</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.2"/><path d="M19.5 20c0-2.2-1.6-4-3.8-4.6"/></svg></span>
       </div>
       <div class="card-title">r/Nuvio Collections</div>
       <div class="card-desc">Reddit Nuvio topluluğunun paylaştığı Dünya Kupası stream koleksiyonları ve çalışan linkler.</div>
@@ -1054,7 +1228,7 @@ footer a:hover { color: var(--wc-red); }
           <span class="cbadge cb-free">Ücretsiz</span>
           <span class="cbadge cb-new">Resmi</span>
         </div>
-        <span class="platform-icon">🇹🇷</span>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
       </div>
       <div class="card-title">TRT Spor</div>
       <div class="card-desc">Türkiye'nin resmi yayıncısı. Türkiye maçları dahil bazı karşılaşmaları ücretsiz yayınlayabilir.</div>
