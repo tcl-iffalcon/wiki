@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FIFA Dünya Kupası 2026 — PluginHub</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 /* ── TOKENS ── */
 :root {
@@ -28,7 +28,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -285,23 +285,20 @@ nav {
 .cb-apk  { background: rgba(200,16,46,0.1); color: var(--wc-red); border: 1px solid rgba(200,16,46,0.25); }
 .cb-web  { background: rgba(0,40,104,0.1);  color: var(--wc-navy); border: 1px solid rgba(0,40,104,0.2); }
 .cb-free { background: rgba(26,107,46,0.1); color: var(--wc-green); border: 1px solid rgba(26,107,46,0.2); }
+.cb-uhd  { background: rgba(184,134,11,0.12); color: var(--wc-gold); border: 1px solid rgba(184,134,11,0.3); }
 .cb-4k   { background: rgba(184,134,11,0.12); color: var(--wc-gold); border: 1px solid rgba(184,134,11,0.3); }
-.cb-new  {
-  background: var(--wc-red); color: #fff;
-  animation: pulseBadge 2s infinite;
-}
+.cb-new  { background: var(--wc-red); color: #fff; }
 .cb-dl   { background: rgba(184,134,11,0.15); color: var(--wc-gold); border: 1px solid rgba(184,134,11,0.3); }
-@keyframes pulseBadge { 0%,100%{opacity:1}50%{opacity:.7} }
 
 .platform-icon { font-size: 17px; line-height: 1; }
 
 .card-title {
-  font-family: 'Anton', sans-serif;
-  font-size: 19px; letter-spacing: 0.5px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 19px; font-weight: 700; letter-spacing: -0.2px;
   color: var(--text); margin-bottom: 5px;
 }
 .card-desc {
-  font-size: 12px; color: var(--muted); line-height: 1.6;
+  font-size: 12.5px; font-weight: 400; color: var(--muted); line-height: 1.65;
   margin-bottom: 12px;
 }
 
@@ -678,7 +675,7 @@ footer a:hover { color: var(--wc-red); }
 
 <!-- ─── ANDROID TV / GOOGLE TV APK ─── -->
 <div class="section-header">
-  <span class="section-badge sb-red">📺 APK</span>
+  <span class="section-badge sb-red">📡 APK</span>
   <h2 class="section-title">Android TV / Google TV Uygulamaları</h2>
   <div class="section-line"></div>
 </div>
@@ -702,8 +699,9 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">SportzX</div>
       <div class="card-desc">100+ ücretsiz canlı spor kanalı. Futbol, kriket, tenis, hokey. Reklamsız, HD kalite. M3U/IPTV desteği var.</div>
@@ -712,8 +710,7 @@ footer a:hover { color: var(--wc-red); }
         <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('5792854')">Kopyala</button>
-        <button class="btn btn-navy" onclick="copyText('730116')">Ana Sayfa (730116)</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('5792854')">Kopyala</button>
       </div>
     </div>
   </div>
@@ -726,8 +723,9 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">Cricfy TV</div>
       <div class="card-desc">Kriket ve futbol odaklı hafif uygulama. Özel M3U desteği, çoklu sunucu bağlantısı, reklamsız arayüz.</div>
@@ -736,8 +734,7 @@ footer a:hover { color: var(--wc-red); }
         <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('8103377')">Kopyala</button>
-        <button class="btn btn-navy" onclick="copyText('730116')">Ana Sayfa (730116)</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('8103377')">Kopyala</button>
       </div>
     </div>
   </div>
@@ -750,19 +747,18 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-new">WC 2026</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">Sportzfy TV</div>
       <div class="card-desc">Premier League, Serie A, Champions League ve FIFA 2026 canlı yayınları. Xtream Codes API desteği.</div>
       <div class="code-box">
         <div class="code-num">730116</div>
-        <div class="code-label">Downloader<br>Ana Sayfa</div>
+        <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('730116')">730116 Kopyala</button>
-        <button class="btn btn-goto" onclick="copyText('730116')">Sportzfy Seç ↗</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button>
       </div>
     </div>
   </div>
@@ -775,8 +771,9 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">AK47 Sports</div>
       <div class="card-desc">Futbol, dart, kriket, tenis ve PPV etkinlikleri ücretsiz. Reklam yok. M3U playlist ve Xtream Codes desteği.</div>
@@ -785,8 +782,7 @@ footer a:hover { color: var(--wc-red); }
         <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('4564006')">Kopyala</button>
-        <button class="btn btn-navy" onclick="copyText('730116')">Ana Sayfa (730116)</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('4564006')">Kopyala</button>
       </div>
     </div>
   </div>
@@ -799,18 +795,18 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">Volta TV (Voltra)</div>
       <div class="card-desc">Binlerce canlı kanal, dizi, film ve canlı spor etkinlikleri. AFL, MLB, NBA ve dünya kupası yayınları.</div>
       <div class="code-box">
         <div class="code-num">730116</div>
-        <div class="code-label">Downloader<br>Ana Sayfa → Sports</div>
+        <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('730116')">730116 Kopyala</button>
-        <button class="btn btn-goto" onclick="copyText('730116')">Voltra Seç ↗</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button>
       </div>
     </div>
   </div>
@@ -823,8 +819,9 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">TFlix</div>
       <div class="card-desc">Spor ağırlıklı canlı yayın uygulaması. FireStick ve Android TV uyumlu. Geniş kanal arşivi.</div>
@@ -833,8 +830,7 @@ footer a:hover { color: var(--wc-red); }
         <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('4020823')">Kopyala</button>
-        <button class="btn btn-navy" onclick="copyText('730116')">Ana Sayfa (730116)</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('4020823')">Kopyala</button>
       </div>
     </div>
   </div>
@@ -847,9 +843,9 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-4k">HD</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">PlayFy TV</div>
       <div class="card-desc">Reklamsız spor yayın uygulaması. 1080p/720p/480p ayarlanabilir. Futbol, kriket, WWE ve MotoGP.</div>
@@ -858,8 +854,7 @@ footer a:hover { color: var(--wc-red); }
         <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('8415232')">Kopyala</button>
-        <button class="btn btn-navy" onclick="copyText('730116')">Ana Sayfa (730116)</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('8415232')">Kopyala</button>
       </div>
     </div>
   </div>
@@ -872,19 +867,18 @@ footer a:hover { color: var(--wc-red); }
         <div class="card-badges">
           <span class="cbadge cb-apk">APK</span>
           <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-new">Yeni</span>
+          <span class="cbadge cb-uhd">UHD</span>
         </div>
-        <span class="platform-icon">📺</span>
+        <span class="platform-icon">📡</span>
       </div>
       <div class="card-title">MaxLiv TV</div>
       <div class="card-desc">Yeni nesil ücretsiz spor uygulaması. Futbol, kriket, boks, tenis. Tamamen reklamsız. Alçak kalite modu mevcut.</div>
       <div class="code-box">
         <div class="code-num">730116</div>
-        <div class="code-label">Downloader<br>Ana Sayfa → Sports</div>
+        <div class="code-label">Downloader<br>Kodu</div>
       </div>
       <div class="card-actions">
-        <button class="btn btn-copy" onclick="copyText('730116')">730116 Kopyala</button>
-        <button class="btn btn-goto" onclick="copyText('730116')">MaxLiv Seç ↗</button>
+        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button>
       </div>
     </div>
   </div>
