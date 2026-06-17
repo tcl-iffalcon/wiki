@@ -686,9 +686,14 @@ function checkMobile() {
 window.addEventListener('resize', checkMobile);
 checkMobile();
 
-/* ── API ── */
-const API_KEY  = '853b8809676e4a30bf6268cc17da7d6f';
-const API_BASE = 'https://api.football-data.org/v4';
+/* ── API ──
+   football-data.org'a tarayıcıdan doğrudan istek atmıyoruz: API CORS header'ı
+   dönmediği için bu, statik bir sayfadan direkt çağrıldığında tarayıcı tarafından
+   engellenir. Bunun yerine token'ı server-side tutan ve CORS header ekleyen
+   ufak bir Cloudflare Worker proxy'sinin üzerinden gidiyoruz (bkz. worker.js).
+   Worker'ı deploy ettikten sonra aşağıdaki adresi kendi workers.dev adresinle
+   değiştir. */
+const PROXY_BASE = 'https://wc2026-proxy.SENINKULLANICIADIN.workers.dev';
 const TR_TEAM  = 'Türkiye'; // API'deki takım adı
 
 // Ülke kodu → bayrak emoji
@@ -815,9 +820,7 @@ function buildTableAll(matches) {
 
 async function loadMatches() {
   try {
-    const resp = await fetch(`${API_BASE}/competitions/WC/matches`, {
-      headers: { 'X-Auth-Token': API_KEY }
-    });
+    const resp = await fetch(`${PROXY_BASE}/competitions/WC/matches`);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = await resp.json();
     const all = data.matches || [];
