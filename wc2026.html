@@ -8,15 +8,12 @@
 <style>
 /* ── TOKENS ── */
 :root {
-  /* Açık krem arkaplan — göz yormayan */
   --bg:       #f5f0e8;
   --surface:  #ffffff;
   --surface2: #ede8df;
   --border:   rgba(0,0,0,0.09);
   --text:     #1a1208;
   --muted:    #6b6050;
-
-  /* WC retro palette */
   --wc-red:   #c8102e;
   --wc-gold:  #b8860b;
   --wc-gold-light: #d4a017;
@@ -24,510 +21,155 @@
   --wc-green: #1a6b2e;
   --wc-cream: #f5f0e8;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Sora', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Çimen şerit arkaplanı — çok hafif */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(26,107,46,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26,107,46,0.05) 1px, transparent 1px);
-  background-size: 56px 56px;
-  pointer-events: none; z-index: 0;
-}
-
+body { font-family: 'Sora', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(26,107,46,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(26,107,46,0.05) 1px, transparent 1px); background-size: 56px 56px; pointer-events: none; z-index: 0; }
 main, nav, footer, .announce-bar { position: relative; z-index: 1; }
-
-/* ── NAV ── */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(245,240,232,0.95);
-  border-bottom: 2px solid var(--wc-gold);
-  backdrop-filter: blur(16px);
-  padding: 0 24px;
-}
-.nav-inner {
-  max-width: 1200px; margin: 0 auto; height: 60px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.brand {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: 22px; letter-spacing: 1px; color: var(--wc-navy);
-  text-decoration: none;
-}
+nav { position: sticky; top: 0; z-index: 100; background: rgba(245,240,232,0.95); border-bottom: 2px solid var(--wc-gold); backdrop-filter: blur(16px); padding: 0 24px; }
+.nav-inner { max-width: 1200px; margin: 0 auto; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+.brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; letter-spacing: 1px; color: var(--wc-navy); text-decoration: none; }
 .nav-links { display: flex; gap: 4px; align-items: center; }
-.nav-links a {
-  font-size: 13px; font-weight: 600; color: var(--muted);
-  text-decoration: none; padding: 6px 12px; border-radius: 6px;
-  transition: color 0.2s, background 0.2s;
-}
+.nav-links a { font-size: 13px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 6px; transition: color 0.2s, background 0.2s; }
 .nav-links a:hover { color: var(--text); background: var(--surface2); }
-.nav-links a.active-nav {
-  color: var(--wc-red);
-  background: rgba(200,16,46,0.08);
-  border: 1px solid rgba(200,16,46,0.25);
-  font-weight: 700;
-}
-.nav-btn {
-  display: flex; align-items: center; padding: 6px 12px;
-  border-radius: 6px; border: 1px solid var(--border);
-  background: var(--surface); color: var(--muted);
-  font-size: 12px; font-weight: 700; cursor: pointer;
-  transition: all 0.2s; gap: 5px; text-decoration: none;
-  font-family: inherit;
-}
+.nav-links a.active-nav { color: var(--wc-red); background: rgba(200,16,46,0.08); border: 1px solid rgba(200,16,46,0.25); font-weight: 700; }
+.nav-btn { display: flex; align-items: center; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; gap: 5px; text-decoration: none; font-family: inherit; }
 .nav-btn:hover { color: var(--text); border-color: var(--wc-gold); }
 #mobileMenu { display: none; }
-#mobileMenu.open {
-  display: block;
-  border-top: 1px solid var(--border); padding: 12px;
-}
-#mobileMenu a {
-  display: block; padding: 9px 12px; border-radius: 6px;
-  color: var(--muted); text-decoration: none; font-size: 14px;
-}
+#mobileMenu.open { display: block; border-top: 1px solid var(--border); padding: 12px; }
+#mobileMenu a { display: block; padding: 9px 12px; border-radius: 6px; color: var(--muted); text-decoration: none; font-size: 14px; }
 #mobileMenu a:hover { background: var(--surface2); color: var(--text); }
 @media (max-width: 768px) { .nav-links { display: none; } }
-
-/* ── DUYURU ŞERİDİ ── */
-.announce-bar {
-  background: var(--wc-red);
-  border-bottom: 3px solid var(--wc-gold-light);
-  padding: 8px 16px;
-  text-align: center;
-  font-size: 12px; font-weight: 700; letter-spacing: 2px;
-  text-transform: uppercase; color: #fff;
-}
-
-/* ── HERO ── */
+.announce-bar { background: var(--wc-red); border-bottom: 3px solid var(--wc-gold-light); padding: 8px 16px; text-align: center; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
 .hero { padding: 0 16px; }
-
-.hero-ticket {
-  max-width: 860px; margin: 36px auto 0;
-  border: 3px solid var(--wc-gold);
-  border-radius: 3px;
-  background: var(--surface);
-  box-shadow: 0 4px 32px rgba(0,0,0,0.12), 0 0 0 8px rgba(184,134,11,0.07);
-  overflow: hidden;
-  position: relative;
-}
-.hero-ticket::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 7px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--wc-red) 0, var(--wc-red) 33.3%,
-    #fff 33.3%, #fff 66.6%,
-    var(--wc-navy) 66.6%, var(--wc-navy) 100%
-  );
-}
-.hero-ticket::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 7px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--wc-navy) 0, var(--wc-navy) 33.3%,
-    #fff 33.3%, #fff 66.6%,
-    var(--wc-red) 66.6%, var(--wc-red) 100%
-  );
-}
-
-.hero-inner {
-  padding: 40px 44px 36px;
-  display: grid; grid-template-columns: 1fr auto;
-  gap: 24px; align-items: center;
-}
-@media (max-width: 600px) {
-  .hero-inner { grid-template-columns: 1fr; padding: 32px 24px 28px; }
-  .hero-ball  { display: none; }
-}
-
-.hero-eyebrow {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-  font-size: 12px; letter-spacing: 3px;
-  color: var(--wc-gold); margin-bottom: 10px;
-  display: flex; align-items: center; gap: 10px;
-}
-.hero-eyebrow::before, .hero-eyebrow::after {
-  content: ''; flex: 1; max-width: 36px;
-  height: 1px; background: var(--wc-gold); opacity: 0.6;
-}
-.hero h1 {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: clamp(40px,8vw,80px);
-  line-height: 0.9; color: var(--wc-navy);
-  letter-spacing: 1px; margin-bottom: 6px;
-}
+.hero-ticket { max-width: 860px; margin: 36px auto 0; border: 3px solid var(--wc-gold); border-radius: 3px; background: var(--surface); box-shadow: 0 4px 32px rgba(0,0,0,0.12), 0 0 0 8px rgba(184,134,11,0.07); overflow: hidden; position: relative; }
+.hero-ticket::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 7px; background: repeating-linear-gradient(90deg, var(--wc-red) 0, var(--wc-red) 33.3%, #fff 33.3%, #fff 66.6%, var(--wc-navy) 66.6%, var(--wc-navy) 100%); }
+.hero-ticket::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 7px; background: repeating-linear-gradient(90deg, var(--wc-navy) 0, var(--wc-navy) 33.3%, #fff 33.3%, #fff 66.6%, var(--wc-red) 66.6%, var(--wc-red) 100%); }
+.hero-inner { padding: 40px 44px 36px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+@media (max-width: 600px) { .hero-inner { grid-template-columns: 1fr; padding: 32px 24px 28px; } .hero-ball { display: none; } }
+.hero-eyebrow { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 3px; color: var(--wc-gold); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.hero-eyebrow::before, .hero-eyebrow::after { content: ''; flex: 1; max-width: 36px; height: 1px; background: var(--wc-gold); opacity: 0.6; }
+.hero h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(40px,8vw,80px); line-height: 0.9; color: var(--wc-navy); letter-spacing: 1px; margin-bottom: 6px; }
 .hero h1 .year { color: var(--wc-red); display: block; }
-.hero h1 .sub {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-  font-size: clamp(16px,3vw,26px); letter-spacing: 3px;
-  color: var(--muted); display: block; margin-top: 8px;
-}
-.hero-desc {
-  font-size: 14px; color: var(--muted); line-height: 1.7;
-  max-width: 420px; margin-top: 16px;
-}
-.hero-ball {
-  font-size: 90px; line-height: 1;
-  animation: ballFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.18));
-  user-select: none;
-}
-@keyframes ballFloat {
-  0%,100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-10px) rotate(12deg); }
-}
-
-/* ── STATS ALTI ── */
-.stats-strip {
-  max-width: 860px; margin: 0 auto;
-  border: 3px solid var(--wc-gold); border-top: none;
-  border-radius: 0 0 3px 3px;
-  background: rgba(184,134,11,0.07);
-  display: grid; grid-template-columns: repeat(4,1fr);
-  margin-bottom: 48px;
-}
+.hero h1 .sub { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: clamp(16px,3vw,26px); letter-spacing: 3px; color: var(--muted); display: block; margin-top: 8px; }
+.hero-desc { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 420px; margin-top: 16px; }
+.hero-ball { font-size: 90px; line-height: 1; animation: ballFloat 3s ease-in-out infinite; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.18)); user-select: none; }
+@keyframes ballFloat { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(12deg); } }
+.stats-strip { max-width: 860px; margin: 0 auto; border: 3px solid var(--wc-gold); border-top: none; border-radius: 0 0 3px 3px; background: rgba(184,134,11,0.07); display: grid; grid-template-columns: repeat(4,1fr); margin-bottom: 48px; }
 @media (max-width: 560px) { .stats-strip { grid-template-columns: repeat(2,1fr); } }
-.stat-cell {
-  padding: 14px 16px; text-align: center;
-  border-right: 1px solid rgba(184,134,11,0.2);
-}
+.stat-cell { padding: 14px 16px; text-align: center; border-right: 1px solid rgba(184,134,11,0.2); }
 .stat-cell:last-child { border-right: none; }
-.stat-num {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: 28px; color: var(--wc-red); line-height: 1;
-}
-.stat-lbl {
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 1.5px; color: var(--muted); margin-top: 3px;
-}
-
-/* ── BÖLÜM BAŞLIĞI ── */
-.section-header {
-  max-width: 1200px; margin: 0 auto 20px;
-  padding: 0 16px;
-  display: flex; align-items: center; gap: 14px;
-}
-.section-badge {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-  font-size: 11px; letter-spacing: 1.5px;
-  padding: 5px 14px; border-radius: 2px;
-  white-space: nowrap; flex-shrink: 0;
-}
+.stat-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px; color: var(--wc-red); line-height: 1; }
+.stat-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-top: 3px; }
+.section-header { max-width: 1200px; margin: 0 auto 20px; padding: 0 16px; display: flex; align-items: center; gap: 14px; }
+.section-badge { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 1.5px; padding: 5px 14px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; }
 .sb-red   { background: var(--wc-red);  color: #fff; }
 .sb-navy  { background: var(--wc-navy); color: #fff; }
 .sb-green { background: var(--wc-green);color: #fff; }
 .sb-gold  { background: var(--wc-gold); color: #fff; }
-.section-title {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: clamp(18px,2.5vw,24px); letter-spacing: 0.5px;
-  color: var(--text);
-}
+.section-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(18px,2.5vw,24px); letter-spacing: 0.5px; color: var(--text); }
 .section-line { flex: 1; height: 1px; background: rgba(0,0,0,0.12); }
-
-/* ── KART IZGARASI ── */
-.cards-grid {
-  max-width: 1200px; margin: 0 auto;
-  padding: 0 16px; margin-bottom: 48px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
-}
+.cards-grid { max-width: 1200px; margin: 0 auto; padding: 0 16px; margin-bottom: 48px; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
 @media (max-width: 560px) { .cards-grid { grid-template-columns: 1fr; } }
-
-/* ── KART ── */
-.wc-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-  animation: fadeUp 0.35s ease both;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.wc-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.14);
-  border-color: var(--wc-gold);
-}
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(14px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-
+.wc-card { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; animation: fadeUp 0.35s ease both; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.wc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.14); border-color: var(--wc-gold); }
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 .card-stripe { height: 4px; }
 .stripe-apk  { background: linear-gradient(90deg, var(--wc-red), #e04060); }
 .stripe-web  { background: linear-gradient(90deg, var(--wc-navy), #3366cc); }
-.stripe-dl   { background: linear-gradient(90deg, var(--wc-gold), var(--wc-gold-light)); }
-
 .card-body { padding: 18px; }
-
-.card-meta {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 12px;
-}
+.card-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
 .card-badges { display: flex; gap: 5px; flex-wrap: wrap; }
-.cbadge {
-  font-size: 9px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 0.8px; padding: 3px 7px; border-radius: 2px;
-}
+.cbadge { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 7px; border-radius: 2px; }
 .cb-apk  { background: rgba(200,16,46,0.1); color: var(--wc-red); border: 1px solid rgba(200,16,46,0.25); }
 .cb-web  { background: rgba(0,40,104,0.1);  color: var(--wc-navy); border: 1px solid rgba(0,40,104,0.2); }
 .cb-free { background: rgba(26,107,46,0.1); color: var(--wc-green); border: 1px solid rgba(26,107,46,0.2); }
 .cb-uhd  { background: rgba(184,134,11,0.12); color: var(--wc-gold); border: 1px solid rgba(184,134,11,0.3); }
 .cb-4k   { background: rgba(184,134,11,0.12); color: var(--wc-gold); border: 1px solid rgba(184,134,11,0.3); }
 .cb-new  { background: var(--wc-red); color: #fff; }
-.cb-dl   { background: rgba(184,134,11,0.15); color: var(--wc-gold); border: 1px solid rgba(184,134,11,0.3); }
-
 .platform-icon { width: 19px; height: 19px; line-height: 1; color: var(--wc-gold); flex-shrink: 0; }
 .platform-icon svg { width: 100%; height: 100%; display: block; }
-
-.card-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 19px; font-weight: 700; letter-spacing: -0.2px;
-  color: var(--text); margin-bottom: 5px;
-}
-.card-desc {
-  font-size: 12.5px; font-weight: 400; color: var(--muted); line-height: 1.65;
-  margin-bottom: 12px;
-}
-
-.url-box {
-  font-size: 10px;
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 3px; padding: 7px 10px;
-  color: var(--muted); overflow: hidden;
-  text-overflow: ellipsis; white-space: nowrap;
-  margin-bottom: 12px;
-}
-
-/* Downloader kod kutusu — sayıyı göze hitap eder şekilde */
-.code-box {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 12px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 3px; padding: 10px 14px;
-}
-.code-num {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: 28px; color: var(--wc-red);
-  letter-spacing: 3px; line-height: 1;
-}
-.code-label {
-  font-size: 9px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 1.5px; color: var(--muted); line-height: 1.4;
-}
-
+.card-title { font-size: 19px; font-weight: 700; letter-spacing: -0.2px; color: var(--text); margin-bottom: 5px; }
+.card-desc { font-size: 12.5px; font-weight: 400; color: var(--muted); line-height: 1.65; margin-bottom: 12px; }
+.url-box { font-size: 10px; font-family: 'SF Mono', 'Fira Code', monospace; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 7px 10px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 12px; }
+.code-box { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 10px 14px; }
+.code-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px; color: var(--wc-red); letter-spacing: 3px; line-height: 1; }
+.code-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); line-height: 1.4; }
 .card-actions { display: flex; gap: 7px; }
-.btn {
-  flex: 1; padding: 9px 0; border-radius: 2px; border: none;
-  font-size: 11px; font-weight: 800; cursor: pointer;
-  transition: all 0.2s; font-family: inherit;
-  text-align: center; text-decoration: none;
-  display: flex; align-items: center; justify-content: center;
-  letter-spacing: 0.5px; text-transform: uppercase;
-}
+.btn { flex: 1; padding: 9px 0; border-radius: 2px; border: none; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s; font-family: inherit; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; letter-spacing: 0.5px; text-transform: uppercase; }
 .btn-copy { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
 .btn-copy:hover { border-color: var(--wc-gold); color: var(--wc-gold); }
 .btn-goto { background: var(--wc-red); color: #fff; }
 .btn-goto:hover { background: #a00d26; }
 .btn-navy { background: var(--wc-navy); color: #fff; }
 .btn-navy:hover { background: #001a50; }
-
-/* ── MAÇ TAKVİMİ ── */
-.schedule-wrap {
-  max-width: 1200px; margin: 0 auto 48px;
-  padding: 0 16px;
-}
-
-/* Türkiye maç vurgusu */
-.tr-match {
-  background: rgba(200,16,46,0.04);
-  border: 2px solid var(--wc-red);
-  border-radius: 3px;
-}
-
-.match-tabs {
-  display: flex; gap: 0; margin-bottom: 16px;
-  border: 1px solid var(--border);
-  border-radius: 3px; overflow: hidden;
-  width: fit-content;
-}
-.match-tab {
-  padding: 8px 16px; font-size: 12px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 1px;
-  cursor: pointer; background: var(--surface2); color: var(--muted);
-  border: none; font-family: inherit;
-  transition: all 0.2s; border-right: 1px solid var(--border);
-}
+.schedule-wrap { max-width: 1200px; margin: 0 auto 48px; padding: 0 16px; }
+.tr-match { background: rgba(200,16,46,0.04); border: 2px solid var(--wc-red); border-radius: 3px; }
+.match-tabs { display: flex; gap: 0; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; width: fit-content; }
+.match-tab { padding: 8px 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; background: var(--surface2); color: var(--muted); border: none; font-family: inherit; transition: all 0.2s; border-right: 1px solid var(--border); }
 .match-tab:last-child { border-right: none; }
 .match-tab.active { background: var(--wc-navy); color: #fff; }
-
-.schedule-table {
-  width: 100%; border-collapse: collapse;
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 3px; overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.schedule-table th {
-  background: var(--wc-navy); color: #fff;
-  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-  font-size: 12px; letter-spacing: 2px;
-  padding: 10px 14px; text-align: left;
-}
-.schedule-table td {
-  padding: 10px 14px; font-size: 13px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
-}
+.schedule-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+.schedule-table th { background: var(--wc-navy); color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 2px; padding: 10px 14px; text-align: left; }
+.schedule-table td { padding: 10px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
 .schedule-table tr:last-child td { border-bottom: none; }
 .schedule-table tr:hover td { background: var(--surface2); }
 .schedule-table tr.tr-match td { background: rgba(200,16,46,0.04); }
 .schedule-table tr.tr-match:hover td { background: rgba(200,16,46,0.08); }
-
-.match-teams {
-  font-weight: 700; font-size: 14px; color: var(--text);
-}
-.match-score {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px;
-  color: var(--wc-red); text-align: center; white-space: nowrap;
-}
-.match-time {
-  font-size: 12px; color: var(--muted); white-space: nowrap;
-}
+.match-teams { font-weight: 700; font-size: 14px; color: var(--text); }
+.match-score { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--wc-red); text-align: center; white-space: nowrap; }
+.match-time { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .match-venue { font-size: 11px; color: var(--muted); }
-.match-group {
-  font-size: 10px; font-weight: 800; text-transform: uppercase;
-  letter-spacing: 1px; padding: 2px 7px; border-radius: 2px;
-  white-space: nowrap;
-}
+.match-group { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; padding: 2px 7px; border-radius: 2px; white-space: nowrap; }
 .mg-d { background: rgba(200,16,46,0.12); color: var(--wc-red); }
 .mg-other { background: var(--surface2); color: var(--muted); }
-
-.tr-flag { font-size: 16px; vertical-align: middle; margin-right: 4px; }
-.live-dot {
-  display: inline-block; width: 7px; height: 7px;
-  background: #22c55e; border-radius: 50%;
-  animation: livePulse 1.2s infinite; margin-right: 5px;
-  vertical-align: middle;
-}
+.live-dot { display: inline-block; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; animation: livePulse 1.2s infinite; margin-right: 5px; vertical-align: middle; }
 @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.5)} }
-
 .result-win  { color: var(--wc-green); }
 .result-loss { color: var(--wc-red); }
 .result-draw { color: var(--wc-gold); }
-
-/* ── RETRO DÜNYA KUPASI (1994 / 1998) ── */
-.retro-grid {
-  max-width: 1200px; margin: 0 auto 48px;
-  padding: 0 16px;
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
+.retro-grid { max-width: 1200px; margin: 0 auto 48px; padding: 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 @media (max-width: 720px) { .retro-grid { grid-template-columns: 1fr; } }
-
-.retro-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.retro-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-}
-.retro-art {
-  height: 168px;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
-}
+.retro-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s; }
+.retro-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,0.12); }
+.retro-art { height: 168px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 .retro-art-94 { background: linear-gradient(135deg, #002868 0%, #0a3d91 55%, #c8102e 100%); }
 .retro-art-98 { background: linear-gradient(135deg, #1a6b2e 0%, #0d4a1f 55%, #c8102e 100%); }
 .retro-art svg { width: 100%; height: 100%; }
-
 .retro-body { padding: 18px 20px 20px; }
-.retro-year-row {
-  display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px;
-}
-.retro-year {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
-  font-size: 26px; color: var(--text); letter-spacing: -0.5px;
-}
-.retro-host {
-  font-size: 12px; font-weight: 600; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 1px;
-}
-.retro-stats {
-  display: flex; gap: 18px; margin: 12px 0 14px;
-  padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-}
+.retro-year-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+.retro-year { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: var(--text); letter-spacing: -0.5px; }
+.retro-host { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.retro-stats { display: flex; gap: 18px; margin: 12px 0 14px; padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .retro-stat-item { flex: 1; }
-.retro-stat-label {
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.8px; color: var(--muted); margin-bottom: 2px;
-}
-.retro-stat-value {
-  font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-  font-size: 14px; color: var(--text);
-}
-.retro-desc {
-  font-size: 13px; color: var(--muted); line-height: 1.65;
-}
+.retro-stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 2px; }
+.retro-stat-value { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; color: var(--text); }
+.retro-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
 .retro-desc strong { color: var(--text); font-weight: 600; }
-
-/* ── NOT KUTUSU ── */
-.note-box {
-  max-width: 1200px; margin: 0 auto 48px; padding: 0 16px;
-}
-.note-inner {
-  background: rgba(184,134,11,0.07);
-  border: 1px solid rgba(184,134,11,0.25);
-  border-left: 4px solid var(--wc-gold);
-  border-radius: 0 3px 3px 0;
-  padding: 14px 18px;
-  display: flex; gap: 12px; align-items: flex-start;
-}
+.note-box { max-width: 1200px; margin: 0 auto 48px; padding: 0 16px; }
+.note-inner { background: rgba(184,134,11,0.07); border: 1px solid rgba(184,134,11,0.25); border-left: 4px solid var(--wc-gold); border-radius: 0 3px 3px 0; padding: 14px 18px; display: flex; gap: 12px; align-items: flex-start; }
 .note-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
 .note-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
 .note-text strong { color: var(--text); }
-
-/* ── FOOTER ── */
-footer {
-  border-top: 2px solid var(--wc-gold);
-  padding: 20px 16px;
-  text-align: center;
-  font-size: 12px; color: var(--muted);
-  background: var(--surface);
-}
+footer { border-top: 2px solid var(--wc-gold); padding: 20px 16px; text-align: center; font-size: 12px; color: var(--muted); background: var(--surface); }
 footer a { color: var(--muted); text-decoration: none; }
 footer a:hover { color: var(--wc-red); }
-
-/* ── TOAST ── */
-#toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  padding: 10px 20px; border-radius: 3px;
-  font-size: 13px; font-weight: 700;
-  z-index: 9999;
-  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
-  opacity: 0; pointer-events: none; white-space: nowrap;
-  background: #1a1208; color: #fff;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+.api-loading {
+  padding: 28px; text-align: center; font-size: 13px;
+  color: var(--muted); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 3px;
 }
+.api-error {
+  padding: 18px; font-size: 13px; color: var(--wc-red);
+  background: rgba(200,16,46,0.05); border: 1px solid rgba(200,16,46,0.2);
+  border-radius: 3px;
+}
+.live-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 800; color: #22c55e;
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+  padding: 2px 7px; border-radius: 2px; text-transform: uppercase;
+}
+#toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); padding: 10px 20px; border-radius: 3px; font-size: 13px; font-weight: 700; z-index: 9999; transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.3s; opacity: 0; pointer-events: none; white-space: nowrap; background: #1a1208; color: #fff; box-shadow: 0 6px 24px rgba(0,0,0,0.25); }
 #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 </style>
 </head>
@@ -535,12 +177,10 @@ footer a:hover { color: var(--wc-red); }
 
 <div id="toast"></div>
 
-<!-- DUYURU -->
 <div class="announce-bar">
   ⚽ FIFA Dünya Kupası 2026 — ABD · Kanada · Meksika &nbsp;|&nbsp; 11 Haziran – 19 Temmuz 2026 ⚽
 </div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a href="https://tcl-iffalcon.github.io/wiki/" class="brand">PluginHub</a>
@@ -564,7 +204,6 @@ footer a:hover { color: var(--wc-red); }
 
 <main>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-ticket">
     <div class="hero-inner">
@@ -590,7 +229,7 @@ footer a:hover { color: var(--wc-red); }
   </div>
 </div>
 
-<!-- ─── TÜRKİYE MAÇ TAKVİMİ ─── -->
+<!-- TAKVİM -->
 <div class="section-header" style="margin-top:0">
   <span class="section-badge sb-red">🇹🇷 TAKVİM</span>
   <h2 class="section-title">Canlı Maç Takvimi</h2>
@@ -598,143 +237,22 @@ footer a:hover { color: var(--wc-red); }
 </div>
 
 <div class="schedule-wrap">
-
-  <!-- Sekme Butonları -->
   <div class="match-tabs">
     <button class="match-tab active" onclick="showTab('tr')">🇹🇷 Türkiye Maçları</button>
     <button class="match-tab" onclick="showTab('today')">📅 Bugün</button>
     <button class="match-tab" onclick="showTab('all')">Tüm Gruplar</button>
   </div>
 
-  <!-- TÜRKİYE MAÇLARI -->
-  <div id="tab-tr">
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>Grup</th>
-          <th>Maç</th>
-          <th style="text-align:center">Skor</th>
-          <th>TR Saati</th>
-          <th>Şehir / Stadyum</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="tr-match">
-          <td><span class="match-group mg-d">D</span></td>
-          <td class="match-teams">🇦🇺 Avustralya vs <strong>🇹🇷 Türkiye</strong></td>
-          <td class="match-score result-loss">2 – 0</td>
-          <td class="match-time">14 Haz, 03:00</td>
-          <td class="match-venue">Vancouver, BC Place</td>
-        </tr>
-        <tr class="tr-match">
-          <td><span class="match-group mg-d">D</span></td>
-          <td class="match-teams"><strong>🇹🇷 Türkiye</strong> vs 🇵🇾 Paraguay</td>
-          <td class="match-score">—</td>
-          <td class="match-time">20 Haz, 04:00</td>
-          <td class="match-venue">San Francisco Bay Area</td>
-        </tr>
-        <tr class="tr-match">
-          <td><span class="match-group mg-d">D</span></td>
-          <td class="match-teams"><strong>🇹🇷 Türkiye</strong> vs 🇺🇸 ABD</td>
-          <td class="match-score">—</td>
-          <td class="match-time">26 Haz, 04:00</td>
-          <td class="match-venue">Los Angeles / SoFi Stadium</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <div id="tab-tr"><div class="api-loading">⏳ Yükleniyor…</div></div>
+  <div id="tab-today" style="display:none"><div class="api-loading">⏳ Yükleniyor…</div></div>
+  <div id="tab-all" style="display:none"><div class="api-loading">⏳ Yükleniyor…</div></div>
 
-  <!-- BUGÜNÜN MAÇLARI (16 Haziran 2026) -->
-  <div id="tab-today" style="display:none">
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>Grup</th>
-          <th>Maç</th>
-          <th style="text-align:center">Skor / Durum</th>
-          <th>TR Saati</th>
-          <th>Şehir</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="match-group mg-other">I</span></td>
-          <td class="match-teams">🇫🇷 Fransa vs 🇸🇳 Senegal</td>
-          <td class="match-score">—</td>
-          <td class="match-time">21:00</td>
-          <td class="match-venue">New York / MetLife</td>
-        </tr>
-        <tr>
-          <td><span class="match-group mg-other">I</span></td>
-          <td class="match-teams">🇮🇶 Irak vs 🇳🇴 Norveç</td>
-          <td class="match-score">—</td>
-          <td class="match-time">00:00 (+1)</td>
-          <td class="match-venue">Boston</td>
-        </tr>
-        <tr>
-          <td><span class="match-group mg-other">J</span></td>
-          <td class="match-teams">🇦🇷 Arjantin vs 🇩🇿 Cezayir</td>
-          <td class="match-score">—</td>
-          <td class="match-time">02:00 (+1)</td>
-          <td class="match-venue">Kansas City</td>
-        </tr>
-        <tr>
-          <td><span class="match-group mg-other">J</span></td>
-          <td class="match-teams">🇦🇹 Avusturya vs 🇯🇴 Ürdün</td>
-          <td class="match-score">—</td>
-          <td class="match-time">03:00 (+1)</td>
-          <td class="match-venue">San Francisco</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- TÜM GRUPLAR ÖZET -->
-  <div id="tab-all" style="display:none">
-    <table class="schedule-table">
-      <thead>
-        <tr>
-          <th>Grup</th>
-          <th>Maç</th>
-          <th style="text-align:center">Skor</th>
-          <th>Tarih (TR)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Grup A -->
-        <tr><td><span class="match-group mg-other">A</span></td><td class="match-teams">🇲🇽 Meksika vs 🇿🇦 G.Afrika</td><td class="match-score result-win">2–0</td><td class="match-time">12 Haz</td></tr>
-        <tr><td><span class="match-group mg-other">A</span></td><td class="match-teams">🇰🇷 G.Kore vs 🇨🇿 Çekya</td><td class="match-score">2–1</td><td class="match-time">13 Haz</td></tr>
-        <!-- Grup B -->
-        <tr><td><span class="match-group mg-other">B</span></td><td class="match-teams">🇨🇦 Kanada vs 🇧🇦 Bosna</td><td class="match-score">1–1</td><td class="match-time">13 Haz</td></tr>
-        <tr><td><span class="match-group mg-other">B</span></td><td class="match-teams">🇶🇦 Katar vs 🇨🇭 İsviçre</td><td class="match-score">1–1</td><td class="match-time">13 Haz</td></tr>
-        <!-- Grup C -->
-        <tr><td><span class="match-group mg-other">C</span></td><td class="match-teams">🇧🇷 Brezilya vs 🇲🇦 Fas</td><td class="match-score">1–1</td><td class="match-time">14 Haz</td></tr>
-        <tr><td><span class="match-group mg-other">C</span></td><td class="match-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 İskoçya vs 🇭🇹 Haiti</td><td class="match-score result-win">1–0</td><td class="match-time">14 Haz</td></tr>
-        <!-- Grup D -->
-        <tr class="tr-match"><td><span class="match-group mg-d">D</span></td><td class="match-teams">🇺🇸 ABD vs 🇵🇾 Paraguay</td><td class="match-score result-win">4–1</td><td class="match-time">13 Haz</td></tr>
-        <tr class="tr-match"><td><span class="match-group mg-d">D</span></td><td class="match-teams">🇦🇺 Avustralya vs <strong>🇹🇷 Türkiye</strong></td><td class="match-score result-loss">2–0</td><td class="match-time">14 Haz</td></tr>
-        <!-- Grup E -->
-        <tr><td><span class="match-group mg-other">E</span></td><td class="match-teams">🇩🇪 Almanya vs 🇨🇼 Curaçao</td><td class="match-score">7–1</td><td class="match-time">14 Haz</td></tr>
-        <!-- Grup F -->
-        <tr><td><span class="match-group mg-other">F</span></td><td class="match-teams">🇳🇱 Hollanda vs 🇯🇵 Japonya</td><td class="match-score">2–2</td><td class="match-time">15 Haz</td></tr>
-        <!-- Grup H -->
-        <tr><td><span class="match-group mg-other">H</span></td><td class="match-teams">🇪🇸 İspanya vs 🇨🇻 Yeşilburun</td><td class="match-score">—</td><td class="match-time">16 Haz</td></tr>
-        <!-- Grup I -->
-        <tr><td><span class="match-group mg-other">I</span></td><td class="match-teams">🇫🇷 Fransa vs 🇸🇳 Senegal</td><td class="match-score">—</td><td class="match-time">16 Haz</td></tr>
-        <!-- Grup J -->
-        <tr><td><span class="match-group mg-other">J</span></td><td class="match-teams">🇦🇷 Arjantin vs 🇩🇿 Cezayir</td><td class="match-score">—</td><td class="match-time">17 Haz</td></tr>
-        <!-- Grup L -->
-        <tr><td><span class="match-group mg-other">L</span></td><td class="match-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 İngiltere vs 🇭🇷 Hırvatistan</td><td class="match-score">—</td><td class="match-time">17 Haz</td></tr>
-      </tbody>
-    </table>
-    <p style="font-size:11px;color:var(--muted);margin-top:10px;padding:0 2px">
-      ⏰ Tüm saatler Türkiye Saati (TRT = UTC+3). Maçlar devam ettiğinden sonuçlar güncellenecektir.
-    </p>
-  </div>
-
+  <p id="schedule-footer" style="font-size:11px;color:var(--muted);margin-top:10px;padding:0 2px;display:none">
+    ⏰ Tüm saatler Türkiye Saati (TRT = UTC+3). Veriler football-data.org'dan otomatik güncellenir.
+  </p>
 </div>
 
-<!-- ─── RETRO: 1994 & 1998 DÜNYA KUPASI ─── -->
+<!-- NOSTALJİ -->
 <div class="section-header">
   <span class="section-badge sb-gold">🕰️ NOSTALJİ</span>
   <h2 class="section-title">1994 & 1998 Dünya Kupası</h2>
@@ -742,112 +260,53 @@ footer a:hover { color: var(--wc-red); }
 </div>
 
 <div class="retro-grid">
-
-  <!-- 1994 USA -->
   <div class="retro-card">
     <div class="retro-art retro-art-94">
       <svg viewBox="0 0 400 168" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="stripes94" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(20)">
-            <rect width="40" height="40" fill="none"/>
-            <rect width="20" height="40" fill="rgba(255,255,255,0.05)"/>
-          </pattern>
-        </defs>
+        <defs><pattern id="stripes94" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(20)"><rect width="40" height="40" fill="none"/><rect width="20" height="40" fill="rgba(255,255,255,0.05)"/></pattern></defs>
         <rect width="400" height="168" fill="url(#stripes94)"/>
-        <!-- yıldızlar -->
-        <g fill="#ffffff" opacity="0.85">
-          <circle cx="40" cy="30" r="2"/><circle cx="60" cy="22" r="1.5"/><circle cx="80" cy="40" r="2"/>
-          <circle cx="100" cy="20" r="1.5"/><circle cx="120" cy="34" r="2"/>
-        </g>
-        <!-- retro top -->
-        <g transform="translate(95,84)">
-          <circle r="46" fill="#f5f0e8" stroke="#1a1208" stroke-width="2.5"/>
-          <path d="M0 -46 L13 -16 L46 -8 L20 12 L28 44 L0 24 L-28 44 L-20 12 L-46 -8 L-13 -16 Z" fill="#1a1208" opacity="0.92"/>
-        </g>
-        <!-- yazı -->
+        <g fill="#ffffff" opacity="0.85"><circle cx="40" cy="30" r="2"/><circle cx="60" cy="22" r="1.5"/><circle cx="80" cy="40" r="2"/><circle cx="100" cy="20" r="1.5"/><circle cx="120" cy="34" r="2"/></g>
+        <g transform="translate(95,84)"><circle r="46" fill="#f5f0e8" stroke="#1a1208" stroke-width="2.5"/><path d="M0 -46 L13 -16 L46 -8 L20 12 L28 44 L0 24 L-28 44 L-20 12 L-46 -8 L-13 -16 Z" fill="#1a1208" opacity="0.92"/></g>
         <text x="170" y="70" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#ffffff">USA</text>
         <text x="170" y="98" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#d4a017">'94</text>
         <line x1="170" y1="112" x2="290" y2="112" stroke="#c8102e" stroke-width="3"/>
       </svg>
     </div>
     <div class="retro-body">
-      <div class="retro-year-row">
-        <span class="retro-year">1994</span>
-        <span class="retro-host">ABD</span>
-      </div>
+      <div class="retro-year-row"><span class="retro-year">1994</span><span class="retro-host">ABD</span></div>
       <div class="retro-stats">
-        <div class="retro-stat-item">
-          <div class="retro-stat-label">Şampiyon</div>
-          <div class="retro-stat-value">🇧🇷 Brezilya</div>
-        </div>
-        <div class="retro-stat-item">
-          <div class="retro-stat-label">Finalist</div>
-          <div class="retro-stat-value">🇮🇹 İtalya</div>
-        </div>
-        <div class="retro-stat-item">
-          <div class="retro-stat-label">Format</div>
-          <div class="retro-stat-value">24 Takım</div>
-        </div>
+        <div class="retro-stat-item"><div class="retro-stat-label">Şampiyon</div><div class="retro-stat-value">🇧🇷 Brezilya</div></div>
+        <div class="retro-stat-item"><div class="retro-stat-label">Finalist</div><div class="retro-stat-value">🇮🇹 İtalya</div></div>
+        <div class="retro-stat-item"><div class="retro-stat-label">Format</div><div class="retro-stat-value">24 Takım</div></div>
       </div>
-      <div class="retro-desc">
-        Final, normal süre ve uzatmalarda golsüz bitti; <strong>Brezilya</strong> tarihte ilk kez bir Dünya Kupası finalini penaltılarla kazandı. Roberto Baggio'nun kaçırdığı son penaltı, turnuvanın en akılda kalan anlarından biri oldu. Türkiye bu turnuvaya katılamadı.
-      </div>
+      <div class="retro-desc">Final, normal süre ve uzatmalarda golsüz bitti; <strong>Brezilya</strong> tarihte ilk kez bir Dünya Kupası finalini penaltılarla kazandı. Roberto Baggio'nun kaçırdığı son penaltı, turnuvanın en akılda kalan anlarından biri oldu. Türkiye bu turnuvaya katılamadı.</div>
     </div>
   </div>
 
-  <!-- 1998 FRANCE -->
   <div class="retro-card">
     <div class="retro-art retro-art-98">
       <svg viewBox="0 0 400 168" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid98" width="28" height="28" patternUnits="userSpaceOnUse">
-            <path d="M0 0 L28 0 L28 28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-          </pattern>
-        </defs>
+        <defs><pattern id="grid98" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M0 0 L28 0 L28 28" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/></pattern></defs>
         <rect width="400" height="168" fill="url(#grid98)"/>
-        <!-- retro top -->
-        <g transform="translate(95,84)">
-          <circle r="46" fill="#f5f0e8" stroke="#1a1208" stroke-width="2.5"/>
-          <polygon points="0,-22 21,-7 13,18 -13,18 -21,-7" fill="#1a1208" opacity="0.92"/>
-          <circle cx="0" cy="-22" r="6" fill="#1a1208" opacity="0.7"/>
-          <circle cx="21" cy="-7" r="6" fill="#1a1208" opacity="0.7"/>
-          <circle cx="13" cy="18" r="6" fill="#1a1208" opacity="0.7"/>
-          <circle cx="-13" cy="18" r="6" fill="#1a1208" opacity="0.7"/>
-          <circle cx="-21" cy="-7" r="6" fill="#1a1208" opacity="0.7"/>
-        </g>
-        <!-- yazı -->
+        <g transform="translate(95,84)"><circle r="46" fill="#f5f0e8" stroke="#1a1208" stroke-width="2.5"/><polygon points="0,-22 21,-7 13,18 -13,18 -21,-7" fill="#1a1208" opacity="0.92"/><circle cx="0" cy="-22" r="6" fill="#1a1208" opacity="0.7"/><circle cx="21" cy="-7" r="6" fill="#1a1208" opacity="0.7"/><circle cx="13" cy="18" r="6" fill="#1a1208" opacity="0.7"/><circle cx="-13" cy="18" r="6" fill="#1a1208" opacity="0.7"/><circle cx="-21" cy="-7" r="6" fill="#1a1208" opacity="0.7"/></g>
         <text x="170" y="70" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#ffffff">FRANCE</text>
         <text x="170" y="98" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="34" fill="#d4a017">'98</text>
         <line x1="170" y1="112" x2="290" y2="112" stroke="#c8102e" stroke-width="3"/>
       </svg>
     </div>
     <div class="retro-body">
-      <div class="retro-year-row">
-        <span class="retro-year">1998</span>
-        <span class="retro-host">Fransa</span>
-      </div>
+      <div class="retro-year-row"><span class="retro-year">1998</span><span class="retro-host">Fransa</span></div>
       <div class="retro-stats">
-        <div class="retro-stat-item">
-          <div class="retro-stat-label">Şampiyon</div>
-          <div class="retro-stat-value">🇫🇷 Fransa</div>
-        </div>
-        <div class="retro-stat-item">
-          <div class="retro-stat-label">Finalist</div>
-          <div class="retro-stat-value">🇧🇷 Brezilya</div>
-        </div>
-        <div class="retro-stat-item">
-          <div class="retro-stat-label">Format</div>
-          <div class="retro-stat-value">32 Takım</div>
-        </div>
+        <div class="retro-stat-item"><div class="retro-stat-label">Şampiyon</div><div class="retro-stat-value">🇫🇷 Fransa</div></div>
+        <div class="retro-stat-item"><div class="retro-stat-label">Finalist</div><div class="retro-stat-value">🇧🇷 Brezilya</div></div>
+        <div class="retro-stat-item"><div class="retro-stat-label">Format</div><div class="retro-stat-value">32 Takım</div></div>
       </div>
-      <div class="retro-desc">
-        Turnuva ilk kez <strong>32 takıma</strong> çıkarıldı. Ev sahibi Fransa, finalde Brezilya'yı 3-0 yenerek ilk şampiyonluğuna ulaştı; Zinedine Zidane'ın iki kafa golü unutulmazlar arasına girdi. Türkiye bu turnuvaya da katılamadı, dört yıl sonra 2002'de tarihi üçüncülüğe ulaşacaktı.
-      </div>
+      <div class="retro-desc">Turnuva ilk kez <strong>32 takıma</strong> çıkarıldı. Ev sahibi Fransa, finalde Brezilya'yı 3-0 yenerek ilk şampiyonluğuna ulaştı; Zinedine Zidane'ın iki kafa golü unutulmazlar arasına girdi. Türkiye bu turnuvaya da katılamadı, dört yıl sonra 2002'de tarihi üçüncülüğe ulaşacaktı.</div>
     </div>
   </div>
-
 </div>
 
+<!-- APK BÖLÜMÜ -->
 <div class="section-header">
   <span class="section-badge sb-red">📡 APK</span>
   <h2 class="section-title">Android TV / Google TV Uygulamaları</h2>
@@ -870,22 +329,13 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">SportzX</div>
       <div class="card-desc">100+ ücretsiz canlı spor kanalı. Futbol, kriket, tenis, hokey. Reklamsız, HD kalite. M3U/IPTV desteği var.</div>
-      <div class="code-box">
-        <div class="code-num">5792854</div>
-        <div class="code-label">Downloader<br>Kodu</div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('5792854')">Kopyala</button>
-      </div>
+      <div class="code-box"><div class="code-num">5792854</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('5792854')">Kopyala</button></div>
     </div>
   </div>
 
@@ -894,22 +344,13 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">Cricfy TV</div>
       <div class="card-desc">Kriket ve futbol odaklı hafif uygulama. Özel M3U desteği, çoklu sunucu bağlantısı, reklamsız arayüz.</div>
-      <div class="code-box">
-        <div class="code-num">8103377</div>
-        <div class="code-label">Downloader<br>Kodu</div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('8103377')">Kopyala</button>
-      </div>
+      <div class="code-box"><div class="code-num">8103377</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('8103377')">Kopyala</button></div>
     </div>
   </div>
 
@@ -918,22 +359,13 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">Sportzfy TV</div>
       <div class="card-desc">Premier League, Serie A, Champions League ve FIFA 2026 canlı yayınları. Xtream Codes API desteği.</div>
-      <div class="code-box">
-        <div class="code-num">730116</div>
-        <div class="code-label">Downloader<br>Kodu</div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button>
-      </div>
+      <div class="code-box"><div class="code-num">730116</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button></div>
     </div>
   </div>
 
@@ -942,46 +374,28 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">AK47 Sports</div>
       <div class="card-desc">Futbol, dart, kriket, tenis ve PPV etkinlikleri ücretsiz. Reklam yok. M3U playlist ve Xtream Codes desteği.</div>
-      <div class="code-box">
-        <div class="code-num">4564006</div>
-        <div class="code-label">Downloader<br>Kodu</div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('4564006')">Kopyala</button>
-      </div>
+      <div class="code-box"><div class="code-num">4564006</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('4564006')">Kopyala</button></div>
     </div>
   </div>
 
-  <!-- Volta TV / Voltra TV -->
+  <!-- Volta TV -->
   <div class="wc-card" style="animation-delay:200ms">
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">Volta TV (Voltra)</div>
       <div class="card-desc">Binlerce canlı kanal, dizi, film ve canlı spor etkinlikleri. AFL, MLB, NBA ve dünya kupası yayınları.</div>
-      <div class="code-box">
-        <div class="code-num">730116</div>
-        <div class="code-label">Downloader<br>Kodu</div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button>
-      </div>
+      <div class="code-box"><div class="code-num">730116</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button></div>
     </div>
   </div>
 
@@ -990,22 +404,13 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">TFlix</div>
       <div class="card-desc">Spor ağırlıklı canlı yayın uygulaması. FireStick ve Android TV uyumlu. Geniş kanal arşivi.</div>
-      <div class="code-box">
-        <div class="code-num">4020823</div>
-        <div class="code-label">Downloader<br>Kodu</div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('4020823')">Kopyala</button>
-      </div>
+      <div class="code-box"><div class="code-num">4020823</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('4020823')">Kopyala</button></div>
     </div>
   </div>
 
@@ -1014,22 +419,13 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">PlayFy TV</div>
       <div class="card-desc">Reklamsız spor yayın uygulaması. 1080p/720p/480p ayarlanabilir. Futbol, kriket, WWE ve MotoGP.</div>
-      <div class="code-box">
-        <div class="code-num">8415232</div>
-        <div class="code-label">Downloader<br>Kodu</div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('8415232')">Kopyala</button>
-      </div>
+      <div class="code-box"><div class="code-num">8415232</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('8415232')">Kopyala</button></div>
     </div>
   </div>
 
@@ -1038,28 +434,49 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-apk"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-apk">APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-uhd">UHD</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-uhd">UHD</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
       <div class="card-title">MaxLiv TV</div>
       <div class="card-desc">Yeni nesil ücretsiz spor uygulaması. Futbol, kriket, boks, tenis. Tamamen reklamsız. Alçak kalite modu mevcut.</div>
-      <div class="code-box">
-        <div class="code-num">730116</div>
-        <div class="code-label">Downloader<br>Kodu</div>
+      <div class="code-box"><div class="code-num">730116</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button></div>
+    </div>
+  </div>
+
+  <!-- MagLink TV — YENİ -->
+  <div class="wc-card" style="animation-delay:400ms">
+    <div class="card-stripe stripe-apk"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-new">YENİ</span></div>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
-      <div class="card-actions">
-        <button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('730116')">Kopyala</button>
+      <div class="card-title">MagLink TV</div>
+      <div class="card-desc">Canlı spor ve TV kanalları için güçlü link toplayıcı. Android TV uyumlu, hızlı yükleme süresi.</div>
+      <div class="code-box"><div class="code-num">9606654</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('9606654')">Kopyala</button></div>
+    </div>
+  </div>
+
+  <!-- Crexify TV — YENİ -->
+  <div class="wc-card" style="animation-delay:450ms">
+    <div class="card-stripe stripe-apk"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <div class="card-badges"><span class="cbadge cb-apk">APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-new">YENİ</span></div>
+        <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
       </div>
+      <div class="card-title">Crexify TV</div>
+      <div class="card-desc">Kriket, futbol ve canlı spor yayınları için optimize edilmiş uygulama. Çoklu kalite seçeneği, reklamsız arayüz.</div>
+      <div class="code-box"><div class="code-num">8508442</div><div class="code-label">Downloader<br>Kodu</div></div>
+      <div class="card-actions"><button class="btn btn-copy" style="flex:1 1 100%" onclick="copyText('8508442')">Kopyala</button></div>
     </div>
   </div>
 
 </div>
 
-<!-- ─── WEB SİTELERİ ─── -->
+<!-- WEB SİTELERİ -->
 <div class="section-header">
   <span class="section-badge sb-navy">🌐 WEB</span>
   <h2 class="section-title">Canlı İzleme Web Siteleri</h2>
@@ -1073,11 +490,7 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-web">WEB</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-new">WC 2026</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-web">WEB</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-new">WC 2026</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4V8z" fill="currentColor" stroke="none"/></svg></span>
       </div>
       <div class="card-title">StreamEast</div>
@@ -1095,10 +508,7 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-web">WEB</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-web">WEB</span><span class="cbadge cb-free">Ücretsiz</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>
       </div>
       <div class="card-title">StreamEast TV</div>
@@ -1116,10 +526,7 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-web">WEB</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-web">WEB</span><span class="cbadge cb-free">Ücretsiz</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>
       </div>
       <div class="card-title">Streamcup</div>
@@ -1137,10 +544,7 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-web">WEB</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-web">WEB</span><span class="cbadge cb-free">Ücretsiz</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.5 1.5M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg></span>
       </div>
       <div class="card-title">Timstreams</div>
@@ -1158,11 +562,7 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-web">WEB</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-new">WC 2026</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-web">WEB</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-new">WC 2026</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg></span>
       </div>
       <div class="card-title">Movie Pluto</div>
@@ -1175,16 +575,12 @@ footer a:hover { color: var(--wc-red); }
     </div>
   </div>
 
-  <!-- CazéTV YouTube -->
+  <!-- CazéTV -->
   <div class="wc-card" style="animation-delay:250ms">
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-web">YouTube</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-4k">4K</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-web">YouTube</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-4k">4K</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none"/></svg></span>
       </div>
       <div class="card-title">CazéTV (YouTube)</div>
@@ -1202,17 +598,15 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-free">Ücretsiz</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-free">Ücretsiz</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.2"/><path d="M19.5 20c0-2.2-1.6-4-3.8-4.6"/></svg></span>
       </div>
       <div class="card-title">VipRow</div>
-      <div class="card-desc"> Dünya Kupası stream koleksiyonları ve çalışan linkler.</div>
+      <div class="card-desc">Dünya Kupası stream koleksiyonları ve çalışan linkler.</div>
       <div class="url-box">https://www.viprow.sx/</div>
       <div class="card-actions">
         <button class="btn btn-copy" onclick="copyText('https://www.viprow.sx/')">URL Kopyala</button>
-        <a href="https://www.viprow.sx/" target="_blank" class="btn btn-goto">Reddit ↗</a>
+        <a href="https://www.viprow.sx/" target="_blank" class="btn btn-goto">Siteye Git ↗</a>
       </div>
     </div>
   </div>
@@ -1222,11 +616,7 @@ footer a:hover { color: var(--wc-red); }
     <div class="card-stripe stripe-web"></div>
     <div class="card-body">
       <div class="card-meta">
-        <div class="card-badges">
-          <span class="cbadge cb-web">WEB + APK</span>
-          <span class="cbadge cb-free">Ücretsiz</span>
-          <span class="cbadge cb-new">Resmi</span>
-        </div>
+        <div class="card-badges"><span class="cbadge cb-web">WEB + APK</span><span class="cbadge cb-free">Ücretsiz</span><span class="cbadge cb-new">Resmi</span></div>
         <span class="platform-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg></span>
       </div>
       <div class="card-title">TRT Spor</div>
@@ -1241,7 +631,6 @@ footer a:hover { color: var(--wc-red); }
 
 </div>
 
-<!-- NOT KUTUSU -->
 <div class="note-box">
   <div class="note-inner">
     <div class="note-icon">💡</div>
@@ -1264,6 +653,7 @@ footer a:hover { color: var(--wc-red); }
 </footer>
 
 <script>
+/* ── COPY ── */
 function copyText(t) {
   navigator.clipboard.writeText(t).then(() => {
     const el = document.getElementById('toast');
@@ -1274,29 +664,199 @@ function copyText(t) {
   });
 }
 
+/* ── TABS ── */
 function showTab(name) {
   ['tr','today','all'].forEach(id => {
     document.getElementById('tab-' + id).style.display = 'none';
   });
   document.getElementById('tab-' + name).style.display = 'block';
-  document.querySelectorAll('.match-tab').forEach((btn, i) => {
-    btn.classList.remove('active');
-  });
   const map = { tr: 0, today: 1, all: 2 };
+  document.querySelectorAll('.match-tab').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.match-tab')[map[name]].classList.add('active');
 }
 
+/* ── MOBILE ── */
 function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
-
-// Mobil buton kontrolü
 function checkMobile() {
   const btn = document.getElementById('menuBtn');
   btn.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
 }
 window.addEventListener('resize', checkMobile);
 checkMobile();
+
+/* ── API ── */
+const API_KEY  = '853b8809676e4a30bf6268cc17da7d6f';
+const API_BASE = 'https://api.football-data.org/v4';
+const TR_TEAM  = 'Türkiye'; // API'deki takım adı
+
+// Ülke kodu → bayrak emoji
+const FLAG = {
+  'Türkiye':'🇹🇷','Turkey':'🇹🇷','Australia':'🇦🇺','Paraguay':'🇵🇾',
+  'United States':'🇺🇸','USA':'🇺🇸','Argentina':'🇦🇷','Brazil':'🇧🇷',
+  'France':'🇫🇷','Germany':'🇩🇪','England':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Netherlands':'🇳🇱',
+  'Spain':'🇪🇸','Portugal':'🇵🇹','Mexico':'🇲🇽','Japan':'🇯🇵',
+  'South Korea':'🇰🇷','Morocco':'🇲🇦','Senegal':'🇸🇳','Croatia':'🇭🇷',
+  'Serbia':'🇷🇸','Switzerland':'🇨🇭','Belgium':'🇧🇪','Uruguay':'🇺🇾',
+  'Ecuador':'🇪🇨','Canada':'🇨🇦','Poland':'🇵🇱','Denmark':'🇩🇰',
+  'Tunisia':'🇹🇳','Cameroon':'🇨🇲','Ghana':'🇬🇭','Qatar':'🇶🇦',
+  'Iran':'🇮🇷','Saudi Arabia':'🇸🇦','South Africa':'🇿🇦','Algeria':'🇩🇿',
+  'Norway':'🇳🇴','Austria':'🇦🇹','Iraq':'🇮🇶','Scotland':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  'Haiti':'🇭🇹','Czechia':'🇨🇿','Bosnia and Herzegovina':'🇧🇦','Jordan':'🇯🇴',
+  'Curaçao':'🇨🇼','Cape Verde':'🇨🇻',
+};
+
+function flag(name) {
+  return FLAG[name] || '🏳️';
+}
+
+function trTime(utcStr) {
+  // UTC → TR (UTC+3)
+  const d = new Date(utcStr);
+  return d.toLocaleString('tr-TR', {
+    timeZone: 'Europe/Istanbul',
+    day: '2-digit', month: 'short',
+    hour: '2-digit', minute: '2-digit'
+  });
+}
+
+function scoreHtml(m) {
+  const s = m.status;
+  if (s === 'FINISHED') {
+    const h = m.score.fullTime.home;
+    const a = m.score.fullTime.away;
+    const isTr = m.homeTeam.name === TR_TEAM || m.awayTeam.name === TR_TEAM;
+    if (!isTr) return `<span class="match-score">${h}–${a}</span>`;
+    const trWin  = (m.homeTeam.name === TR_TEAM && h > a) || (m.awayTeam.name === TR_TEAM && a > h);
+    const trDraw = h === a;
+    const cls = trWin ? 'result-win' : trDraw ? 'result-draw' : 'result-loss';
+    return `<span class="match-score ${cls}">${h} – ${a}</span>`;
+  }
+  if (s === 'IN_PLAY' || s === 'PAUSED') {
+    const h = m.score.fullTime.home ?? 0;
+    const a = m.score.fullTime.away ?? 0;
+    return `<span class="match-score"><span class="live-dot"></span>${h}–${a}</span>`;
+  }
+  return `<span class="match-score" style="color:var(--muted)">–</span>`;
+}
+
+function groupBadge(group, isTr) {
+  const letter = group ? group.replace('GROUP_','') : '?';
+  const cls = isTr ? 'mg-d' : 'mg-other';
+  return `<span class="match-group ${cls}">${letter}</span>`;
+}
+
+function buildTableTR(matches) {
+  if (!matches.length) return '<div class="api-error">Türkiye maçı bulunamadı.</div>';
+  let rows = matches.map(m => {
+    const home = m.homeTeam.name;
+    const away = m.awayTeam.name;
+    const homeTR = home === TR_TEAM;
+    const homeStr = homeTR ? `<strong>${flag(home)} ${home}</strong>` : `${flag(home)} ${home}`;
+    const awayStr = !homeTR ? `<strong>${flag(away)} ${away}</strong>` : `${flag(away)} ${away}`;
+    return `<tr class="tr-match">
+      <td>${groupBadge(m.group, true)}</td>
+      <td class="match-teams">${homeStr} vs ${awayStr}</td>
+      <td style="text-align:center">${scoreHtml(m)}</td>
+      <td class="match-time">${trTime(m.utcDate)}</td>
+      <td class="match-venue">${m.venue || '—'}</td>
+    </tr>`;
+  }).join('');
+  return `<table class="schedule-table">
+    <thead><tr><th>Grup</th><th>Maç</th><th style="text-align:center">Skor</th><th>TR Saati</th><th>Stadyum</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function buildTableToday(matches) {
+  if (!matches.length) return '<div class="api-loading">Bugün maç yok.</div>';
+  let rows = matches.map(m => {
+    const home = m.homeTeam.name;
+    const away = m.awayTeam.name;
+    const isTr = home === TR_TEAM || away === TR_TEAM;
+    const homeStr = isTr && home === TR_TEAM ? `<strong>${flag(home)} ${home}</strong>` : `${flag(home)} ${home}`;
+    const awayStr = isTr && away === TR_TEAM ? `<strong>${flag(away)} ${away}</strong>` : `${flag(away)} ${away}`;
+    return `<tr${isTr ? ' class="tr-match"' : ''}>
+      <td>${groupBadge(m.group, isTr)}</td>
+      <td class="match-teams">${homeStr} vs ${awayStr}</td>
+      <td style="text-align:center">${scoreHtml(m)}</td>
+      <td class="match-time">${trTime(m.utcDate)}</td>
+      <td class="match-venue">${m.venue || '—'}</td>
+    </tr>`;
+  }).join('');
+  return `<table class="schedule-table">
+    <thead><tr><th>Grup</th><th>Maç</th><th style="text-align:center">Skor / Durum</th><th>TR Saati</th><th>Stadyum</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function buildTableAll(matches) {
+  if (!matches.length) return '<div class="api-error">Veri yok.</div>';
+  let rows = matches.map(m => {
+    const home = m.homeTeam.name;
+    const away = m.awayTeam.name;
+    const isTr = home === TR_TEAM || away === TR_TEAM;
+    const homeStr = isTr && home === TR_TEAM ? `<strong>${flag(home)} ${home}</strong>` : `${flag(home)} ${home}`;
+    const awayStr = isTr && away === TR_TEAM ? `<strong>${flag(away)} ${away}</strong>` : `${flag(away)} ${away}`;
+    const dateStr = new Date(m.utcDate).toLocaleDateString('tr-TR',{timeZone:'Europe/Istanbul',day:'2-digit',month:'short'});
+    return `<tr${isTr ? ' class="tr-match"' : ''}>
+      <td>${groupBadge(m.group, isTr)}</td>
+      <td class="match-teams">${homeStr} vs ${awayStr}</td>
+      <td style="text-align:center">${scoreHtml(m)}</td>
+      <td class="match-time">${dateStr}</td>
+    </tr>`;
+  }).join('');
+  return `<table class="schedule-table">
+    <thead><tr><th>Grup</th><th>Maç</th><th style="text-align:center">Skor</th><th>Tarih (TR)</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+async function loadMatches() {
+  try {
+    const resp = await fetch(`${API_BASE}/competitions/WC/matches`, {
+      headers: { 'X-Auth-Token': API_KEY }
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    const all = data.matches || [];
+
+    // Türkiye maçları
+    const trMatches = all.filter(m =>
+      m.homeTeam.name === TR_TEAM || m.awayTeam.name === TR_TEAM
+    );
+
+    // Bugünün maçları (TR saat dilimiyle)
+    const todayStr = new Date().toLocaleDateString('tr-TR', {
+      timeZone: 'Europe/Istanbul',
+      year: 'numeric', month: '2-digit', day: '2-digit'
+    }); // ör: "17.06.2025"
+    const todayMatches = all.filter(m => {
+      const d = new Date(m.utcDate).toLocaleDateString('tr-TR', {
+        timeZone: 'Europe/Istanbul',
+        year: 'numeric', month: '2-digit', day: '2-digit'
+      });
+      return d === todayStr;
+    });
+
+    // Grup aşaması maçları (ilk 104 gün filtresi yerine stage filtresi)
+    const groupMatches = all.filter(m => m.stage === 'GROUP_STAGE');
+
+    document.getElementById('tab-tr').innerHTML    = buildTableTR(trMatches);
+    document.getElementById('tab-today').innerHTML = buildTableToday(todayMatches);
+    document.getElementById('tab-all').innerHTML   = buildTableAll(groupMatches);
+    document.getElementById('schedule-footer').style.display = 'block';
+
+  } catch(e) {
+    const msg = `<div class="api-error">⚠️ Veri yüklenemedi: ${e.message}</div>`;
+    ['tab-tr','tab-today','tab-all'].forEach(id => {
+      document.getElementById(id).innerHTML = msg;
+    });
+  }
+}
+
+loadMatches();
 </script>
 </body>
 </html>
