@@ -92,6 +92,14 @@
   {"app": "Nuvio", "type": "Katalog", "name": "NTL Movie Collections", "desc": "Bağlantı Linki: https://ntl-collections-en.vercel.app/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Katalog", "name": "Stremio Stinger Pro", "desc": "Bağlantı Linki: https://stremio-stinger-pro.up.railway.app/", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Spor", "name": "Live Sports Streams", "desc": "Bağlantı Linki: https://sports.highfly.dev/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
-  {"app": "Nuvio", "type": "Spor", "name": "WorldCup 4K", "desc": "Bağlantı Linki: https://worldcup-ns10.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
+  {"app": "Nuvio", "type": "Spor", "name": "WorldCup 4K", "desc": "Bağlantı Linki: https://worldcup-ns10.onrender.com/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "PenguPlay", "desc": "Bağlantı Linki: https://pengu.uk/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Katalog", "name": "Movie Leaks", "desc": "Bağlantı Linki: https://steamddon.dedyn.io/movieleaks/rpdb_api_key=t0-free-rpdb-rounded-blocks/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "SK/CZ Torrents", "desc": "Bağlantı Linki: https://61ab9c85a149-skcz-torrents.baby-beamup.club/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "Filtorrent", "desc": "Bağlantı Linki: https://ce8c71dcef3b-filtorrent.baby-beamup.club/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "Bamabin", "desc": "Bağlantı Linki: https://bamabin.zarg.ir/tokenanddettings/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Spor", "name": "Maximum Sports", "desc": "Bağlantı Linki: https://1fe84bc728af-maxsport.baby-beamup.club/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Spor", "name": "Sports Streams", "desc": "Bağlantı Linki: https://sports.highfly.dev/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+
 
 ]
