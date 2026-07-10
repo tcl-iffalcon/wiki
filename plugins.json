@@ -100,6 +100,8 @@
   {"app": "Nuvio", "type": "4K", "name": "Bamabin", "desc": "Bağlantı Linki: https://bamabin.zarg.ir/tokenanddettings/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Spor", "name": "Maximum Sports", "desc": "Bağlantı Linki: https://1fe84bc728af-maxsport.baby-beamup.club/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
   {"app": "Nuvio", "type": "Spor", "name": "Sports Streams", "desc": "Bağlantı Linki: https://sports.highfly.dev/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
-
+  {"app": "Nuvio", "type": "Canlı", "name": "StremTV", "desc": "Bağlantı Linki: https://stremtv.vercel.app/", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "Spor", "name": "Motorsport Hub", "desc": "Bağlantı Linki: https://stream.prototipo.nl/%7B%7D/manifest.json", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]},
+  {"app": "Nuvio", "type": "4K", "name": "Magnetio", "desc": "Bağlantı Linki: https://magnetio.peterdsp.dev/configure", "isNew": false, "installGuide": "nuvio", "debrid": "free", "platform": ["tv","mobile","web"]}
 
 ]
