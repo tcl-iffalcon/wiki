@@ -5,3 +5,7 @@ compatibility_date = "2026-07-14"
 # NOT: TELEGRAM_BOT_TOKEN ve TELEGRAM_CHAT_ID buraya YAZILMAYACAK.
 # Bunlar "wrangler secret put" komutuyla ayrı ayrı, şifreli olarak eklenecek.
 # (Aşağıdaki adım 5'e bak.)
+
+[[kv_namespaces]]
+binding = "NOTES_KV"
+id = "71df456dcbf942d98ee2ff0d7111f94b"
