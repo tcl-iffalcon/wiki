@@ -740,20 +740,6 @@
   {
     "app": "Nuvio",
     "type": "4K",
-    "name": "KOD",
-    "desc": "Bağlantı Linki: https://kod-three.vercel.app/configure",
-    "isNew": false,
-    "installGuide": "nuvio",
-    "debrid": "optional",
-    "platform": [
-      "tv",
-      "mobile",
-      "web"
-    ]
-  },
-  {
-    "app": "Nuvio",
-    "type": "4K",
     "name": "PEZZHUB AIO",
     "desc": "Bağlantı Linki: https://pezz8io.dpdns.org/configure",
     "isNew": false,
