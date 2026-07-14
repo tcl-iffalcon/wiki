@@ -3,146 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PluginHub | Uygulama Merkezi</title>
+    <title>Telefon APK | PluginHub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+// ─── TELEGRAM REPORT ENDPOINT ────────────
+const REPORT_ENDPOINT = 'https://pluginhub.sait-yldrm.workers.dev';
+</script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .btn-gradient { background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%); transition: all 0.3s ease; }
-        .btn-gradient:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(52, 211, 153, 0.5); }
-        .tab-active { background: #3b82f6 !important; color: white !important; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
-        .hidden { display: none; }
+        :root {
+            --bg: #080c14;
+            --surface: #0d1421;
+            --surface2: #121929;
+            --border: rgba(255,255,255,0.07);
+            --text: #f0f4ff;
+            --muted: #6b7a99;
+            --accent: #3b82f6;
+            --accent2: #10b981;
+            --accent3: #a78bfa;
+            --glow: rgba(167,139,250,0.15);
+        }
+        body.light {
+            --bg: #f0f4fc;
+            --surface: #ffffff;
+            --surface2: #e8eef8;
+            --border: rgba(0,0,0,0.08);
+            --text: #0f172a;
+            --muted: #64748b;
+            --glow: rgba(167,139,250,0.08);
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(167,139,250,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(167,139,250,0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none; z-index: 0;
+        }
+        body.light::before {
+            background-image:
+                linear-gradient(rgba(167,139,250,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(167,139,250,0.05) 1px, transparent 1px);
+        }
+        main, nav, footer { position: relative; z-index: 1; }
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(8,12,20,0.85);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            padding: 0 24px;
+        }
+        body.light nav { background: rgba(240,244,252,0.9); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+        .brand {
+            font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #60a5fa, #34d399);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 6px; align-items: center; }
+        .nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s; }
+        .nav-links a:hover { color: var(--text); background: var(--surface2); }
+        .nav-links a.current { color: var(--text); background: var(--surface2); }
+        .nav-btn { display: flex; align-items: center; padding: 7px 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; gap: 6px; }
+        .nav-btn:hover { color: var(--text); border-color: var(--accent); }
+        .nav-btn.active { color: #ef4444; border-color: rgba(239,68,68,0.4); }
+        .hero { text-align: center; padding: 72px 16px 56px; max-width: 700px; margin: 0 auto; }
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #a78bfa; background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.25); border-radius: 999px; padding: 5px 14px; margin-bottom: 20px; }
+        .hero h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 16px; }
+        .hero h1 span { background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 50%, #34d399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 16px; color: var(--muted); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
+        .stats-bar { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat-num { font-size: 28px; font-weight: 800; color: var(--text); }
+        .stat-label { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+        .announce-bar { background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(59,130,246,0.08)); border-bottom: 1px solid var(--border); padding: 8px 16px; text-align: center; font-size: 12px; color: var(--muted); font-weight: 500; }
+        .announce-bar strong { color: var(--text); }
+        .update-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #a78bfa; margin-right: 5px; vertical-align: middle; animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.5); } }
+
+        .category-tabs { max-width: 1200px; margin: 0 auto 24px; padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; }
+        .tab-pill { font-size: 13px; font-weight: 700; padding: 8px 20px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .tab-pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+        .tab-pill.active { background: var(--accent3); color: #fff; border-color: var(--accent3); box-shadow: 0 0 20px rgba(167,139,250,0.35); }
+
+        .result-bar { max-width: 1200px; margin: 0 auto 16px; padding: 0 16px; display: flex; justify-content: center; align-items: center; }
+        .result-bar span { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+        .grid-wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px 120px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+        .plugin-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px;
+            display: flex; flex-direction: column;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            animation: fadeUp 0.4s ease both;
+            position: relative; overflow: hidden;
+        }
+        .plugin-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, var(--glow), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .plugin-card:hover { transform: translateY(-3px); border-color: rgba(167,139,250,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+        .plugin-card:hover::before { opacity: 1; }
+        .plugin-card.reported-selected { border-color: rgba(239,68,68,0.5); }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .badge { display: inline-block; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 8px; border-radius: 6px; }
+        .badge-free  { background: rgba(16,185,129,0.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
+        .badge-platform { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+        .badge-warn { background: rgba(239,68,68,0.12); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+
+        .app-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+
+        .fav-btn { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 18px; line-height: 1; transition: transform 0.2s, color 0.2s; padding: 2px; }
+        .fav-btn:hover { transform: scale(1.3); }
+        .fav-btn.active { color: #ef4444; }
+
+        .card-actions { display: flex; gap: 8px; margin-top: 16px; }
+        .btn { flex: 1; padding: 11px 0; border-radius: 10px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: rgba(255,255,255,0.2); }
+        .btn-primary { background: var(--accent3); color: #fff; }
+        .btn-primary:hover { background: #9061f9; }
+
+        .report-btn { background: none; border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; cursor: pointer; color: #f87171; font-size: 11px; font-weight: 700; padding: 7px 10px; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s; white-space: nowrap; }
+        .report-btn:hover { background: rgba(239,68,68,0.1); }
+        .report-btn.active { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.5); color: #fca5a5; }
+
+        #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 9999; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s; opacity: 0; pointer-events: none; white-space: nowrap; background: #1e293b; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        #mobileMenu { display: none; }
+        #mobileMenu.open { display: block; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.4); border-radius: 99px; }
+        #progress-bar { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: linear-gradient(90deg, #a78bfa, #60a5fa); z-index: 9999; transition: width 0.3s ease; }
+
+        @media (max-width: 640px) { .hero { padding: 40px 16px 32px; } .stats-bar { gap: 24px; } .stat-num { font-size: 22px; } }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="min-h-screen">
 
-    <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-12">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-                PluginHub
-            </div>
-            <div class="hidden md:flex gap-8 text-sm font-medium">
-                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition"> Telefon APK</a>
-                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
+<div id="progress-bar"></div>
+<div id="toast"></div>
+
+<div class="announce-bar">
+    <span class="update-dot"></span>
+    <strong>Telefon APK</strong> — Android ve iOS için en iyi medya merkezi uygulamaları.
+</div>
+
+<nav>
+    <div class="nav-inner">
+        <div class="brand">PluginHub</div>
+        <div class="nav-links hidden md:flex">
+            <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html">TV APK</a>
+            <a href="mobil.html" class="current">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1">Telegram</a>
+        </div>
+        <div class="flex gap-2 items-center">
+            <button onclick="toggleFavFilter()" id="favFilterBtn" class="nav-btn hidden md:flex">
+                <span>♡</span> Favoriler
+            </button>
+            <button onclick="toggleTheme()" class="nav-btn" id="themeBtn">🌙</button>
+            <button onclick="toggleMenu()" class="nav-btn md:hidden">☰</button>
+        </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden border-t border-white/5 py-4 px-2">
+        <div class="flex flex-col gap-2">
+            <a href="https://tcl-iffalcon.github.io/wiki/" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">TV APK</a>
+            <a href="mobil.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--text);background:var(--surface2);text-decoration:none;font-size:14px;">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telegram</a>
+            <div class="flex gap-2 pt-2">
+                <button onclick="toggleFavFilter()" id="favFilterBtnMobile" class="nav-btn">♡ Favoriler</button>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="max-w-4xl mx-auto px-4">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-white">
-                Ana Uygulamalar
-            </h1>
-            <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed mb-8">
-                Cihazınıza uygun platformu seçerek en iyi medya deneyimine ulaşın.
-            </p>
-
-            <div class="flex justify-center p-1 bg-slate-800/50 rounded-2xl w-fit mx-auto mb-12 border border-white/5">
-                <button onclick="switchTab('android')" id="btn-android" class="tab-active px-8 py-3 rounded-xl font-bold transition-all duration-300">
-                    Android (APK)
-                </button>
-                <button onclick="switchTab('ios')" id="btn-ios" class="px-8 py-3 rounded-xl font-bold transition-all duration-300 text-slate-400 hover:text-white">
-                    iOS / Apple
-                </button>
-            </div>
+<main>
+    <div class="hero">
+        <div class="hero-eyebrow">📱 Mobil & Tablet</div>
+        <h1>Cebinizde <span>Medya Merkezi</span></h1>
+        <p>Android ve iOS cihazınıza uygun platformu seçin, tek dokunuşla kurun.</p>
+        <div class="stats-bar" id="statsBar">
+            <div class="stat"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Uygulama</div></div>
+            <div class="stat"><div class="stat-num" id="statFree">—</div><div class="stat-label">Ücretsiz</div></div>
+            <div class="stat"><div class="stat-num">2</div><div class="stat-label">Platform</div></div>
         </div>
+    </div>
 
-        <div id="android-content" class="grid grid-cols-1 gap-8">
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-blue-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl">🎬</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Stremio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Modern medya merkezi. Android TV ve mobil için tam uyumlu.</p>
+    <div class="category-tabs" id="platformTabs"></div>
+
+    <div class="result-bar">
+        <span id="resultCount"></span>
+    </div>
+
+    <div class="grid-wrap">
+        <div id="resultsGrid" class="cards-grid"></div>
+    </div>
+</main>
+
+<script>
+// ─── DATA ────────────────────────────────
+const apps = [
+    { key:'android-stremio',    platform:'android', name:'Stremio',      icon:'🎬', color:'rgba(59,130,246,0.18)',  desc:'Modern medya merkezi. Android TV ve mobil için tam uyumlu, eklenti tabanlı geniş içerik yelpazesi.', url:'https://www.stremio.com/downloads', badge:'Ücretsiz' },
+    { key:'android-nuvio',      platform:'android', name:'Nuvio',        icon:'📺', color:'rgba(167,139,250,0.18)', desc:'Hafif ve hızlı bir alternatif. TV box cihazlarında ve telefonlarda üstün performans sunar.', url:'https://github.com/tapframe/NuvioMobile/releases', badge:'Ücretsiz' },
+    { key:'android-cloudstream', platform:'android', name:'CloudStream',  icon:'☁️', color:'rgba(16,185,129,0.18)', desc:'Reklamsız ve modüler dizi/film izleme uygulaması, repo tabanlı eklenti sistemiyle genişler.', url:'https://github.com/recloudstream/cloudstream/releases', badge:'Ücretsiz' },
+    { key:'android-netfly',     platform:'android', name:'Netfly',       icon:'🔥', color:'rgba(239,68,68,0.18)',  desc:'Yerli ve yabancı içeriklere hızlı erişim sağlayan pratik bir uygulama.', url:'https://netflyapp.com/', badge:'Ücretsiz' },
+    { key:'ios-stremio',        platform:'ios',     name:'Stremio',      icon:'🍎', color:'rgba(59,130,246,0.18)', desc:"iOS eklenti desteğiyle App Store üzerinden resmi olarak erişilebilir.", url:'https://apps.apple.com/app/stremio/id1642921384', badge:'Ücretsiz' },
+    { key:'ios-nuvio',          platform:'ios',     name:'Nuvio',        icon:'📱', color:'rgba(167,139,250,0.18)', desc:'TestFlight beta programı üzerinden Nuvio deneyimini Apple cihazlarınızda yaşayın.', url:'https://testflight.apple.com/join/QkKMGRqp', badge:'Beta' },
+    { key:'ios-stremioweb',     platform:'ios',     name:'Stremio Web',  icon:'🌐', color:'rgba(16,185,129,0.18)', desc:"iOS'ta kurulumsuz kullanım için en pratik yöntem, tarayıcı üzerinden doğrudan çalışır.", url:'https://web.stremio.com/', badge:'Ücretsiz' },
+];
+
+// ─── STATE ───────────────────────────────
+let favorites = JSON.parse(localStorage.getItem('mobil_favorites') || '[]');
+let reports   = JSON.parse(localStorage.getItem('mobil_reports')   || '{}');
+let showFavsOnly = false;
+let currentPlatform = 'android';
+
+// ─── THEME ───────────────────────────────
+const manualTheme = localStorage.getItem('ph_theme');
+let isLight;
+if (manualTheme) { isLight = manualTheme === 'light'; }
+else { isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches; }
+if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem('ph_theme')) {
+        isLight = e.matches;
+        document.body.classList.toggle('light', isLight);
+        document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+    }
+});
+function toggleTheme() {
+    isLight = !isLight;
+    document.body.classList.toggle('light', isLight);
+    localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+}
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+// ─── HELPERS ─────────────────────────────
+function isFav(app) { return favorites.includes(app.key); }
+function isReported(app) { return !!reports[app.key]; }
+
+function showToast(msg, color='#1e293b') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = color;
+    t.classList.add('show');
+    clearTimeout(window._tt);
+    window._tt = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function toggleFav(key, btn) {
+    const idx = favorites.indexOf(key);
+    if (idx === -1) { favorites.push(key); showToast('❤ Favorilere eklendi'); }
+    else { favorites.splice(idx, 1); showToast('♡ Favorilerden çıkarıldı'); }
+    localStorage.setItem('mobil_favorites', JSON.stringify(favorites));
+    btn.classList.toggle('active', favorites.includes(key));
+    btn.textContent = favorites.includes(key) ? '❤' : '♡';
+    if (showFavsOnly) render();
+}
+function toggleFavFilter() {
+    showFavsOnly = !showFavsOnly;
+    ['favFilterBtn','favFilterBtnMobile'].map(id => document.getElementById(id)).filter(Boolean).forEach(b => {
+        b.classList.toggle('active', showFavsOnly);
+        b.innerHTML = showFavsOnly ? '<span>❤</span> Favoriler' : '<span>♡</span> Favoriler';
+    });
+    render();
+}
+
+// ─── BROKEN LINK REPORTING ───────────────
+function toggleReportBroken(key, btn) {
+    const app = apps.find(a => a.key === key);
+    if (!app) return;
+    const wasReported = !!reports[key];
+    const action = wasReported ? 'unreport' : 'report';
+
+    if (wasReported) {
+        delete reports[key];
+        btn.classList.remove('active');
+        btn.textContent = '🚩 Çalışmıyor Bildir';
+        showToast('Bildirim geri alındı');
+    } else {
+        reports[key] = { at: Date.now() };
+        btn.classList.add('active');
+        btn.textContent = '✓ Bildirildi';
+        showToast('🚩 Bildirdiğin için teşekkürler', '#ef4444');
+    }
+    localStorage.setItem('mobil_reports', JSON.stringify(reports));
+    const card = document.querySelector(`.plugin-card[data-key="${CSS.escape(key)}"]`);
+    if (card) card.classList.toggle('reported-selected', !!reports[key]);
+
+    fetch(REPORT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            pluginName: app.name,
+            app: app.platform === 'android' ? 'Android' : 'iOS',
+            type: 'mobil',
+            action: action,
+        }),
+    }).catch(err => {
+        console.warn('Rapor gönderilemedi:', err);
+    });
+}
+
+// ─── TABS ────────────────────────────────
+function buildTabs() {
+    const container = document.getElementById('platformTabs');
+    const tabs = [
+        { key:'android', label:'🤖 Android' },
+        { key:'ios', label:'🍎 iOS / Apple' },
+    ];
+    container.innerHTML = tabs.map(t => `<button class="tab-pill ${t.key===currentPlatform?'active':''}" onclick="setPlatform('${t.key}')" data-platform="${t.key}">${t.label}</button>`).join('');
+}
+function setPlatform(platform) {
+    currentPlatform = platform;
+    document.querySelectorAll('.tab-pill').forEach(b => b.classList.toggle('active', b.dataset.platform === platform));
+    render();
+}
+
+// ─── RENDER ──────────────────────────────
+function render() {
+    const grid  = document.getElementById('resultsGrid');
+    const count = document.getElementById('resultCount');
+    let pool = apps.filter(a => a.platform === currentPlatform);
+    if (showFavsOnly) pool = pool.filter(a => isFav(a));
+
+    grid.innerHTML = '';
+    count.textContent = `${pool.length} uygulama`;
+
+    pool.forEach((app, i) => {
+        const favActive = isFav(app);
+        const repActive = isReported(app);
+        const delay = Math.min(i * 40, 300);
+
+        const card = document.createElement('div');
+        card.className = 'plugin-card' + (repActive ? ' reported-selected' : '');
+        card.dataset.key = app.key;
+        card.style.animationDelay = delay + 'ms';
+        card.innerHTML = `
+            <div style="display:flex;gap:14px;align-items:flex-start">
+                <div class="app-icon" style="background:${app.color}">${app.icon}</div>
+                <div style="flex:1;min-width:0">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+                        <h3 style="font-size:17px;font-weight:700;line-height:1.3">${app.name}</h3>
+                        <button class="fav-btn ${favActive ? 'active' : ''}" onclick="toggleFav('${app.key}',this)">${favActive?'❤':'♡'}</button>
+                    </div>
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 8px">
+                        <span class="badge badge-platform">${app.platform === 'android' ? '🤖 Android' : '🍎 iOS'}</span>
+                        <span class="badge badge-free">${app.badge === 'Beta' ? '🧪 Beta' : '✅ Ücretsiz'}</span>
+                        ${repActive ? '<span class="badge badge-warn">🚩 Bildirildi</span>' : ''}
+                    </div>
+                    <p style="font-size:13px;color:var(--muted);line-height:1.6">${app.desc}</p>
                 </div>
-                <a href="https://www.stremio.com/downloads" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
             </div>
-
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-purple-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-purple-500/20 rounded-2xl flex items-center justify-center text-3xl">📺</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Nuvio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Hafif ve hızlı bir alternatif. TV box cihazlarında üstün performans.</p>
-                </div>
-                <a href="https://github.com/tapframe/NuvioMobile/releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
+            <div class="card-actions">
+                <a href="${app.url}" target="_blank" class="btn btn-primary">İndir ↗</a>
+                <button class="report-btn ${repActive?'active':''}" onclick="toggleReportBroken('${app.key}',this)">${repActive?'✓ Bildirildi':'🚩 Çalışmıyor'}</button>
             </div>
+        `;
+        grid.appendChild(card);
+    });
+}
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-emerald-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-3xl">☁️</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">CloudStream</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Reklamsız ve modüler dizi/film izleme uygulaması.</p>
-                </div>
-                <a href="https://github.com/recloudstream/cloudstream/releases" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
+// ─── STATS ───────────────────────────────
+function updateStats() {
+    document.getElementById('statTotal').textContent = apps.length;
+    document.getElementById('statFree').textContent  = apps.filter(a => a.badge !== 'Beta').length;
+}
 
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-red-500/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-red-500/20 rounded-2xl flex items-center justify-center text-3xl">🔥</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Netfly</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Yerli ve yabancı içeriklere hızlı erişim.</p>
-                </div>
-                <a href="https://netflyapp.com/" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
-        </div>
+// ─── PROGRESS ────────────────────────────
+function progressStart() { const b = document.getElementById('progress-bar'); b.style.width='0%'; b.style.opacity='1'; setTimeout(()=>b.style.width='100%',50); setTimeout(()=>{b.style.opacity='0';b.style.width='0%';},450); }
 
-        <div id="ios-content" class="hidden grid grid-cols-1 gap-8">
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-blue-400/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-blue-400/20 rounded-2xl flex items-center justify-center text-3xl">🍎</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Stremio</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">iOS eklenti desteğiyle App Store üzerinden erişilebilir.</p>
-                </div>
-                <a href="https://apps.apple.com/app/stremio/id1642921384" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
-
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-purple-400/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-purple-400/20 rounded-2xl flex items-center justify-center text-3xl">📱</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Nuvio </h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">Nuvio deneyimini Apple cihazlarınızda yaşayın.</p>
-                </div>
-                <a href="https://testflight.apple.com/join/QkKMGRqp" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">İndir</a>
-            </div>
-
-            <div class="glass-card p-8 rounded-3xl flex flex-col md:flex-row gap-6 items-center border border-white/5 hover:border-emerald-400/30 transition-all duration-500">
-                <div class="w-20 h-20 bg-emerald-400/20 rounded-2xl flex items-center justify-center text-3xl">🌐</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white mb-2">Stremio Web</h2>
-                    <p class="text-slate-400 mb-4 text-sm leading-relaxed">iOS'ta kurulumsuz kullanım için en iyi yöntem.</p>
-                </div>
-                <a href="https://web.stremio.com/" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center">Web'de Aç</a>
-            </div>
-        </div>
-    </main>
-
-    <footer class="mt-20 text-center text-slate-600 text-xs">
-        <p>&copy; 2026 PluginHub - Tüm hakları saklıdır.</p>
-    </footer>
-
-    <script>
-        function switchTab(platform) {
-            const android = document.getElementById('android-content');
-            const ios = document.getElementById('ios-content');
-            const btnA = document.getElementById('btn-android');
-            const btnI = document.getElementById('btn-ios');
-
-            if (platform === 'android') {
-                android.classList.remove('hidden');
-                ios.classList.add('hidden');
-                btnA.classList.add('tab-active');
-                btnI.classList.remove('tab-active');
-                btnI.classList.add('text-slate-400');
-            } else {
-                android.classList.add('hidden');
-                ios.classList.remove('hidden');
-                btnI.classList.add('tab-active');
-                btnA.classList.remove('tab-active');
-                btnA.classList.add('text-slate-400');
-            }
-        }
-    </script>
+// ─── BOOT ────────────────────────────────
+progressStart();
+updateStats();
+buildTabs();
+render();
+</script>
 </body>
 </html>
