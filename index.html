@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PluginHub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+// ─── TELEGRAM REPORT ENDPOINT ────────────
+const REPORT_ENDPOINT = 'https://pluginhub.sait-yldrm.workers.dev';
+</script>
     <style>
         :root {
             --bg: #080c14;
@@ -557,12 +562,17 @@ function toggleFavFilter() {
     filterData();
 }
 
-// ─── BROKEN LINK REPORTING (local, per-device) ──
+// ─── BROKEN LINK REPORTING (local, per-device & Telegram Worker) ──
 function toggleReportBroken() {
     if (!currentModalItem) return;
     const key = pluginKey(currentModalItem);
     const btn = document.getElementById('modal-report-btn');
-    if (reports[key]) {
+    const item = currentModalItem;
+    const wasReported = !!reports[key];
+    const action = wasReported ? 'unreport' : 'report';
+
+    // Kullanıcı arayüzünü anında güncelle (bekleme yapmasın)
+    if (wasReported) {
         delete reports[key];
         btn.classList.remove('active');
         btn.textContent = '🚩 Çalışmıyor Bildir';
@@ -574,9 +584,24 @@ function toggleReportBroken() {
         showToast('🚩 Bildirdiğin için teşekkürler', '#ef4444');
     }
     localStorage.setItem('ph_reports', JSON.stringify(reports));
-    // reflect on the card if present
+
+    // Kart durumunu güncelle
     const card = document.querySelector(`.plugin-card[data-key="${CSS.escape(key)}"]`);
     if (card) card.classList.toggle('reported-selected', !!reports[key]);
+
+    // Arka planda sessizce Telegram'a gönder
+    fetch(REPORT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            pluginName: item.name,
+            app: item.app,
+            type: item.type,
+            action: action,
+        }),
+    }).catch(err => {
+        console.warn('Rapor gönderilemedi:', err);
+    });
 }
 
 // ─── COMPARE ─────────────────────────────
