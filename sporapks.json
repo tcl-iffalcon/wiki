@@ -1,0 +1,82 @@
+[
+  {
+    "name": "SportzX",
+    "desc": "100+ ücretsiz canlı spor kanalı. Futbol, kriket, tenis, hokey. Reklamsız, HD kalite. M3U/IPTV desteği var.",
+    "code": "5792854",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": false
+  },
+  {
+    "name": "Cricfy TV",
+    "desc": "Kriket ve futbol odaklı hafif uygulama. Özel M3U desteği, çoklu sunucu bağlantısı, reklamsız arayüz.",
+    "code": "8103377",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": false
+  },
+  {
+    "name": "Sportzfy TV",
+    "desc": "Premier League, Serie A, Champions League ve FIFA 2026 canlı yayınları. Xtream Codes API desteği.",
+    "code": "730116",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": true
+  },
+  {
+    "name": "AK47 Sports",
+    "desc": "Futbol, dart, kriket, tenis ve PPV etkinlikleri ücretsiz. Reklam yok. M3U playlist ve Xtream Codes desteği.",
+    "code": "4564006",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": false
+  },
+  {
+    "name": "Volta TV (Voltra)",
+    "desc": "Binlerce canlı kanal, dizi, film ve canlı spor etkinlikleri. AFL, MLB, NBA ve dünya kupası yayınları.",
+    "code": "730116",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": true
+  },
+  {
+    "name": "TFlix",
+    "desc": "Spor ağırlıklı canlı yayın uygulaması. FireStick ve Android TV uyumlu. Geniş kanal arşivi.",
+    "code": "4020823",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": false
+  },
+  {
+    "name": "PlayFy TV",
+    "desc": "Reklamsız spor yayın uygulaması. 1080p/720p/480p ayarlanabilir. Futbol, kriket, WWE ve MotoGP.",
+    "code": "8415232",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": false
+  },
+  {
+    "name": "MaxLiv TV",
+    "desc": "Yeni nesil ücretsiz spor uygulaması. Futbol, kriket, boks, tenis. Tamamen reklamsız. Alçak kalite modu mevcut.",
+    "code": "730116",
+    "badges": ["Ücretsiz", "UHD"],
+    "isNew": false,
+    "codeUnverified": true
+  },
+  {
+    "name": "MagLink TV",
+    "desc": "Canlı spor ve TV kanalları için güçlü link toplayıcı. Android TV uyumlu, hızlı yükleme süresi.",
+    "code": "9606654",
+    "badges": ["Ücretsiz", "Yeni"],
+    "isNew": true,
+    "codeUnverified": false
+  },
+  {
+    "name": "Crexify TV",
+    "desc": "Kriket, futbol ve canlı spor yayınları için optimize edilmiş uygulama. Çoklu kalite seçeneği, reklamsız arayüz.",
+    "code": "8508442",
+    "badges": ["Ücretsiz", "Yeni"],
+    "isNew": true,
+    "codeUnverified": false
+  }
+]
