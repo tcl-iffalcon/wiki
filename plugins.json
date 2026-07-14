@@ -1,45 +1,5 @@
 [
   {
-    "app": "Diğer",
-    "type": "Film",
-    "name": "Netfly",
-    "desc": "Bağlantı Link: https://netflyapp.com/",
-    "isNew": false,
-    "installGuide": "link",
-    "debrid": "free",
-    "platform": [
-      "tv",
-      "mobile",
-      "web"
-    ]
-  },
-  {
-    "app": "Diğer",
-    "type": "Film",
-    "name": "NetMirror",
-    "desc": "Downloader Kodu: 6166931",
-    "isNew": false,
-    "installGuide": "downloader",
-    "debrid": "free",
-    "platform": [
-      "tv",
-      "mobile"
-    ]
-  },
-  {
-    "app": "Diğer",
-    "type": "Dublaj",
-    "name": "NetMirror",
-    "desc": "Downloader Kodu: 6166931",
-    "isNew": false,
-    "installGuide": "downloader",
-    "debrid": "free",
-    "platform": [
-      "tv",
-      "mobile"
-    ]
-  },
-  {
     "app": "Nuvio",
     "type": "4K",
     "name": "WebStreamr",
