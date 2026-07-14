@@ -1,7 +1,18 @@
 /**
  * Cloudflare Worker — PluginHub
- *   1) "Çalışmıyor Bildir" -> Telegram proxy   (mevcut, path: "/" veya "/report")
- *   2) Film notları (Dolby Atmos listesi)       (yeni,   path: "/notes")
+ *   1) "Çalışmıyor Bildir" -> Telegram proxy   (path: "/" veya "/report")
+ *   2) Film notları (Dolby Atmos listesi)       (path: "/notes")
+ *      - GET    /notes?movie=...           -> notları getir
+ *      - POST   /notes  {movie,text,ownerId}      -> yeni not ekle
+ *      - PUT    /notes  {movie,id,text,ownerId}   -> kendi notunu düzenle
+ *      - DELETE /notes  {movie,id,ownerId}        -> kendi notunu sil
+ *
+ * NOT SAHİPLİĞİ NASIL ÇALIŞIYOR:
+ * Frontend, ilk not eklerken tarayıcıya rastgele bir "ownerId" (localStorage) üretir.
+ * Bu id her POST/PUT/DELETE isteğinde gönderilir. Worker, bir notu düzenlemeden/silmeden
+ * önce gelen ownerId'nin notun sahibiyle eşleştiğini kontrol eder. Bu; hesap sistemi değil,
+ * basit "aynı tarayıcı mı" kontrolüdür — düşük riskli bir topluluk özelliği için yeterlidir,
+ * kritik/güvenlik gerektiren bir senaryo için kullanılmamalıdır.
  *
  * KURULUM (Telegram kısmı için, değişmedi):
  * 1. https://dash.cloudflare.com -> Workers & Pages -> Create -> Worker
@@ -23,7 +34,7 @@ const ALLOWED_ORIGIN = "https://tcl-iffalcon.github.io"; // kendi domainin ile d
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
@@ -90,19 +101,69 @@ async function handleNotes(request, env, url) {
     const body = await safeJson(request);
     const movieKey = body?.movie;
     const text = (body?.text || "").toString().trim().slice(0, 300);
+    const ownerId = (body?.ownerId || "").toString().slice(0, 100);
 
-    if (!movieKey || !text) {
-      return json({ error: "movie ve text gerekli" }, 400);
+    if (!movieKey || !text || !ownerId) {
+      return json({ error: "movie, text ve ownerId gerekli" }, 400);
     }
 
     const notes = await getNotes(env, movieKey);
-    notes.push({ text, ts: Date.now() });
+    notes.push({
+      id: crypto.randomUUID(),
+      text,
+      ts: Date.now(),
+      ownerId,
+    });
 
     // Aşırı büyümesin diye son 200 notu tut
     const trimmed = notes.slice(-200);
 
     await env.NOTES_KV.put(kvKey(movieKey), JSON.stringify(trimmed));
     return json({ notes: trimmed });
+  }
+
+  if (request.method === "PUT") {
+    const body = await safeJson(request);
+    const movieKey = body?.movie;
+    const id = body?.id;
+    const text = (body?.text || "").toString().trim().slice(0, 300);
+    const ownerId = (body?.ownerId || "").toString();
+
+    if (!movieKey || !id || !text || !ownerId) {
+      return json({ error: "movie, id, text ve ownerId gerekli" }, 400);
+    }
+
+    const notes = await getNotes(env, movieKey);
+    const idx = notes.findIndex((n) => n.id === id);
+    if (idx === -1) return json({ error: "not bulunamadı" }, 404);
+    if (notes[idx].ownerId !== ownerId) return json({ error: "yetkisiz" }, 403);
+
+    notes[idx].text = text;
+    notes[idx].editedTs = Date.now();
+
+    await env.NOTES_KV.put(kvKey(movieKey), JSON.stringify(notes));
+    return json({ notes });
+  }
+
+  if (request.method === "DELETE") {
+    const body = await safeJson(request);
+    const movieKey = body?.movie;
+    const id = body?.id;
+    const ownerId = (body?.ownerId || "").toString();
+
+    if (!movieKey || !id || !ownerId) {
+      return json({ error: "movie, id ve ownerId gerekli" }, 400);
+    }
+
+    const notes = await getNotes(env, movieKey);
+    const idx = notes.findIndex((n) => n.id === id);
+    if (idx === -1) return json({ error: "not bulunamadı" }, 404);
+    if (notes[idx].ownerId !== ownerId) return json({ error: "yetkisiz" }, 403);
+
+    notes.splice(idx, 1);
+
+    await env.NOTES_KV.put(kvKey(movieKey), JSON.stringify(notes));
+    return json({ notes });
   }
 
   return new Response("Method Not Allowed", { status: 405, headers: CORS_HEADERS });
