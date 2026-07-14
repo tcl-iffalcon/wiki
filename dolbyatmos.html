@@ -157,12 +157,25 @@ footer { text-align: center; color: var(--muted); font-size: 12px; padding: 30px
 .note-textarea:focus { border-color: var(--accent); }
 .note-textarea::placeholder { color: var(--muted); }
 .note-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
-.note-item-text { font-size: 13px; color: var(--text); line-height: 1.5; }
-.note-item-meta { font-size: 10px; color: var(--muted); margin-top: 6px; font-weight: 600; }
+.note-item.mine { border-color: rgba(59,130,246,0.35); }
+.note-item-text { font-size: 13px; color: var(--text); line-height: 1.5; white-space: pre-wrap; }
+.note-item-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; gap: 8px; }
+.note-item-meta { font-size: 10px; color: var(--muted); font-weight: 600; }
+.note-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.note-action-btn { font-size: 10px; font-weight: 700; background: none; border: none; cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: background 0.15s; }
+.note-action-btn.edit { color: #60a5fa; }
+.note-action-btn.edit:hover { background: rgba(96,165,250,0.12); }
+.note-action-btn.delete { color: #f87171; }
+.note-action-btn.delete:hover { background: rgba(248,113,113,0.12); }
+.note-edit-textarea { width: 100%; background: var(--bg); border: 1px solid var(--accent); color: var(--text); padding: 8px 10px; border-radius: 10px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; resize: vertical; min-height: 50px; }
+.note-edit-actions { display: flex; gap: 6px; margin-top: 6px; }
 .btn { padding: 10px 0; border-radius: 10px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; text-align: center; }
 .btn-primary { background: var(--accent); color: #fff; }
 .btn-primary:hover { background: #2563eb; }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-sm { padding: 6px 12px; font-size: 11px; }
+.btn-ghost { background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+.btn-ghost:hover { color: var(--text); }
 
 #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 9999; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s; opacity: 0; pointer-events: none; white-space: nowrap; background: #1e293b; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
 #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
@@ -599,6 +612,16 @@ function getActiveList() {
 // Her film için tüm listelerde sabit kalan bir anahtar (listeler arasında aynı film için notlar ortak olsun diye sadece film adı kullanılıyor)
 function movieKey(m) { return m.n; }
 
+// ─── NOT SAHİPLİĞİ (anonim client id) ─────
+function getOwnerId() {
+  let id = localStorage.getItem('ph_owner_id');
+  if (!id) {
+    id = (crypto.randomUUID ? crypto.randomUUID() : 'oid-' + Math.random().toString(36).slice(2) + Date.now());
+    localStorage.setItem('ph_owner_id', id);
+  }
+  return id;
+}
+
 function renderPlatforms(p){
   if(!p||p.length===0) return '<span class="pt-none">Yalnızca kiralık/satın alma</span>';
   return p.map(x=>`<span class="platform-tag ${PT_CLASS[x]||'pt-none'}">${PT_LABEL[x]||x}</span>`).join('');
@@ -673,31 +696,105 @@ async function postNote(key, text) {
   const res = await fetch(NOTES_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ movie: key, text })
+    body: JSON.stringify({ movie: key, text, ownerId: getOwnerId() })
   });
   if (!res.ok) throw new Error('Not gönderilemedi');
   return res.json();
 }
 
+async function updateNote(key, id, text) {
+  const res = await fetch(NOTES_ENDPOINT, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ movie: key, id, text, ownerId: getOwnerId() })
+  });
+  if (!res.ok) throw new Error('Not güncellenemedi');
+  return res.json();
+}
+
+async function deleteNoteRequest(key, id) {
+  const res = await fetch(NOTES_ENDPOINT, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ movie: key, id, ownerId: getOwnerId() })
+  });
+  if (!res.ok) throw new Error('Not silinemedi');
+  return res.json();
+}
+
 function renderNotesList(notes) {
   const el = document.getElementById('notes-list');
+  const myId = getOwnerId();
   document.getElementById('modal-note-count').textContent = notes.length ? `(${notes.length})` : '';
   if (!notes.length) {
     el.innerHTML = `<div style="font-size:13px;color:var(--muted)">Henüz not yok. İlk notu sen bırak!</div>`;
     return;
   }
-  el.innerHTML = notes.slice().reverse().map(n => `
-    <div class="note-item">
-      <div class="note-item-text">${escapeHtml(n.text)}</div>
-      <div class="note-item-meta">${new Date(n.ts).toLocaleString('tr-TR')}</div>
+  el.innerHTML = notes.slice().reverse().map(n => {
+    const mine = n.ownerId === myId;
+    const editedTag = n.editedTs ? ' · düzenlendi' : '';
+    return `
+    <div class="note-item${mine ? ' mine' : ''}" data-note-id="${n.id}">
+      <div class="note-item-text" id="note-text-${n.id}">${escapeHtml(n.text)}</div>
+      <div class="note-item-footer">
+        <div class="note-item-meta">${new Date(n.ts).toLocaleString('tr-TR')}${editedTag}</div>
+        ${mine ? `
+          <div class="note-item-actions">
+            <button class="note-action-btn edit" onclick="startEditNote('${n.id}')">Düzenle</button>
+            <button class="note-action-btn delete" onclick="confirmDeleteNote('${n.id}')">Sil</button>
+          </div>` : ''}
+      </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function escapeHtml(str) {
   const d = document.createElement('div');
   d.textContent = str;
   return d.innerHTML;
+}
+
+function startEditNote(id) {
+  const note = (notesCache[movieKey(currentMovie)] || []).find(n => n.id === id);
+  if (!note) return;
+  const textEl = document.getElementById(`note-text-${id}`);
+  const wrapper = textEl.closest('.note-item');
+  wrapper.innerHTML = `
+    <textarea class="note-edit-textarea" id="edit-input-${id}" maxlength="300">${escapeHtml(note.text)}</textarea>
+    <div class="note-edit-actions">
+      <button class="btn btn-primary btn-sm" onclick="saveEditNote('${id}')" style="width:auto">Kaydet</button>
+      <button class="btn btn-ghost btn-sm" onclick="renderNotesList(notesCache[movieKey(currentMovie)])" style="width:auto">Vazgeç</button>
+    </div>
+  `;
+}
+
+async function saveEditNote(id) {
+  const input = document.getElementById(`edit-input-${id}`);
+  const text = input.value.trim();
+  if (!text) { showToast('Boş not olamaz', '#ef4444'); return; }
+  try {
+    const key = movieKey(currentMovie);
+    const data = await updateNote(key, id, text);
+    notesCache[key] = data.notes || notesCache[key];
+    renderNotesList(notesCache[key]);
+    showToast('✏️ Not güncellendi', '#10b981');
+  } catch (err) {
+    showToast('Güncellenemedi, tekrar dene', '#ef4444');
+  }
+}
+
+async function confirmDeleteNote(id) {
+  if (!confirm('Bu notu silmek istediğine emin misin?')) return;
+  try {
+    const key = movieKey(currentMovie);
+    const data = await deleteNoteRequest(key, id);
+    notesCache[key] = data.notes || notesCache[key];
+    renderNotesList(notesCache[key]);
+    showToast('🗑️ Not silindi', '#10b981');
+  } catch (err) {
+    showToast('Silinemedi, tekrar dene', '#ef4444');
+  }
 }
 
 function openMovieModal(m) {
