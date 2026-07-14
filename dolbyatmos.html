@@ -3,136 +3,300 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Top 100 Dolby Atmos Filmleri 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>Dolby Atmos Film Listesi | PluginHub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+// ─── NOT SİSTEMİ ENDPOINT ────────────
+const NOTES_ENDPOINT = 'https://pluginhub.sait-yldrm.workers.dev/notes';
+</script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:#0f172a;color:#f8fafc;min-height:100vh;scroll-behavior:smooth}
+:root {
+    --bg: #080c14;
+    --surface: #0d1421;
+    --surface2: #121929;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f4ff;
+    --muted: #6b7a99;
+    --accent: #3b82f6;
+    --accent2: #10b981;
+    --accent3: #f59e0b;
+    --glow: rgba(59,130,246,0.15);
+}
+body.light {
+    --bg: #f0f4fc;
+    --surface: #ffffff;
+    --surface2: #e8eef8;
+    --border: rgba(0,0,0,0.08);
+    --text: #0f172a;
+    --muted: #64748b;
+    --glow: rgba(59,130,246,0.08);
+}
+* { box-sizing: border-box; }
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+}
+body.light::before {
+    background-image:
+        linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+}
+main, nav, footer { position: relative; z-index: 1; }
+nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,12,20,0.85);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    padding: 0 24px;
+}
+body.light nav { background: rgba(240,244,252,0.9); }
+.nav-inner { max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.brand {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #60a5fa, #34d399);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 6px; align-items: center; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s; }
+.nav-links a:hover { color: var(--text); background: var(--surface2); }
+.nav-links a.active { color: #60a5fa; background: rgba(96,165,250,0.1); }
+.nav-btn { display: flex; align-items: center; padding: 7px 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; gap: 6px; }
+.nav-btn:hover { color: var(--text); border-color: var(--accent); }
+#mobileMenu { display: none; }
+#mobileMenu.open { display: block; }
 
-/* Üst Menü (Navbar) Navigasyon Alanı */
-nav{position:sticky;top:0;z-index:50;background:rgba(15,23,42,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.07);padding:0 24px;height:65px;display:flex;align-items:center}
-.nav-inner{max-width:1100px;width:100%;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:24px}
-.logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;flex-shrink:0}
-.nav-menu{display:flex;gap:8px;list-style:none;overflow-x:auto;scrollbar-width:none;padding:4px 0}
-.nav-menu::-webkit-scrollbar{display:none}
-.nav-item{color:#94a3b8;text-decoration:none;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;padding:8px 14px;border-radius:10px;transition:all .2s ease}
-.nav-item:hover{color:#f8fafc;background:rgba(255,255,255,0.05)}
-.nav-item.active{color:#60a5fa;background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.15)}
+.hero { text-align: center; padding: 56px 16px 40px; max-width: 700px; margin: 0 auto; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); border-radius: 999px; padding: 5px 14px; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 14px; }
+.hero h1 span { background: linear-gradient(135deg, #60a5fa 0%, #34d399 50%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 15px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
 
-main{max-width:1100px;margin:0 auto;padding:40px 20px 80px}
-h1{font-size:2.5rem;font-weight:700;text-align:center;margin-bottom:8px;letter-spacing:-0.5px}
-.subtitle{text-align:center;color:#94a3b8;margin-bottom:24px;font-size:1rem;line-height:1.5}
+.list-tabs { max-width: 1200px; margin: 0 auto 24px; padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.tab-pill { font-size: 12px; font-weight: 700; padding: 9px 18px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.tab-pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+.tab-pill.active { background: linear-gradient(135deg, #3b82f6, #10b981); color: #fff; border-color: transparent; }
 
-/* İç Liste Değiştirici Sekmeler (Tabs) */
-.list-tabs{display:flex;gap:10px;justify-content:center;margin-bottom:32px;flex-wrap:wrap}
-.tab-btn{background:rgba(30,41,59,0.5);border:1px solid rgba(255,255,255,0.08);padding:10px 20px;border-radius:12px;color:#94a3b8;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:all .25s ease}
-.tab-btn:hover{background:rgba(30,41,59,0.9);color:#f8fafc}
-.tab-btn.active{background:linear-gradient(135deg,#3b82f6,#10b981);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(59,130,246,0.25)}
+.filter-bar { max-width: 1200px; margin: 0 auto 20px; padding: 0 16px; }
+.filter-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 18px 22px; display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 14px; align-items: end; }
+@media (max-width: 768px) { .filter-inner { grid-template-columns: 1fr 1fr; } }
+.filter-group label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px; }
+.filter-group select, .filter-group input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 12px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; appearance: none; transition: border-color 0.2s; }
+.filter-group select:focus, .filter-group input:focus { border-color: var(--accent); }
+.filter-group input::placeholder { color: var(--muted); }
+.filter-count { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; padding-bottom: 10px; }
 
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;align-items:center}
-.filters input{flex:1;min-width:200px;background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 18px;color:#f8fafc;font-size:14px;font-family:inherit;transition:all .2s ease}
-.filters input::placeholder{color:#475569}
-.filters input:focus{outline:none;border-color:#60a5fa;background:rgba(30,41,59,0.9)}
-.filters select{background:rgba(30,41,59,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 16px;color:#f8fafc;font-size:14px;font-family:inherit;cursor:pointer;transition:border-color .2s}
-.filters select:focus{outline:none;border-color:#60a5fa}
-.filters select option{background:#1e293b}
-.stats{display:flex;gap:8px;align-items:center;margin-left:auto;font-size:13px;color:#64748b;white-space:nowrap}
-.count-badge{background:rgba(96,165,250,0.15);color:#60a5fa;padding:4px 12px;border-radius:99px;font-weight:600;font-size:13px}
-.grid{display:grid;gap:14px;transition:all 0.3s ease}
-.card{background:rgba(30,41,59,0.65);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:18px 22px;display:flex;align-items:center;gap:18px;transition:all .25s ease;cursor:default}
-.card:hover{border-color:rgba(96,165,250,0.35);background:rgba(30,41,59,0.95);transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,0.2)}
-.rank{width:38px;text-align:center;font-size:1.1rem;font-weight:700;color:#334155;flex-shrink:0}
-.rank.top3{color:#f59e0b;font-size:1.3rem}
-.info{flex:1;min-width:0}
-.title{font-size:1rem;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.meta{font-size:12px;color:#64748b;margin-top:3px}
-.note{font-size:12px;color:#10b981;margin-top:5px;font-style:italic;background:rgba(16,185,129,0.06);padding:4px 8px;border-radius:6px;display:inline-block}
-.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
-.b-aksiyon{background:rgba(59,130,246,0.2);color:#93c5fd}
-.b-bilimkurgu{background:rgba(139,92,246,0.2);color:#c4b5fd}
-.b-macera{background:rgba(34,197,94,0.2);color:#86efac}
-.b-savas{background:rgba(245,158,11,0.2);color:#fcd34d}
-.b-korku{background:rgba(239,68,68,0.2);color:#fca5a5}
-.b-dram{background:rgba(20,184,166,0.2);color:#5eead4}
-.b-animasyon{background:rgba(236,72,153,0.2);color:#f9a8d4}
-.b-muzik{background:rgba(148,163,184,0.2);color:#cbd5e1}
-.b-gerilim{background:rgba(249,115,22,0.2);color:#fdba74}
-.b-fantastik{background:rgba(217,70,239,0.2);color:#e879f9}
-.b-tarih{background:rgba(161,98,7,0.2);color:#fde68a}
-.b-suc{background:rgba(220,38,38,0.2);color:#fca5a5}
-.platform-col{flex-shrink:0;min-width:130px;text-align:right}
-.platform-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:10px;font-size:12px;font-weight:600;margin:2px}
-.pt-prime{background:rgba(0,168,225,0.15);color:#38bdf8;border:1px solid rgba(0,168,225,0.25)}
-.pt-netflix{background:rgba(229,9,20,0.15);color:#f87171;border:1px solid rgba(229,9,20,0.25)}
-.pt-tvplus{background:rgba(96,165,250,0.15);color:#93c5fd;border:1px solid rgba(96,165,250,0.25)}
-.pt-max{background:rgba(99,102,241,0.15);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25)}
-.pt-disney{background:rgba(37,99,235,0.15);color:#60a5fa;border:1px solid rgba(37,99,235,0.25)}
-.pt-tod{background:rgba(20,184,166,0.15);color:#5eead4;border:1px solid rgba(20,184,166,0.25)}
-.pt-mubi{background:rgba(255,199,0,0.15);color:#fde68a;border:1px solid rgba(255,199,0,0.25)}
-.pt-none{font-size:11px;color:#475569}
-.no-results{text-align:center;padding:60px;color:#475569;font-size:1rem}
-footer{text-align:center;color:#334155;font-size:12px;padding:30px;border-top:1px solid rgba(255,255,255,0.05)}
+.grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 100px; }
+.grid { display: grid; gap: 12px; }
+.card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+    padding: 16px 20px; display: flex; align-items: center; gap: 16px;
+    cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative; overflow: hidden;
+}
+.card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 85% 20%, var(--glow), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.card:hover { transform: translateY(-2px); border-color: rgba(59,130,246,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.card:hover::before { opacity: 1; }
+.rank { width: 36px; text-align: center; font-size: 1.05rem; font-weight: 800; color: var(--muted); flex-shrink: 0; }
+.rank.top3 { color: #f59e0b; font-size: 1.25rem; }
+.info { flex: 1; min-width: 0; }
+.title { font-size: 15px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.note-hint { font-size: 11px; color: #34d399; margin-top: 5px; font-style: italic; background: rgba(16,185,129,0.08); padding: 3px 8px; border-radius: 6px; display: inline-block; }
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.badge { padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+.b-aksiyon{background:rgba(59,130,246,0.15);color:#93c5fd}
+.b-bilimkurgu{background:rgba(139,92,246,0.15);color:#c4b5fd}
+.b-macera{background:rgba(34,197,94,0.15);color:#86efac}
+.b-savas{background:rgba(245,158,11,0.15);color:#fcd34d}
+.b-korku{background:rgba(239,68,68,0.15);color:#fca5a5}
+.b-dram{background:rgba(20,184,166,0.15);color:#5eead4}
+.b-animasyon{background:rgba(236,72,153,0.15);color:#f9a8d4}
+.b-muzik{background:rgba(148,163,184,0.15);color:#cbd5e1}
+.b-gerilim{background:rgba(249,115,22,0.15);color:#fdba74}
+.b-fantastik{background:rgba(217,70,239,0.15);color:#e879f9}
+.b-tarih{background:rgba(161,98,7,0.15);color:#fde68a}
+.b-suc{background:rgba(220,38,38,0.15);color:#fca5a5}
+.platform-col { flex-shrink: 0; min-width: 120px; text-align: right; }
+.platform-tag { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; margin: 2px; }
+.pt-prime{background:rgba(0,168,225,0.12);color:#38bdf8;border:1px solid rgba(0,168,225,0.25)}
+.pt-netflix{background:rgba(229,9,20,0.12);color:#f87171;border:1px solid rgba(229,9,20,0.25)}
+.pt-tvplus{background:rgba(96,165,250,0.12);color:#93c5fd;border:1px solid rgba(96,165,250,0.25)}
+.pt-max{background:rgba(99,102,241,0.12);color:#a5b4fc;border:1px solid rgba(99,102,241,0.25)}
+.pt-disney{background:rgba(37,99,235,0.12);color:#60a5fa;border:1px solid rgba(37,99,235,0.25)}
+.pt-tod{background:rgba(20,184,166,0.12);color:#5eead4;border:1px solid rgba(20,184,166,0.25)}
+.pt-mubi{background:rgba(255,199,0,0.12);color:#fde68a;border:1px solid rgba(255,199,0,0.25)}
+.pt-none { font-size: 11px; color: var(--muted); }
+.note-count { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 54px; }
+.note-count-num { font-size: 15px; font-weight: 800; color: #60a5fa; }
+.note-count-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.no-results { text-align: center; padding: 60px 20px; color: var(--muted); }
+footer { text-align: center; color: var(--muted); font-size: 12px; padding: 30px; border-top: 1px solid var(--border); }
+
+/* Modal */
+#modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 16px; backdrop-filter: blur(4px); }
+#modal-overlay.open { opacity: 1; pointer-events: all; }
+#modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 600px; max-height: 88vh; overflow-y: auto; transform: scale(0.93) translateY(20px); transition: transform 0.3s cubic-bezier(.34,1.4,.64,1); }
+#modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
+.note-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 12px 14px; border-radius: 12px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; resize: vertical; min-height: 70px; transition: border-color 0.2s; }
+.note-textarea:focus { border-color: var(--accent); }
+.note-textarea::placeholder { color: var(--muted); }
+.note-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+.note-item-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.note-item-meta { font-size: 10px; color: var(--muted); margin-top: 6px; font-weight: 600; }
+.btn { padding: 10px 0; border-radius: 10px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; text-align: center; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #2563eb; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+#toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 9999; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s; opacity: 0; pointer-events: none; white-space: nowrap; background: #1e293b; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.4); border-radius: 99px; }
 </style>
 </head>
 <body>
-<nav>
-  <div class="nav-inner">
-    <div class="logo">PluginHub</div>
-    <div class="nav-menu">
-      <a href="https://tcl-iffalcon.github.io/wiki/" class="nav-item">🏠 Ana Sayfa</a>
-      <a href="uygulamalar.html" class="nav-item">📺 TV APK</a>
-      <a href="mobil.html" class="nav-item">📱 Telefon APK</a>
-      <a href="dolbyatmos.html" class="nav-item active">🎧 Dolby Atmos Listesi</a>
-      <a href="wc2026.html" class="nav-item">⚽ Dünya Kupası</a>
-      <a href="https://t.me/tcltvturk1" class="nav-item">💬 Telegram</a>
-    </div>
-  </div>
-</nav>
-<main>
-  <h1 id="mainTitle">🎧 Top 100 Dolby Atmos Film</h1>
-  <p class="subtitle" id="mainSubtitle">Bağımsız incelemeler, YouTube kanalları ve audiofil forumlarına göre konsensüs sıralaması.</p>
-  
-  <div class="list-tabs">
-    <button class="tab-btn active" onclick="switchList('atmos')">Top 100 Dolby Atmos</button>
-    <button class="tab-btn" onclick="switchList('genelSes')">En İyi Genel Ses Kalitesi (Film&Ses)</button>
-    <button class="tab-btn" onclick="switchList('tavan')">En İyi Tavan Hoparlörü Kullanımı</button>
-    <button class="tab-btn" onclick="switchList('bas')">En İyi Bas Filmleri</button>
-  </div>
 
-  <div class="filters">
-    <input type="text" id="search" placeholder="Film ara..." oninput="filter()">
-    <select id="genre" onchange="filter()">
-      <option value="">Tüm Türler</option>
-      <option value="Aksiyon">Aksiyon</option>
-      <option value="Macera">Macera</option>
-      <option value="Animasyon">Animasyon</option>
-      <option value="Bilim Kurgu">Bilim Kurgu</option>
-      <option value="Dram">Dram</option>
-      <option value="Fantastik">Fantastik</option>
-      <option value="Gerilim">Gerilim</option>
-      <option value="Korku">Korku</option>
-      <option value="Müzik">Müzik</option>
-      <option value="Savaş">Savaş</option>
-      <option value="Suç">Suç</option>
-      <option value="Tarih">Tarih</option>
-    </select>
-    <select id="platform" onchange="filter()">
-      <option value="">Tüm Platformlar</option>
-      <option value="Prime">Amazon Prime</option>
-      <option value="Netflix">Netflix</option>
-      <option value="TV+">TV+</option>
-      <option value="Max">Max</option>
-      <option value="Disney+">Disney+</option>
-      <option value="TOD">TOD TV</option>
-      <option value="MUBI">MUBI</option>
-    </select>
-    <div class="stats"><span id="count" class="count-badge">100</span> film</div>
-  </div>
-  <div class="grid" id="grid"></div>
-  <div class="no-results" id="noResults" style="display:none">Sonuç bulunamadı.</div>
+<div id="toast"></div>
+
+<nav>
+    <div class="nav-inner">
+        <div class="brand">PluginHub</div>
+        <div class="nav-links hidden md:flex">
+            <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html" class="active">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1">Telegram</a>
+        </div>
+        <div class="flex gap-2 items-center">
+            <button onclick="toggleTheme()" class="nav-btn" id="themeBtn">🌙</button>
+            <button onclick="toggleMenu()" class="nav-btn md:hidden">☰</button>
+        </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden border-t border-white/5 py-4 px-2">
+        <div class="flex flex-col gap-2">
+            <a href="https://tcl-iffalcon.github.io/wiki/" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html" style="display:block;padding:8px 12px;border-radius:8px;color:#60a5fa;text-decoration:none;font-size:14px;">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telegram</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <div class="hero">
+        <div class="hero-eyebrow">🎧 Ev Sineması</div>
+        <h1 id="mainTitle">Top 100 <span>Dolby Atmos</span> Film</h1>
+        <p id="mainSubtitle">Bağımsız incelemeler, YouTube kanalları ve audiofil forumlarına göre konsensüs sıralaması.</p>
+    </div>
+
+    <div class="list-tabs">
+        <button class="tab-pill active" data-list="atmos" onclick="switchList('atmos')">Top 100 Dolby Atmos</button>
+        <button class="tab-pill" data-list="genelSes" onclick="switchList('genelSes')">En İyi Genel Ses Kalitesi</button>
+        <button class="tab-pill" data-list="tavan" onclick="switchList('tavan')">En İyi Tavan Hoparlörü</button>
+        <button class="tab-pill" data-list="bas" onclick="switchList('bas')">En İyi Bas Filmleri</button>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-inner">
+            <div class="filter-group">
+                <label>Ara</label>
+                <input type="text" id="search" placeholder="Film ara..." oninput="filter()">
+            </div>
+            <div class="filter-group">
+                <label>Tür</label>
+                <select id="genre" onchange="filter()">
+                    <option value="">Tüm Türler</option>
+                    <option value="Aksiyon">Aksiyon</option>
+                    <option value="Macera">Macera</option>
+                    <option value="Animasyon">Animasyon</option>
+                    <option value="Bilim Kurgu">Bilim Kurgu</option>
+                    <option value="Dram">Dram</option>
+                    <option value="Fantastik">Fantastik</option>
+                    <option value="Gerilim">Gerilim</option>
+                    <option value="Korku">Korku</option>
+                    <option value="Müzik">Müzik</option>
+                    <option value="Savaş">Savaş</option>
+                    <option value="Suç">Suç</option>
+                    <option value="Tarih">Tarih</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Platform</label>
+                <select id="platform" onchange="filter()">
+                    <option value="">Tüm Platformlar</option>
+                    <option value="Prime">Amazon Prime</option>
+                    <option value="Netflix">Netflix</option>
+                    <option value="TV+">TV+</option>
+                    <option value="Max">Max</option>
+                    <option value="Disney+">Disney+</option>
+                    <option value="TOD">TOD TV</option>
+                    <option value="MUBI">MUBI</option>
+                </select>
+            </div>
+            <div class="filter-count"><span id="count">100</span> film</div>
+        </div>
+    </div>
+
+    <div class="grid-wrap">
+        <div class="grid" id="grid"></div>
+        <div class="no-results" id="noResults" style="display:none">Sonuç bulunamadı.</div>
+    </div>
 </main>
+
 <footer>© 2026 PluginHub &nbsp;·&nbsp; Türkiye bölgesi streaming verileri</footer>
+
+<!-- Film Detay + Not Modalı -->
+<div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div id="modal-box" class="p-6 md:p-8">
+        <div class="flex justify-between items-start mb-4">
+            <div>
+                <div class="badges mb-2" id="modal-badges"></div>
+                <h2 id="modal-title" style="font-size:20px;font-weight:800;letter-spacing:-0.4px"></h2>
+                <div id="modal-meta" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
+            </div>
+            <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px">✕</button>
+        </div>
+        <div id="modal-tip" class="note-hint" style="display:none;margin-bottom:16px"></div>
+
+        <div style="border-top:1px solid var(--border);padding-top:18px;margin-top:6px">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px">
+                💬 Herkese Açık Notlar <span id="modal-note-count" style="color:#60a5fa"></span>
+            </p>
+            <div id="notes-list"><div style="font-size:13px;color:var(--muted)">Yükleniyor...</div></div>
+
+            <div style="margin-top:14px">
+                <textarea id="note-input" class="note-textarea" placeholder="Bu film hakkında bir not bırak (örn: hangi sahnenin ses kalitesi harika)..." maxlength="300"></textarea>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                    <span style="font-size:11px;color:var(--muted)" id="char-count">0/300</span>
+                    <button id="submit-note-btn" onclick="submitNote()" class="btn btn-primary" style="width:auto;padding:9px 20px">Notu Paylaş</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 const MOVIES=[
@@ -377,6 +541,8 @@ const BAS_MOVIES = [
 ];
 
 let currentListType = 'atmos';
+let currentMovie = null;
+let notesCache = {};
 
 const GENRE_CLASS={
 "Aksiyon":"b-aksiyon","Bilim Kurgu":"b-bilimkurgu","Macera":"b-macera",
@@ -384,7 +550,6 @@ const GENRE_CLASS={
 "Müzik":"b-muzik","Gerilim":"b-gerilim","Fantastik":"b-fantastik",
 "Tarih":"b-tarih","Suç":"b-suc"
 };
-
 const PT_CLASS={
 "Prime":"pt-prime","Netflix":"pt-netflix","TV+":"pt-tvplus",
 "Max":"pt-max","Disney+":"pt-disney","TOD":"pt-tod","MUBI":"pt-mubi"
@@ -394,12 +559,45 @@ const PT_LABEL={
 "Max":"Max","Disney+":"Disney+","TOD":"TOD TV","MUBI":"MUBI"
 };
 
+// ─── TEMA ────────────────────────────────
+const manualTheme = localStorage.getItem('ph_theme');
+let isLight;
+if (manualTheme) { isLight = manualTheme === 'light'; }
+else { isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches; }
+if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem('ph_theme')) {
+        isLight = e.matches;
+        document.body.classList.toggle('light', isLight);
+        document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+    }
+});
+function toggleTheme() {
+    isLight = !isLight;
+    document.body.classList.toggle('light', isLight);
+    localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+}
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+function showToast(msg, color='#1e293b') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = color;
+    t.classList.add('show');
+    clearTimeout(window._tt);
+    window._tt = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
 function getActiveList() {
   if (currentListType === 'genelSes') return GENEL_SES_MOVIES;
   if (currentListType === 'tavan') return TAVAN_MOVIES;
   if (currentListType === 'bas') return BAS_MOVIES;
   return MOVIES;
 }
+
+// Her film için tüm listelerde sabit kalan bir anahtar (listeler arasında aynı film için notlar ortak olsun diye sadece film adı kullanılıyor)
+function movieKey(m) { return m.n; }
 
 function renderPlatforms(p){
   if(!p||p.length===0) return '<span class="pt-none">Yalnızca kiralık/satın alma</span>';
@@ -413,15 +611,19 @@ function render(list){
   if(list.length===0){grid.innerHTML='';noRes.style.display='';return;}
   noRes.style.display='none';
   grid.innerHTML=list.map(m=>`
-    <div class="card">
+    <div class="card" onclick='openMovieModal(${JSON.stringify(m).replace(/'/g,"&#39;")})'>
       <div class="rank${m.r<=3?' top3':''}">${m.r}</div>
       <div class="info">
         <div class="title">${m.n}</div>
         <div class="meta">${m.y}</div>
-        ${m.t ? `<div class="note">💡 ${m.t}</div>` : ''}
+        ${m.t ? `<div class="note-hint">💡 ${m.t}</div>` : ''}
         <div class="badges"><span class="badge ${GENRE_CLASS[m.g]||''}">${m.g}</span></div>
       </div>
       <div class="platform-col">${renderPlatforms(m.p)}</div>
+      <div class="note-count" id="nc-${m.r}-${currentListType}">
+        <div class="note-count-num">💬</div>
+        <div class="note-count-label">Notlar</div>
+      </div>
     </div>
   `).join('');
 }
@@ -430,9 +632,7 @@ function filter(){
   const q=document.getElementById('search').value.toLowerCase();
   const g=document.getElementById('genre').value;
   const pf=document.getElementById('platform').value;
-  
   const activeList = getActiveList();
-  
   const res=activeList.filter(m=>{
     const matchQ=!q||m.n.toLowerCase().includes(q);
     const matchG=!g||m.g===g;
@@ -444,28 +644,118 @@ function filter(){
 
 function switchList(type) {
   currentListType = type;
-  
-  const buttons = document.querySelectorAll('.tab-btn');
-  buttons.forEach(btn => btn.classList.remove('active'));
-  
+  document.querySelectorAll('.tab-pill').forEach(btn => btn.classList.toggle('active', btn.dataset.list === type));
+
   const titles = {
-    'atmos': { t: "🎧 Top 100 Dolby Atmos Film", s: "Bağımsız incelemeler, YouTube kanalları ve audiofil forumlarına göre konsensüs sıralaması." },
-    'genelSes': { t: "🔊 En İyi Genel Ses Kalitesine Sahip Filmler", s: "Film&Ses topluluğu ve YouTube kanalının genel ses performansı yüksek yapımlar listesi." },
-    'tavan': { t: "🪂 En İyi Tavan Hoparlörü Kullanımına Sahip Filmler", s: "Dolby Atmos ve DTS:X sistemlerde üst/tavan (overhead) kanalları en efektif kullanan filmler." },
-    'bas': { t: "🎸 En İyi Bas (Subwoofer) Filmleri", s: "Derin alt frekanslara (LFE) inen, ev sinemasında subwoofer ünitelerini zorlayan en iyi yapımlar." }
+    'atmos': { t: "Top 100 <span>Dolby Atmos</span> Film", s: "Bağımsız incelemeler, YouTube kanalları ve audiofil forumlarına göre konsensüs sıralaması." },
+    'genelSes': { t: "En İyi <span>Genel Ses</span> Kalitesine Sahip Filmler", s: "Film&Ses topluluğu ve YouTube kanalının genel ses performansı yüksek yapımlar listesi." },
+    'tavan': { t: "En İyi <span>Tavan Hoparlörü</span> Kullanımına Sahip Filmler", s: "Dolby Atmos ve DTS:X sistemlerde üst/tavan (overhead) kanalları en efektif kullanan filmler." },
+    'bas': { t: "En İyi <span>Bas (Subwoofer)</span> Filmleri", s: "Derin alt frekanslara (LFE) inen, ev sinemasında subwoofer ünitelerini zorlayan en iyi yapımlar." }
   };
-  
-  document.getElementById('mainTitle').textContent = titles[type].t;
+  document.getElementById('mainTitle').innerHTML = titles[type].t;
   document.getElementById('mainSubtitle').textContent = titles[type].s;
-  
-  const index = ['atmos', 'genelSes', 'tavan', 'bas'].indexOf(type);
-  if(index !== -1) buttons[index].classList.add('active');
-  
+
   document.getElementById('search').value = '';
   document.getElementById('genre').value = '';
   document.getElementById('platform').value = '';
-  
   filter();
+}
+
+// ─── NOT SİSTEMİ (herkese açık, Cloudflare Worker + KV) ──
+async function fetchNotes(key) {
+  const res = await fetch(`${NOTES_ENDPOINT}?movie=${encodeURIComponent(key)}`);
+  if (!res.ok) throw new Error('Notlar alınamadı');
+  const data = await res.json();
+  return data.notes || [];
+}
+
+async function postNote(key, text) {
+  const res = await fetch(NOTES_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ movie: key, text })
+  });
+  if (!res.ok) throw new Error('Not gönderilemedi');
+  return res.json();
+}
+
+function renderNotesList(notes) {
+  const el = document.getElementById('notes-list');
+  document.getElementById('modal-note-count').textContent = notes.length ? `(${notes.length})` : '';
+  if (!notes.length) {
+    el.innerHTML = `<div style="font-size:13px;color:var(--muted)">Henüz not yok. İlk notu sen bırak!</div>`;
+    return;
+  }
+  el.innerHTML = notes.slice().reverse().map(n => `
+    <div class="note-item">
+      <div class="note-item-text">${escapeHtml(n.text)}</div>
+      <div class="note-item-meta">${new Date(n.ts).toLocaleString('tr-TR')}</div>
+    </div>
+  `).join('');
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function openMovieModal(m) {
+  currentMovie = m;
+  const key = movieKey(m);
+
+  document.getElementById('modal-badges').innerHTML = `<span class="badge ${GENRE_CLASS[m.g]||''}">${m.g}</span>`;
+  document.getElementById('modal-title').textContent = m.n;
+  document.getElementById('modal-meta').textContent = `${m.y}`;
+
+  const tipEl = document.getElementById('modal-tip');
+  if (m.t) { tipEl.style.display = 'inline-block'; tipEl.textContent = `💡 ${m.t}`; }
+  else { tipEl.style.display = 'none'; }
+
+  document.getElementById('note-input').value = '';
+  document.getElementById('char-count').textContent = '0/300';
+  document.getElementById('notes-list').innerHTML = `<div style="font-size:13px;color:var(--muted)">Yükleniyor...</div>`;
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  fetchNotes(key)
+    .then(notes => { notesCache[key] = notes; renderNotesList(notes); })
+    .catch(() => { document.getElementById('notes-list').innerHTML = `<div style="font-size:13px;color:#f87171">Notlar yüklenemedi. Worker'ın çalıştığından emin ol.</div>`; });
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentMovie = null;
+}
+function closeModalOnBackdrop(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.getElementById('note-input').addEventListener('input', function() {
+  document.getElementById('char-count').textContent = `${this.value.length}/300`;
+});
+
+async function submitNote() {
+  if (!currentMovie) return;
+  const input = document.getElementById('note-input');
+  const text = input.value.trim();
+  if (!text) { showToast('Boş not gönderemezsin', '#ef4444'); return; }
+  const btn = document.getElementById('submit-note-btn');
+  btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+  try {
+    const key = movieKey(currentMovie);
+    const data = await postNote(key, text);
+    notesCache[key] = data.notes || notesCache[key];
+    renderNotesList(notesCache[key]);
+    input.value = '';
+    document.getElementById('char-count').textContent = '0/300';
+    showToast('💬 Notun paylaşıldı!', '#10b981');
+  } catch (err) {
+    showToast('Not gönderilemedi, tekrar dene', '#ef4444');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Notu Paylaş';
+  }
 }
 
 // İlk açılış renderı
