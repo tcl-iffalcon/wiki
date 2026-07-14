@@ -475,32 +475,6 @@
   {
     "app": "Nuvio",
     "type": "4K",
-    "name": "DZ-Film",
-    "desc": "Bağlantı Linki: https://adlencin-13.onrender.com/manifest.json",
-    "isNew": false,
-    "installGuide": "nuvio",
-    "debrid": "free",
-    "platform": [
-      "tv",
-      "mobile"
-    ]
-  },
-  {
-    "app": "Nuvio",
-    "type": "4K",
-    "name": "AstralFlow",
-    "desc": "Bağlantı Linki: https://astral-mu-two.vercel.app/manifest.json",
-    "isNew": false,
-    "installGuide": "nuvio",
-    "debrid": "free",
-    "platform": [
-      "tv",
-      "mobile"
-    ]
-  },
-  {
-    "app": "Nuvio",
-    "type": "4K",
     "name": "Watcho",
     "desc": "Bağlantı Linki: https://watcho3.rafaelzioneverest.workers.dev/manifest.json",
     "isNew": false,
