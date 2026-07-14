@@ -1,380 +1,307 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PluginHub | Uygulama Merkezi</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; scroll-behavior: smooth; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .btn-gradient { background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%); transition: all 0.3s ease; }
-        .btn-gradient:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(52, 211, 153, 0.5); }
-        .code-badge { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .link-badge { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(96, 165, 250, 0.15); }
-        .warn-badge { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); }
-        .search-input:focus { outline: none; border-color: #60a5fa; box-shadow: 0 0 20px rgba(96, 165, 250, 0.15); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uygulama Merkezi | PluginHub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #080c14;
+    --surface: #0d1421;
+    --surface2: #121929;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f4ff;
+    --muted: #6b7a99;
+    --accent: #3b82f6;
+    --accent2: #10b981;
+    --accent3: #f59e0b;
+    --glow: rgba(59,130,246,0.15);
+}
+body.light {
+    --bg: #f0f4fc;
+    --surface: #ffffff;
+    --surface2: #e8eef8;
+    --border: rgba(0,0,0,0.08);
+    --text: #0f172a;
+    --muted: #64748b;
+    --glow: rgba(59,130,246,0.08);
+}
+* { box-sizing: border-box; }
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+}
+body.light::before {
+    background-image:
+        linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+}
+main, nav, footer { position: relative; z-index: 1; }
+nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,12,20,0.85);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    padding: 0 24px;
+}
+body.light nav { background: rgba(240,244,252,0.9); }
+.nav-inner { max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.brand {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #60a5fa, #34d399);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 6px; align-items: center; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s; }
+.nav-links a:hover { color: var(--text); background: var(--surface2); }
+.nav-links a.active { color: #60a5fa; background: rgba(96,165,250,0.1); }
+.nav-btn { display: flex; align-items: center; padding: 7px 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; gap: 6px; }
+.nav-btn:hover { color: var(--text); border-color: var(--accent); }
+#mobileMenu { display: none; }
+#mobileMenu.open { display: block; }
+
+.hero { text-align: center; padding: 56px 16px 40px; max-width: 700px; margin: 0 auto; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); border-radius: 999px; padding: 5px 14px; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 14px; }
+.hero h1 span { background: linear-gradient(135deg, #60a5fa 0%, #34d399 50%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 15px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+.hero .src { font-size: 11px; color: var(--muted); opacity: 0.6; margin-top: 8px; }
+
+.filter-bar { max-width: 1100px; margin: 0 auto 28px; padding: 0 16px; }
+.filter-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 18px 22px; display: grid; grid-template-columns: 2fr 1fr auto; gap: 14px; align-items: end; }
+@media (max-width: 768px) { .filter-inner { grid-template-columns: 1fr 1fr; } }
+.filter-group label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px; }
+.filter-group select, .filter-group input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 12px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; appearance: none; transition: border-color 0.2s; }
+.filter-group select:focus, .filter-group input:focus { border-color: var(--accent); }
+.filter-group input::placeholder { color: var(--muted); }
+.filter-count { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; padding-bottom: 10px; }
+
+.grid-wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px 100px; }
+.grid { display: grid; gap: 14px; }
+.card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+    padding: 22px; display: flex; gap: 20px; align-items: center;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, opacity 0.2s;
+    position: relative; overflow: hidden;
+}
+.card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 85% 20%, var(--glow), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.card:hover { transform: translateY(-2px); border-color: rgba(59,130,246,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.card:hover::before { opacity: 1; }
+.card.dimmed { opacity: 0.55; }
+.icon {
+    width: 64px; height: 64px; border-radius: 18px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 800; color: #fff;
+    box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5);
+}
+.info { flex: 1; min-width: 0; }
+.title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.title { font-size: 17px; font-weight: 800; color: var(--text); }
+.desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top: 4px; max-width: 520px; }
+.link-line { font-size: 11px; color: #60a5fa; font-family: monospace; margin-top: 8px; word-break: break-all; opacity: 0.85; }
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.badge { padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+.b-ok { background: rgba(16,185,129,0.12); color: #6ee7b7; }
+.b-warn { background: rgba(245,158,11,0.12); color: #fcd34d; }
+.b-dead { background: rgba(239,68,68,0.12); color: #fca5a5; }
+.action-col { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 140px; }
+.code-box { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px; text-align: center; }
+.code-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.code-val { font-size: 17px; font-family: monospace; font-weight: 700; color: #34d399; margin-top: 2px; }
+.code-val.strike { color: var(--muted); text-decoration: line-through; }
+.dl-btn { width: 100%; padding: 9px 0; border-radius: 10px; text-align: center; font-size: 12px; font-weight: 700; text-decoration: none; color: #061018; background: linear-gradient(135deg, #60a5fa, #34d399); transition: opacity 0.2s, transform 0.2s; }
+.dl-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.no-results { text-align: center; padding: 60px 20px; color: var(--muted); }
+footer { text-align: center; color: var(--muted); font-size: 12px; padding: 30px; border-top: 1px solid var(--border); }
+
+@media (max-width: 640px) {
+    .card { flex-direction: column; align-items: stretch; text-align: center; }
+    .info { text-align: center; }
+    .desc { max-width: 100%; }
+    .title-row { justify-content: center; }
+    .badges { justify-content: center; }
+    .action-col { min-width: 0; }
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.4); border-radius: 99px; }
+</style>
 </head>
-<body class="min-h-screen pb-20">
+<body>
 
-    <nav class="sticky top-0 z-50 glass-card px-6 py-4 mb-8">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">PluginHub</div>
-            <div class="flex gap-6 text-sm font-medium text-slate-400">
-                <a href="https://tcl-iffalcon.github.io/wiki/" class="hover:text-blue-400 transition">Ana Sayfa</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="hover:text-blue-400 transition">TV APK</a>
-                <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" class="hover:text-blue-400 transition">Telefon APK</a>
-                <a href="https://t.me/tcltvturk1" class="hover:text-blue-400 transition">Telegram Grubu</a>
-            </div>
+<nav>
+    <div class="nav-inner">
+        <div class="brand">PluginHub</div>
+        <div class="nav-links hidden md:flex">
+            <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" class="active">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1">Telegram</a>
         </div>
-    </nav>
-
-    <main class="max-w-4xl mx-auto px-4">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">Ana Uygulamalar</h1>
-            <p class="text-slate-400 text-lg">İhtiyacınız olan tüm medya araçları ve kurulum kodları.</p>
-            <p class="text-slate-600 text-xs mt-2">Kodlar Temmuz 2026 itibarıyla güncellendi — kaynak: troypoint.com</p>
+        <div class="flex gap-2 items-center">
+            <button onclick="toggleTheme()" class="nav-btn" id="themeBtn">🌙</button>
+            <button onclick="toggleMenu()" class="nav-btn md:hidden">☰</button>
         </div>
-
-        <div class="relative max-w-lg mx-auto mb-12">
-            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-            </div>
-            <input type="text" id="appSearch" onkeyup="filterApps()" placeholder="Uygulama ismini yazın..."
-                   class="search-input w-full bg-slate-800/40 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder-slate-500 transition-all">
+    </div>
+    <div id="mobileMenu" class="md:hidden border-t border-white/5 py-4 px-2">
+        <div class="flex flex-col gap-2">
+            <a href="https://tcl-iffalcon.github.io/wiki/" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" style="display:block;padding:8px 12px;border-radius:8px;color:#60a5fa;text-decoration:none;font-size:14px;">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telegram</a>
         </div>
+    </div>
+</nav>
 
-        <div id="appList" class="grid grid-cols-1 gap-6">
+<main>
+    <div class="hero">
+        <div class="hero-eyebrow">📱 Uygulama Merkezi</div>
+        <h1>Ana <span>Uygulamalar</span></h1>
+        <p>İhtiyacınız olan tüm medya araçları ve kurulum kodları.</p>
+        <div class="src">Kodlar Temmuz 2026 itibarıyla güncellendi — kaynak: troypoint.com</div>
+    </div>
 
-            <!-- Stremio -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-blue-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-indigo-500/20">S</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Stremio</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Tüm torrent ve streaming servislerini tek çatı altında toplayan modern medya merkezi. Eklenti desteği ile sınırsız içerik sunar.</p>
-                    <div class="link-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-slate-500 uppercase tracking-tighter">İndirme Linki</span>
-                        <p class="text-xs text-blue-400 font-mono mt-1">https://www.stremio.com/downloads</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-3 shrink-0 w-full md:w-auto items-center">
-                    <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center">
-                        <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                        <span class="text-xl font-mono text-emerald-400 font-light">71893</span>
-                    </div>
-                    <a href="https://www.stremio.com/downloads" target="_blank" class="w-full px-6 py-3 rounded-xl font-bold text-slate-900 btn-gradient text-center text-sm">İndir ↗</a>
-                </div>
+    <div class="filter-bar">
+        <div class="filter-inner">
+            <div class="filter-group">
+                <label>Ara</label>
+                <input type="text" id="search" placeholder="Uygulama ara..." oninput="filterApps()">
             </div>
-
-            <!-- CloudStream -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-emerald-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-emerald-500 to-teal-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-emerald-500/20">C</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">CloudStream</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Android tabanlı, reklam barındırmayan ve tamamen modüler dizi/film izleme uygulaması. Repolar ile özelleştirilebilir.</p>
-                    <div class="link-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-slate-500 uppercase tracking-tighter">GitHub Releases</span>
-                        <p class="text-xs text-blue-400 font-mono mt-1">https://github.com/recloudstream/cloudstream/releases</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-3 shrink-0 w-full md:w-auto items-center">
-                    <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center">
-                        <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                        <span class="text-xl font-mono text-emerald-400 font-light">7264432</span>
-                    </div>
-                    <a href="https://github.com/recloudstream/cloudstream/releases" target="_blank" class="w-full px-6 py-3 rounded-xl font-bold text-slate-900 btn-gradient text-center text-sm">İndir ↗</a>
-                </div>
+            <div class="filter-group">
+                <label>Durum</label>
+                <select id="status" onchange="filterApps()">
+                    <option value="">Tüm Durumlar</option>
+                    <option value="ok">Aktif</option>
+                    <option value="warn">Kararsız</option>
+                    <option value="dead">Artık Çalışmıyor</option>
+                </select>
             </div>
-
-            <!-- Nuvio -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-purple-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-purple-500 to-fuchsia-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-purple-500/20">N</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Nuvio</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Stremio benzeri, daha hafif ve hızlı bir alternatif. Özellikle TV box cihazlarında yüksek performans sergiler.</p>
-                    <div class="link-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-slate-500 uppercase tracking-tighter">GitHub Releases</span>
-                        <p class="text-xs text-blue-400 font-mono mt-1">https://github.com/tapframe/NuvioTV/releases</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-3 shrink-0 w-full md:w-auto items-center">
-                    <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center">
-                        <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                        <span class="text-xl font-mono text-emerald-400 font-light">9231168</span>
-                    </div>
-                    <a href="https://github.com/tapframe/NuvioTV/releases" target="_blank" class="w-full px-6 py-3 rounded-xl font-bold text-slate-900 btn-gradient text-center text-sm">İndir ↗</a>
-                </div>
-            </div>
-
-            <!-- SmartTube -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-red-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-red-500 to-red-800 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-red-500/20">▶</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">SmartTube</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Reklamsız, SponsorBlock destekli açık kaynaklı YouTube istemcisi. 4K/8K, HDR, 60fps desteği. Google hesabı gerekmez.</p>
-                    <div class="link-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-slate-500 uppercase tracking-tighter">GitHub</span>
-                        <p class="text-xs text-blue-400 font-mono mt-1">https://github.com/yuliskov/SmartTube</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-3 shrink-0 w-full md:w-auto items-center">
-                    <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center">
-                        <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                        <span class="text-xl font-mono text-emerald-400 font-light">79040</span>
-                    </div>
-                    <a href="https://github.com/yuliskov/SmartTube" target="_blank" class="w-full px-6 py-3 rounded-xl font-bold text-slate-900 btn-gradient text-center text-sm">GitHub ↗</a>
-                </div>
-            </div>
-
-            <!-- WuPlay -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center hover:border-sky-500/30 transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-sky-400 to-cyan-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-sky-500/20">W</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">WuPlay</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Gizlilik odaklı, hesap gerektirmeyen Android TV streaming uygulaması. Stremio eklentileriyle uyumlu.</p>
-                    <div class="link-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-slate-500 uppercase tracking-tighter">Direkt APK</span>
-                        <p class="text-xs text-blue-400 font-mono mt-1 break-all">github.com/wuplayapp/wuplay-releases</p>
-                    </div>
-                </div>
-                <div class="flex flex-col gap-3 shrink-0 w-full md:w-auto items-center">
-                    <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center">
-                        <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                        <span class="text-xl font-mono text-emerald-400 font-light">5781040</span>
-                    </div>
-                    <a href="https://github.com/wuplayapp/wuplay-releases/releases/latest/download/wuplay-androidtv.apk" target="_blank" class="w-full px-6 py-3 rounded-xl font-bold text-slate-900 btn-gradient text-center text-sm">İndir ↗</a>
-                </div>
-            </div>
-
-            <!-- Netfly -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-red-500/20">N</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Netfly</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yerli ve yabancı içeriklere hızlı erişim sağlayan, kullanıcı dostu arayüze sahip popüler streaming uygulaması.</p>
-                    <div class="link-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-slate-500 uppercase tracking-tighter">Web Sitesi</span>
-                        <p class="text-xs text-blue-400 font-mono mt-1">https://netflyapp.com/</p>
-                    </div>
-                </div>
-                <a href="https://netflyapp.com/" target="_blank" class="w-full md:w-auto px-8 py-4 rounded-xl font-bold text-slate-900 btn-gradient text-center shrink-0">Git ↗</a>
-            </div>
-
-            <!-- FilmPlus -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-emerald-400 to-green-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-green-500/20">F</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">FilmPlus</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">En popüler yerli ve yabancı yapımlara kolayca ulaşmanızı sağlayan kullanıcı dostu bir araç.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">52193</span>
-                </div>
-            </div>
-
-            <!-- Flix Vision -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-orange-400 to-red-600 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-orange-500/20">F</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Flix Vision</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Zengin kütüphanesi ve sürekli güncellenen kaynakları ile kesintisiz izleme imkanı. VOD + canlı kanal desteği.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">8799666</span>
-                </div>
-            </div>
-
-            <!-- Viva TV -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-pink-500 to-rose-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg shadow-pink-500/20">V</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Viva TV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Geniş içerik yelpazesi ve farklı sunucu seçenekleri ile donatılmış popüler medya izleme aracı.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">82927</span>
-                </div>
-            </div>
-
-            <!-- Nova TV -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-violet-600 to-indigo-800 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-purple-500/20">N</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Nova TV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yüksek çözünürlüklü içerikleri ve stabiliteyi ön planda tutan modern streaming aracı.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">70064</span>
-                </div>
-            </div>
-
-            <!-- SStream -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center text-3xl font-bold">S</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">SStream</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Hızlı ve akıcı arayüzü ile yerli/yabancı dizi ve filmleri kolayca izlemenizi sağlar.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">959386</span>
-                </div>
-            </div>
-
-            <!-- Ocean Streamz -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-blue-800 to-indigo-900 rounded-2xl flex items-center justify-center text-3xl font-bold">O</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Ocean Streamz</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Birden fazla kaynaktan veri çekerek her zaman çalışan linkler sunan güvenilir alternatif.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">99317</span>
-                </div>
-            </div>
-
-            <!-- Flixoid -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-red-500 to-red-900 rounded-2xl flex items-center justify-center text-3xl font-bold">F</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Flixoid</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Cinema HD tabanlı fork, hızlı ve güvenli streaming deneyimi. Düzenli güncellemeler alıyor.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">529057</span>
-                </div>
-            </div>
-
-            <!-- NetMirror -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-slate-400 to-slate-700 rounded-2xl flex items-center justify-center text-3xl font-bold">N</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">NetMirror</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Film, dizi ve spor içerikleri için popüler alternatif streaming uygulaması.</p>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">6166931</span>
-                </div>
-            </div>
-
-            <!-- Tea TV — uyarılı -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all opacity-70">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-amber-500 to-yellow-700 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-lg">T</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Tea TV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Geniş VOD arşivi ve M3U desteğiyle köklü streaming platformu.</p>
-                    <div class="warn-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-amber-400 font-bold uppercase">⚠ Kararsız</span>
-                        <p class="text-xs text-amber-300/70 mt-1">Yükleme her zaman başarılı olmayabilir.</p>
-                    </div>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">9829464</span>
-                </div>
-            </div>
-
-            <!-- BeeTV — uyarılı -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all opacity-70">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-yellow-300 to-yellow-600 rounded-2xl flex items-center justify-center text-3xl font-bold text-slate-900 shadow-lg shadow-yellow-500/30">B</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">BeeTV</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Eskiden en popüler uygulamalardan biriydi.</p>
-                    <div class="warn-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-amber-400 font-bold uppercase">⚠ Kararsız</span>
-                        <p class="text-xs text-amber-300/70 mt-1">Geliştirme yavaşladı, çöküyor olabilir. Alternatif öneririz.</p>
-                    </div>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-emerald-400 font-light">5671710</span>
-                </div>
-            </div>
-
-            <!-- Cinema HD — uyarılı -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all opacity-70">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-amber-600 to-yellow-800 rounded-2xl flex items-center justify-center text-3xl font-bold">C</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">Cinema HD</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Yıllarca en çok tercih edilen film arşivi uygulaması.</p>
-                    <div class="warn-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-amber-400 font-bold uppercase">⚠ Artık Çalışmıyor</span>
-                        <p class="text-xs text-amber-300/70 mt-1">Aktif geliştirme durdu. Alternatif: Cinema HQ (6989332).</p>
-                    </div>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-slate-500 font-light line-through">5726169</span>
-                </div>
-            </div>
-
-            <!-- HDO Box — uyarılı -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all opacity-70">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-slate-500 to-slate-800 rounded-2xl flex items-center justify-center text-3xl font-bold">H</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">HDO Box</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">TV ekranları için tasarlanmış oto-oynatma özellikli uygulama.</p>
-                    <div class="warn-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-amber-400 font-bold uppercase">⚠ Artık Çalışmıyor</span>
-                        <p class="text-xs text-amber-300/70 mt-1">Güncellenmiyor, yeni cihazlarda çalışmıyor olabilir.</p>
-                    </div>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-slate-500 font-light line-through">3475826</span>
-                </div>
-            </div>
-
-            <!-- OnStream — uyarılı -->
-            <div class="app-item glass-card p-6 rounded-3xl flex flex-col md:flex-row gap-6 items-center transition-all opacity-70">
-                <div class="w-20 h-20 shrink-0 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center text-3xl font-bold shadow-cyan-500/20">O</div>
-                <div class="flex-grow text-center md:text-left">
-                    <h2 class="text-2xl font-bold text-white app-name">OnStream</h2>
-                    <p class="text-slate-400 text-sm leading-relaxed mt-1">Otomatik oynatma özelliğiyle minimalist izleme deneyimi sunan uygulama.</p>
-                    <div class="warn-badge mt-3 px-3 py-2 rounded-xl inline-block">
-                        <span class="text-[10px] text-amber-400 font-bold uppercase">⚠ Artık Çalışmıyor</span>
-                        <p class="text-xs text-amber-300/70 mt-1">Resmi APK dosyası şu an çalışmıyor.</p>
-                    </div>
-                </div>
-                <div class="w-full md:w-48 code-badge p-4 rounded-2xl text-center shrink-0">
-                    <span class="text-[10px] block text-slate-500 uppercase tracking-tighter mb-1">Downloader Kodu</span>
-                    <span class="text-xl font-mono text-slate-500 font-light line-through">814529</span>
-                </div>
-            </div>
-
+            <div class="filter-count"><span id="count">0</span> uygulama</div>
         </div>
-    </main>
+    </div>
 
-    <script>
-        function filterApps() {
-            const input = document.getElementById('appSearch');
-            const filter = input.value.toLowerCase();
-            const appItems = document.getElementsByClassName('app-item');
-            for (let i = 0; i < appItems.length; i++) {
-                const appName = appItems[i].getElementsByClassName('app-name')[0].innerText;
-                if (appName.toLowerCase().indexOf(filter) > -1) {
-                    appItems[i].style.display = "";
-                } else {
-                    appItems[i].style.display = "none";
-                }
-            }
-        }
-    </script>
+    <div class="grid-wrap">
+        <div class="grid" id="grid"></div>
+        <div class="no-results" id="noResults" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+</main>
 
-    <footer class="mt-20 text-center text-slate-600 text-xs">
-        <p>&copy; 2026 PluginHub - Tüm hakları saklıdır.</p>
-    </footer>
+<footer>© 2026 PluginHub &nbsp;·&nbsp; Türkiye bölgesi streaming verileri</footer>
+
+<script>
+const APPS = [
+  { n:"Stremio", icon:"S", grad:"from-indigo-600 to-blue-700", desc:"Tüm torrent ve streaming servislerini tek çatı altında toplayan modern medya merkezi. Eklenti desteği ile sınırsız içerik sunar.", link:"https://www.stremio.com/downloads", linkLabel:"İndirme Linki", code:"71893", status:"ok", btn:"İndir ↗", btnUrl:"https://www.stremio.com/downloads" },
+  { n:"CloudStream", icon:"C", grad:"from-emerald-500 to-teal-700", desc:"Android tabanlı, reklam barındırmayan ve tamamen modüler dizi/film izleme uygulaması. Repolar ile özelleştirilebilir.", link:"https://github.com/recloudstream/cloudstream/releases", linkLabel:"GitHub Releases", code:"7264432", status:"ok", btn:"İndir ↗", btnUrl:"https://github.com/recloudstream/cloudstream/releases" },
+  { n:"Nuvio", icon:"N", grad:"from-purple-500 to-fuchsia-700", desc:"Stremio benzeri, daha hafif ve hızlı bir alternatif. Özellikle TV box cihazlarında yüksek performans sergiler.", link:"https://github.com/tapframe/NuvioTV/releases", linkLabel:"GitHub Releases", code:"9231168", status:"ok", btn:"İndir ↗", btnUrl:"https://github.com/tapframe/NuvioTV/releases" },
+  { n:"SmartTube", icon:"▶", grad:"from-red-500 to-red-800", desc:"Reklamsız, SponsorBlock destekli açık kaynaklı YouTube istemcisi. 4K/8K, HDR, 60fps desteği. Google hesabı gerekmez.", link:"https://github.com/yuliskov/SmartTube", linkLabel:"GitHub", code:"79040", status:"ok", btn:"GitHub ↗", btnUrl:"https://github.com/yuliskov/SmartTube" },
+  { n:"WuPlay", icon:"W", grad:"from-sky-400 to-cyan-600", desc:"Gizlilik odaklı, hesap gerektirmeyen Android TV streaming uygulaması. Stremio eklentileriyle uyumlu.", link:"github.com/wuplayapp/wuplay-releases", linkLabel:"Direkt APK", code:"5781040", status:"ok", btn:"İndir ↗", btnUrl:"https://github.com/wuplayapp/wuplay-releases/releases/latest/download/wuplay-androidtv.apk" },
+  { n:"Netfly", icon:"N", grad:"from-red-600 to-orange-600", desc:"Yerli ve yabancı içeriklere hızlı erişim sağlayan, kullanıcı dostu arayüze sahip popüler streaming uygulaması.", link:"https://netflyapp.com/", linkLabel:"Web Sitesi", code:null, status:"ok", btn:"Git ↗", btnUrl:"https://netflyapp.com/" },
+  { n:"FilmPlus", icon:"F", grad:"from-emerald-400 to-green-700", desc:"En popüler yerli ve yabancı yapımlara kolayca ulaşmanızı sağlayan kullanıcı dostu bir araç.", code:"52193", status:"ok" },
+  { n:"Flix Vision", icon:"F", grad:"from-orange-400 to-red-600", desc:"Zengin kütüphanesi ve sürekli güncellenen kaynakları ile kesintisiz izleme imkanı. VOD + canlı kanal desteği.", code:"8799666", status:"ok" },
+  { n:"Viva TV", icon:"V", grad:"from-pink-500 to-rose-700", desc:"Geniş içerik yelpazesi ve farklı sunucu seçenekleri ile donatılmış popüler medya izleme aracı.", code:"82927", status:"ok" },
+  { n:"Nova TV", icon:"N", grad:"from-violet-600 to-indigo-800", desc:"Yüksek çözünürlüklü içerikleri ve stabiliteyi ön planda tutan modern streaming aracı.", code:"70064", status:"ok" },
+  { n:"SStream", icon:"S", grad:"from-blue-400 to-blue-600", desc:"Hızlı ve akıcı arayüzü ile yerli/yabancı dizi ve filmleri kolayca izlemenizi sağlar.", code:"959386", status:"ok" },
+  { n:"Ocean Streamz", icon:"O", grad:"from-blue-800 to-indigo-900", desc:"Birden fazla kaynaktan veri çekerek her zaman çalışan linkler sunan güvenilir alternatif.", code:"99317", status:"ok" },
+  { n:"Flixoid", icon:"F", grad:"from-red-500 to-red-900", desc:"Cinema HD tabanlı fork, hızlı ve güvenli streaming deneyimi. Düzenli güncellemeler alıyor.", code:"529057", status:"ok" },
+  { n:"NetMirror", icon:"N", grad:"from-slate-400 to-slate-700", desc:"Film, dizi ve spor içerikleri için popüler alternatif streaming uygulaması.", code:"6166931", status:"ok" },
+  { n:"Tea TV", icon:"T", grad:"from-amber-500 to-yellow-700", desc:"Geniş VOD arşivi ve M3U desteğiyle köklü streaming platformu.", code:"9829464", status:"warn", warnText:"Yükleme her zaman başarılı olmayabilir." },
+  { n:"BeeTV", icon:"B", grad:"from-yellow-300 to-yellow-600", desc:"Eskiden en popüler uygulamalardan biriydi.", code:"5671710", status:"warn", warnText:"Geliştirme yavaşladı, çöküyor olabilir. Alternatif öneririz." },
+  { n:"Cinema HD", icon:"C", grad:"from-amber-600 to-yellow-800", desc:"Yıllarca en çok tercih edilen film arşivi uygulaması.", code:"5726169", codeStrike:true, status:"dead", warnText:"Aktif geliştirme durdu. Alternatif: Cinema HQ (6989332)." },
+  { n:"HDO Box", icon:"H", grad:"from-slate-500 to-slate-800", desc:"TV ekranları için tasarlanmış oto-oynatma özellikli uygulama.", code:"3475826", codeStrike:true, status:"dead", warnText:"Güncellenmiyor, yeni cihazlarda çalışmıyor olabilir." },
+  { n:"OnStream", icon:"O", grad:"from-cyan-400 to-blue-500", desc:"Otomatik oynatma özelliğiyle minimalist izleme deneyimi sunan uygulama.", code:"814529", codeStrike:true, status:"dead", warnText:"Resmi APK dosyası şu an çalışmıyor." }
+];
+
+const STATUS_LABEL = { ok:"Aktif", warn:"Kararsız", dead:"Artık Çalışmıyor" };
+const STATUS_CLASS = { ok:"b-ok", warn:"b-warn", dead:"b-dead" };
+
+// ─── TEMA ────────────────────────────────
+const manualTheme = localStorage.getItem('ph_theme');
+let isLight;
+if (manualTheme) { isLight = manualTheme === 'light'; }
+else { isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches; }
+if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem('ph_theme')) {
+        isLight = e.matches;
+        document.body.classList.toggle('light', isLight);
+        document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+    }
+});
+function toggleTheme() {
+    isLight = !isLight;
+    document.body.classList.toggle('light', isLight);
+    localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+}
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+function renderApps(list) {
+    const grid = document.getElementById('grid');
+    const noRes = document.getElementById('noResults');
+    document.getElementById('count').textContent = list.length;
+    if (list.length === 0) { grid.innerHTML = ''; noRes.style.display = ''; return; }
+    noRes.style.display = 'none';
+
+    grid.innerHTML = list.map(a => `
+      <div class="card${a.status !== 'ok' ? ' dimmed' : ''}">
+        <div class="icon bg-gradient-to-br ${a.grad}">${a.icon}</div>
+        <div class="info">
+          <div class="title-row">
+            <div class="title">${a.n}</div>
+            ${a.status !== 'ok' ? `<span class="badge ${STATUS_CLASS[a.status]}">⚠ ${STATUS_LABEL[a.status]}</span>` : ''}
+          </div>
+          <div class="desc">${a.desc}</div>
+          ${a.link ? `<div class="link-line">${a.linkLabel}: ${a.link}</div>` : ''}
+          ${a.warnText ? `<div class="desc" style="color:#fcd34d;margin-top:6px">${a.warnText}</div>` : ''}
+        </div>
+        <div class="action-col">
+          ${a.code ? `
+            <div class="code-box">
+              <div class="code-label">Downloader Kodu</div>
+              <div class="code-val${a.codeStrike ? ' strike' : ''}">${a.code}</div>
+            </div>` : ''}
+          ${a.btnUrl ? `<a href="${a.btnUrl}" target="_blank" class="dl-btn">${a.btn}</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+}
+
+function filterApps() {
+    const q = document.getElementById('search').value.toLowerCase();
+    const status = document.getElementById('status').value;
+    const res = APPS.filter(a => {
+        const matchQ = !q || a.n.toLowerCase().includes(q);
+        const matchS = !status || a.status === status;
+        return matchQ && matchS;
+    });
+    renderApps(res);
+}
+
+renderApps(APPS);
+</script>
 
 </body>
 </html>
