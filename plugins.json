@@ -712,34 +712,6 @@
   {
     "app": "Nuvio",
     "type": "4K",
-    "name": "Muvibox",
-    "desc": "Bağlantı Linki: https://mvtmdb.netlify.app/manifest.json",
-    "isNew": false,
-    "installGuide": "nuvio",
-    "debrid": "free",
-    "platform": [
-      "tv",
-      "mobile",
-      "web"
-    ]
-  },
-  {
-    "app": "Nuvio",
-    "type": "4K",
-    "name": "SUPREME",
-    "desc": "Bağlantı Linki: https://sup-sooty-one.vercel.app/configure",
-    "isNew": false,
-    "installGuide": "nuvio",
-    "debrid": "optional",
-    "platform": [
-      "tv",
-      "mobile",
-      "web"
-    ]
-  },
-  {
-    "app": "Nuvio",
-    "type": "4K",
     "name": "Torrin",
     "desc": "Bağlantı Linki: https://addon.torrin.app/configure",
     "isNew": false,
