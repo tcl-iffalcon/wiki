@@ -394,7 +394,11 @@ function toggleReportBroken() {
     if (!currentModalItem) return;
     const key = apkKey(currentModalItem);
     const btn = document.getElementById('modal-report-btn');
-    if (reports[key]) {
+    const item = currentModalItem;
+    const wasReported = !!reports[key];
+    const action = wasReported ? 'unreport' : 'report';
+
+    if (wasReported) {
         delete reports[key];
         btn.classList.remove('active');
         btn.textContent = '🚩 Çalışmıyor Bildir';
@@ -408,6 +412,20 @@ function toggleReportBroken() {
     localStorage.setItem('sport_reports', JSON.stringify(reports));
     const card = document.querySelector(`.plugin-card[data-key="${CSS.escape(key)}"]`);
     if (card) card.classList.toggle('reported-selected', !!reports[key]);
+
+    // Arka planda sessizce Telegram'a gönder
+    fetch(REPORT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            pluginName: item.name,
+            app: item.app || 'Spor APK',
+            type: item.type || 'spor',
+            action: action,
+        }),
+    }).catch(err => {
+        console.warn('Rapor gönderilemedi:', err);
+    });
 }
 
 // ─── NOTES ───────────────────────────────
