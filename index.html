@@ -136,11 +136,19 @@
         .tab-pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
         .tab-pill.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-        .result-bar { max-width: 1200px; margin: 0 auto 16px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; }
+        .result-bar { max-width: 1200px; margin: 0 auto 16px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .result-bar span { font-size: 13px; color: var(--muted); font-weight: 500; }
+        .sort-group { display: flex; align-items: center; gap: 8px; }
+        .sort-group label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+        .sort-group select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 7px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; cursor: pointer; }
+        .sort-group select:focus { border-color: var(--accent); }
 
         .grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 120px; }
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+
+        .group-heading { grid-column: 1 / -1; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); padding: 8px 4px 0; display: flex; align-items: center; gap: 8px; }
+        .group-heading:not(:first-child) { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .group-heading .count-pill { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; text-transform: none; letter-spacing: 0; }
 
         .plugin-card {
             background: var(--surface);
@@ -158,6 +166,7 @@
         .plugin-card:hover::before { opacity: 1; }
         /* NEW: compare selected state */
         .plugin-card.compare-selected { border-color: rgba(59,130,246,0.6); box-shadow: 0 0 0 2px rgba(59,130,246,0.3); }
+        .plugin-card.reported-selected { border-color: rgba(239,68,68,0.5); }
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -242,6 +251,11 @@
         .note-area::placeholder { color: var(--muted); }
         .has-note::after { content: '📝'; position: absolute; top: 10px; right: 10px; font-size: 12px; }
 
+        /* NEW: report broken link button */
+        .report-btn { background: none; border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; cursor: pointer; color: #f87171; font-size: 12px; font-weight: 700; padding: 9px 14px; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s; }
+        .report-btn:hover { background: rgba(239,68,68,0.1); }
+        .report-btn.active { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.5); color: #fca5a5; }
+
         /* highlight fuzzy match */
         mark { background: rgba(245,158,11,0.25); color: inherit; border-radius: 3px; padding: 0 2px; }
 
@@ -319,7 +333,6 @@
                     <option value="all">Tüm Uygulamalar</option>
                     <option value="Stremio">Stremio</option>
                     <option value="Nuvio">Nuvio</option>
-                    <option value="CloudStream">CloudStream</option>
                     <option value="Diğer">Diğer</option>
                 </select>
             </div>
@@ -368,7 +381,19 @@
 
     <div class="result-bar">
         <span id="resultCount"></span>
-        <div style="display:flex;gap:8px">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <div class="sort-group">
+                <label for="sortSelect">Sırala</label>
+                <select id="sortSelect" onchange="filterData()">
+                    <option value="default">Varsayılan</option>
+                    <option value="newest">🆕 En Yeni Eklenenler</option>
+                    <option value="oldest">🕰️ En Eski Eklenenler</option>
+                    <option value="rating">⭐ En Çok Beğenilen</option>
+                    <option value="name_asc">İsim (A-Z)</option>
+                    <option value="name_desc">İsim (Z-A)</option>
+                    <option value="app_group">📦 Uygulamaya Göre Grupla</option>
+                </select>
+            </div>
             <button onclick="shareCurrentFilter()" class="nav-btn" style="font-size:11px">🔗 Paylaş</button>
         </div>
     </div>
@@ -433,7 +458,10 @@
         <div class="mb-5">
             <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">Kişisel Notum</p>
             <textarea id="modal-note" class="note-area" placeholder="Bu eklenti hakkında bir not bırak..."></textarea>
-            <button onclick="saveNote()" class="btn btn-secondary" style="margin-top:8px;flex:none;width:auto;padding:8px 16px;font-size:12px">Notu Kaydet</button>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                <button onclick="saveNote()" class="btn btn-secondary" style="flex:none;width:auto;padding:8px 16px;font-size:12px">Notu Kaydet</button>
+                <button id="modal-report-btn" onclick="toggleReportBroken()" class="report-btn">🚩 Çalışmıyor Bildir</button>
+            </div>
         </div>
 
         <div id="modal-guide"></div>
@@ -459,6 +487,7 @@ let favorites  = JSON.parse(localStorage.getItem('ph_favorites') || '[]');
 let ratings    = JSON.parse(localStorage.getItem('ph_ratings')   || '{}');
 let lastSeen   = JSON.parse(localStorage.getItem('ph_lastseen')  || '[]');
 let notes      = JSON.parse(localStorage.getItem('ph_notes')     || '{}');
+let reports    = JSON.parse(localStorage.getItem('ph_reports')   || '{}');
 let showFavsOnly = false;
 let compareList  = []; // max 3
 let currentModalItem = null;
@@ -488,6 +517,7 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e 
 function pluginKey(p) { return `${p.app}|${p.name}|${p.type}`; }
 function isFav(p) { return favorites.includes(pluginKey(p)); }
 function isComparing(p) { return compareList.some(c => pluginKey(c) === pluginKey(p)); }
+function isReported(p) { return !!reports[pluginKey(p)]; }
 
 function showToast(msg, color='#1e293b') {
     const t = document.getElementById('toast');
@@ -523,6 +553,28 @@ function toggleFavFilter() {
         b.innerHTML = showFavsOnly ? '<span>❤</span> Favoriler' : '<span>♡</span> Favoriler';
     });
     filterData();
+}
+
+// ─── BROKEN LINK REPORTING (local, per-device) ──
+function toggleReportBroken() {
+    if (!currentModalItem) return;
+    const key = pluginKey(currentModalItem);
+    const btn = document.getElementById('modal-report-btn');
+    if (reports[key]) {
+        delete reports[key];
+        btn.classList.remove('active');
+        btn.textContent = '🚩 Çalışmıyor Bildir';
+        showToast('Bildirim geri alındı');
+    } else {
+        reports[key] = { at: Date.now() };
+        btn.classList.add('active');
+        btn.textContent = '✓ Bildirildi';
+        showToast('🚩 Bildirdiğin için teşekkürler', '#ef4444');
+    }
+    localStorage.setItem('ph_reports', JSON.stringify(reports));
+    // reflect on the card if present
+    const card = document.querySelector(`.plugin-card[data-key="${CSS.escape(key)}"]`);
+    if (card) card.classList.toggle('reported-selected', !!reports[key]);
 }
 
 // ─── COMPARE ─────────────────────────────
@@ -712,15 +764,17 @@ function applyURLParams() {
     if (p.get('type'))     document.getElementById('typeSelect').value     = p.get('type');
     if (p.get('debrid'))   document.getElementById('debridSelect').value   = p.get('debrid');
     if (p.get('platform')) document.getElementById('platformSelect').value = p.get('platform');
+    if (p.get('sort'))     document.getElementById('sortSelect').value     = p.get('sort');
     if (p.get('q'))        document.getElementById('searchInput').value    = p.get('q');
     window._pendingModal = p.get('modal') || null;
 }
-function updateURL(app, type, debrid, platform, q) {
+function updateURL(app, type, debrid, platform, q, sort) {
     const p = new URLSearchParams();
     if (app !== 'all')      p.set('app', app);
     if (type !== 'all')     p.set('type', type);
     if (debrid !== 'all')   p.set('debrid', debrid);
     if (platform !== 'all') p.set('platform', platform);
+    if (sort && sort !== 'default') p.set('sort', sort);
     if (q) p.set('q', q);
     history.replaceState({}, '', window.location.pathname + (p.toString() ? '?' + p.toString() : ''));
 }
@@ -746,14 +800,41 @@ function showSkeleton() {
 }
 function hideSkeleton() { document.getElementById('skeletonGrid').innerHTML = ''; }
 
+// ─── SORTING ─────────────────────────────
+// plugins are annotated with p._order (their original array index) right after fetch.
+// We treat array position as a proxy for "date added" since later entries were appended more recently.
+function sortPool(pool, mode) {
+    const arr = pool.slice();
+    switch (mode) {
+        case 'newest':
+            return arr.sort((a, b) => (b.isNew - a.isNew) || (b._order - a._order));
+        case 'oldest':
+            return arr.sort((a, b) => (a._order - b._order));
+        case 'rating':
+            return arr.sort((a, b) => {
+                const rb = ratings[pluginKey(b)] || 0, ra = ratings[pluginKey(a)] || 0;
+                return (rb - ra) || (b._order - a._order);
+            });
+        case 'name_asc':
+            return arr.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+        case 'name_desc':
+            return arr.sort((a, b) => b.name.localeCompare(a.name, 'tr'));
+        case 'app_group':
+            return arr.sort((a, b) => a.app.localeCompare(b.app, 'tr') || a.name.localeCompare(b.name, 'tr'));
+        default:
+            return arr;
+    }
+}
+
 // ─── FILTER + FUSE ────────────────────────
 function filterData() {
     const app      = document.getElementById('appSelect').value;
     const type     = document.getElementById('typeSelect').value;
     const debrid   = document.getElementById('debridSelect').value;
     const platform = document.getElementById('platformSelect').value;
+    const sort     = document.getElementById('sortSelect').value;
     const q        = document.getElementById('searchInput').value.trim();
-    updateURL(app, type, debrid, platform, q);
+    updateURL(app, type, debrid, platform, q, sort);
 
     document.querySelectorAll('.tab-pill').forEach(b => b.classList.toggle('active', b.dataset.type === (type === 'all' ? 'all' : type)));
 
@@ -776,7 +857,12 @@ function filterData() {
         results = pool;
     }
 
-    renderCards(results, q);
+    // Apply sorting (skip when a fuzzy search is active — relevance order wins)
+    if (!q && sort !== 'default') {
+        results = sortPool(results, sort);
+    }
+
+    renderCards(results, q, sort);
 }
 
 // ─── RENDER CARDS ────────────────────────
@@ -795,7 +881,7 @@ function highlight(text, matches, key) {
     return result;
 }
 
-function renderCards(data, q) {
+function renderCards(data, q, sortMode) {
     const grid  = document.getElementById('resultsGrid');
     const empty = document.getElementById('emptyState');
     const count = document.getElementById('resultCount');
@@ -804,13 +890,25 @@ function renderCards(data, q) {
     if (!data.length) { empty.style.display = 'block'; return; }
     empty.style.display = 'none';
 
+    const groupByApp = sortMode === 'app_group' && !q;
+    let lastGroup = null;
+
     data.forEach((item, i) => {
         // Clean item (strip Fuse internals) and register by key
         const cleanItem = { app:item.app, type:item.type, name:item.name, desc:item.desc,
             isNew:item.isNew, installGuide:item.installGuide, debrid:item.debrid,
-            platform:item.platform, updatedAt:item.updatedAt, status:item.status };
+            platform:item.platform, updatedAt:item.updatedAt, status:item.status, _order:item._order };
         const key = pluginKey(cleanItem);
         pluginRegistry[key] = cleanItem;
+
+        if (groupByApp && cleanItem.app !== lastGroup) {
+            lastGroup = cleanItem.app;
+            const groupCount = data.filter(d => d.app === lastGroup).length;
+            const heading = document.createElement('div');
+            heading.className = 'group-heading';
+            heading.innerHTML = `${lastGroup} <span class="count-pill">${groupCount}</span>`;
+            grid.appendChild(heading);
+        }
 
         const urlMatch  = cleanItem.desc?.match(/(https?:\/\/[^\s]+)/g);
         const url       = urlMatch ? urlMatch[0] : null;
@@ -818,6 +916,7 @@ function renderCards(data, q) {
         const code      = codeMatch ? codeMatch[1] : null;
         const favActive = isFav(cleanItem);
         const cmpActive = isComparing(cleanItem);
+        const repActive = isReported(cleanItem);
         const starCount = ratings[key] || 0;
         const hasNote   = !!notes[key];
         const delay     = Math.min(i * 35, 350);
@@ -826,7 +925,7 @@ function renderCards(data, q) {
         const safeKey   = key.replace(/\\/g,'\\\\').replace(/"/g,'&quot;');
 
         const card = document.createElement('div');
-        card.className = 'plugin-card' + (cmpActive ? ' compare-selected' : '');
+        card.className = 'plugin-card' + (cmpActive ? ' compare-selected' : '') + (repActive ? ' reported-selected' : '');
         card.dataset.key = key;
         card.style.animationDelay = delay + 'ms';
         card.innerHTML = `
@@ -839,6 +938,7 @@ function renderCards(data, q) {
                     ${platformBadges(cleanItem.platform)}
                 </div>
                 <div style="display:flex;gap:6px;align-items:center">
+                    ${repActive ? '<span title="Çalışmıyor olarak bildirildi" style="font-size:13px">🚩</span>' : ''}
                     ${hasNote ? '<span title="Notun var" style="font-size:13px">📝</span>' : ''}
                     <button class="fav-btn ${favActive ? 'active' : ''}" onclick="event.stopPropagation();toggleFav('${safeKey}',this)">${favActive?'❤':'♡'}</button>
                 </div>
@@ -911,6 +1011,11 @@ function openModal(item) {
     // Note
     document.getElementById('modal-note').value = notes[key] || '';
 
+    // Report broken link state
+    const reportBtn = document.getElementById('modal-report-btn');
+    if (reports[key]) { reportBtn.classList.add('active'); reportBtn.textContent = '✓ Bildirildi'; }
+    else { reportBtn.classList.remove('active'); reportBtn.textContent = '🚩 Çalışmıyor Bildir'; }
+
     const guide   = installGuides[item.installGuide];
     document.getElementById('modal-guide').innerHTML = guide ? `
         <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:4px">
@@ -953,8 +1058,9 @@ fetch('plugins.json')
     .then(r => r.json())
     .then(data => {
         plugins = data;
-        // Pre-register all plugins
-        plugins.forEach(p => { pluginRegistry[pluginKey(p)] = p; });
+        // Pre-register all plugins and tag each with its original position
+        // (used as a proxy for "date added" — later entries were appended more recently)
+        plugins.forEach((p, idx) => { p._order = idx; pluginRegistry[pluginKey(p)] = p; });
         hideSkeleton();
         progressDone();
         updateStats();
