@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMAX Enhanced Film Kataloğu | PluginHub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+// ─── NOT SİSTEMİ ENDPOINT ────────────
+const NOTES_ENDPOINT = 'https://pluginhub.sait-yldrm.workers.dev/notes';
+</script>
+
+<style>
+:root {
+    --bg: #080c14;
+    --surface: #0d1421;
+    --surface2: #121929;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f4ff;
+    --muted: #6b7a99;
+    --accent: #3b82f6;
+    --accent2: #10b981;
+    --accent3: #f59e0b;
+    --glow: rgba(59,130,246,0.15);
+}
+body.light {
+    --bg: #f0f4fc;
+    --surface: #ffffff;
+    --surface2: #e8eef8;
+    --border: rgba(0,0,0,0.08);
+    --text: #0f172a;
+    --muted: #64748b;
+    --glow: rgba(59,130,246,0.08);
+}
+* { box-sizing: border-box; }
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none; z-index: 0;
+}
+body.light::before {
+    background-image:
+        linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+}
+main, nav, footer { position: relative; z-index: 1; }
+nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,12,20,0.85);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    padding: 0 24px;
+}
+body.light nav { background: rgba(240,244,252,0.9); }
+.nav-inner { max-width: 1200px; margin: 0 auto; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.brand {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #60a5fa, #34d399);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 6px; align-items: center; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s; }
+.nav-links a:hover { color: var(--text); background: var(--surface2); }
+.nav-links a.active { color: #60a5fa; background: rgba(96,165,250,0.1); }
+.nav-btn { display: flex; align-items: center; padding: 7px 13px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; gap: 6px; }
+.nav-btn:hover { color: var(--text); border-color: var(--accent); }
+#mobileMenu { display: none; }
+#mobileMenu.open { display: block; }
+
+.hero { text-align: center; padding: 56px 16px 40px; max-width: 700px; margin: 0 auto; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); border-radius: 999px; padding: 5px 14px; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 800; line-height: 1.15; letter-spacing: -1px; margin-bottom: 14px; }
+.hero h1 span { background: linear-gradient(135deg, #60a5fa 0%, #34d399 50%, #a78bfa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 15px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+.list-tabs { max-width: 1200px; margin: 0 auto 24px; padding: 0 16px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.tab-pill { font-size: 12px; font-weight: 700; padding: 9px 18px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.tab-pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+.tab-pill.active { background: linear-gradient(135deg, #3b82f6, #10b981); color: #fff; border-color: transparent; }
+
+.filter-bar { max-width: 1200px; margin: 0 auto 20px; padding: 0 16px; }
+.filter-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 18px 22px; display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 14px; align-items: end; }
+@media (max-width: 768px) { .filter-inner { grid-template-columns: 1fr 1fr; } }
+.filter-group label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 8px; }
+.filter-group select, .filter-group input { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 12px; font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; appearance: none; transition: border-color 0.2s; }
+.filter-group select:focus, .filter-group input:focus { border-color: var(--accent); }
+.filter-group input::placeholder { color: var(--muted); }
+.filter-count { font-size: 12px; color: var(--muted); font-weight: 600; white-space: nowrap; padding-bottom: 10px; }
+
+.info-banner { max-width: 1200px; margin: 0 auto 20px; padding: 0 16px; }
+.info-banner-inner { background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(16,185,129,0.05)); border: 1px solid rgba(59,130,246,0.2); border-radius: 16px; padding: 14px 20px; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.info-banner-inner b { color: var(--text); }
+
+.grid-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 100px; }
+.grid { display: grid; gap: 12px; }
+.card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
+    padding: 16px 20px; display: flex; align-items: center; gap: 16px;
+    cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative; overflow: hidden;
+}
+.card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 85% 20%, var(--glow), transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.card:hover { transform: translateY(-2px); border-color: rgba(59,130,246,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.card:hover::before { opacity: 1; }
+.rank { width: 36px; text-align: center; font-size: 0.85rem; font-weight: 800; color: var(--muted); flex-shrink: 0; }
+.info { flex: 1; min-width: 0; }
+.title { font-size: 15px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.note-hint { font-size: 11px; color: #34d399; margin-top: 5px; font-style: italic; background: rgba(16,185,129,0.08); padding: 3px 8px; border-radius: 6px; display: inline-block; }
+.badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.badge { padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; }
+.b-aksiyon{background:rgba(59,130,246,0.15);color:#93c5fd}
+.b-bilimkurgu{background:rgba(139,92,246,0.15);color:#c4b5fd}
+.b-macera{background:rgba(34,197,94,0.15);color:#86efac}
+.b-korku{background:rgba(239,68,68,0.15);color:#fca5a5}
+.b-dram{background:rgba(20,184,166,0.15);color:#5eead4}
+.b-animasyon{background:rgba(236,72,153,0.15);color:#f9a8d4}
+.b-muzik{background:rgba(148,163,184,0.15);color:#cbd5e1}
+.b-fantastik{background:rgba(217,70,239,0.15);color:#e879f9}
+.b-suc{background:rgba(220,38,38,0.15);color:#fca5a5}
+.studio-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 7px; font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 6px; }
+.st-marvel{background:rgba(237,29,36,0.14);color:#f87171;border:1px solid rgba(237,29,36,0.28)}
+.st-sony{background:rgba(0,168,225,0.12);color:#38bdf8;border:1px solid rgba(0,168,225,0.25)}
+.st-paramount{background:rgba(148,101,224,0.14);color:#c4b5fd;border:1px solid rgba(148,101,224,0.28)}
+.platform-col { flex-shrink: 0; min-width: 130px; text-align: right; }
+.platform-tag { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; margin: 2px; }
+.pt-disney{background:rgba(37,99,235,0.12);color:#60a5fa;border:1px solid rgba(37,99,235,0.25)}
+.pt-bravia{background:rgba(245,158,11,0.12);color:#fcd34d;border:1px solid rgba(245,158,11,0.25)}
+.pt-uhd{background:rgba(16,185,129,0.12);color:#6ee7b7;border:1px solid rgba(16,185,129,0.25)}
+.pt-dijital{background:rgba(148,163,184,0.12);color:#cbd5e1;border:1px solid rgba(148,163,184,0.25)}
+.no-results { text-align: center; padding: 60px 20px; color: var(--muted); }
+footer { text-align: center; color: var(--muted); font-size: 12px; padding: 30px; border-top: 1px solid var(--border); }
+
+/* Modal */
+#modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 16px; backdrop-filter: blur(4px); }
+#modal-overlay.open { opacity: 1; pointer-events: all; }
+#modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; width: 100%; max-width: 600px; max-height: 88vh; overflow-y: auto; transform: scale(0.93) translateY(20px); transition: transform 0.3s cubic-bezier(.34,1.4,.64,1); }
+#modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
+.note-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 12px 14px; border-radius: 12px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; resize: vertical; min-height: 70px; transition: border-color 0.2s; }
+.note-textarea:focus { border-color: var(--accent); }
+.note-textarea::placeholder { color: var(--muted); }
+.note-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+.note-item.mine { border-color: rgba(59,130,246,0.35); }
+.note-item-text { font-size: 13px; color: var(--text); line-height: 1.5; white-space: pre-wrap; }
+.note-item-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; gap: 8px; }
+.note-item-meta { font-size: 10px; color: var(--muted); font-weight: 600; }
+.note-item-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.note-action-btn { font-size: 10px; font-weight: 700; background: none; border: none; cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: background 0.15s; }
+.note-action-btn.edit { color: #60a5fa; }
+.note-action-btn.edit:hover { background: rgba(96,165,250,0.12); }
+.note-action-btn.delete { color: #f87171; }
+.note-action-btn.delete:hover { background: rgba(248,113,113,0.12); }
+.note-edit-textarea { width: 100%; background: var(--bg); border: 1px solid var(--accent); color: var(--text); padding: 8px 10px; border-radius: 10px; font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; resize: vertical; min-height: 50px; }
+.note-edit-actions { display: flex; gap: 6px; margin-top: 6px; }
+.btn { padding: 10px 0; border-radius: 10px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; text-align: center; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #2563eb; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-sm { padding: 6px 12px; font-size: 11px; }
+.btn-ghost { background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+.btn-ghost:hover { color: var(--text); }
+
+#toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); padding: 10px 20px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 9999; transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), opacity 0.3s; opacity: 0; pointer-events: none; white-space: nowrap; background: #1e293b; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.4); border-radius: 99px; }
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<nav>
+    <div class="nav-inner">
+        <div class="brand">PluginHub</div>
+        <div class="nav-links hidden md:flex">
+            <a href="https://tcl-iffalcon.github.io/wiki/">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/imaxenhanced.html" class="active">IMAX Enhanced</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1">Telegram</a>
+        </div>
+        <div class="flex gap-2 items-center">
+            <button onclick="toggleTheme()" class="nav-btn" id="themeBtn">🌙</button>
+            <button onclick="toggleMenu()" class="nav-btn md:hidden">☰</button>
+        </div>
+    </div>
+    <div id="mobileMenu" class="md:hidden border-t border-white/5 py-4 px-2">
+        <div class="flex flex-col gap-2">
+            <a href="https://tcl-iffalcon.github.io/wiki/" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Ana Sayfa</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/uygulamalar.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">TV APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/mobil.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telefon APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/spor.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Spor APK</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/dolbyatmos.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Dolby Atmos Film Listesi</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/imaxenhanced.html" style="display:block;padding:8px 12px;border-radius:8px;color:#60a5fa;text-decoration:none;font-size:14px;">IMAX Enhanced</a>
+            <a href="https://tcl-iffalcon.github.io/wiki/wc2026.html" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Dünya Kupası</a>
+            <a href="https://t.me/tcltvturk1" style="display:block;padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px;">Telegram</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+    <div class="hero">
+        <div class="hero-eyebrow">🎬 Ev Sineması</div>
+        <h1 id="mainTitle">Tüm <span>IMAX Enhanced</span> Filmler</h1>
+        <p id="mainSubtitle">IMAX ve DTS ortak sertifikasyon programı kapsamında genişletilmiş görüntü oranı ve DTS:X ses ile sunulan filmlerin güncel kataloğu.</p>
+    </div>
+
+    <div class="list-tabs">
+        <button class="tab-pill active" data-list="tumu" onclick="switchList('tumu')">Tümü</button>
+        <button class="tab-pill" data-list="marvel" onclick="switchList('marvel')">Marvel &amp; Disney+</button>
+        <button class="tab-pill" data-list="sony" onclick="switchList('sony')">Sony Pictures</button>
+        <button class="tab-pill" data-list="paramount" onclick="switchList('paramount')">Paramount Pictures</button>
+    </div>
+
+    <div class="info-banner">
+        <div class="info-banner-inner">
+            🔊 IMAX Enhanced sesi dinlemek için <b>IMAX Enhanced sertifikalı bir TV, soundbar veya AV alıcısı</b> gerekir (TCL, Hisense, Sony, Xiaomi, Denon, Marantz, JBL gibi markalarda mevcut). Sony Pictures kataloğu, Hisense/Toshiba TV'lerde AVOD üzerinden yüzlerce başlıkla genişletiliyor; bu sayfa halka açık kaynaklardan derlenen güncel ama <b>büyümeye devam eden</b> bir listedir.
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-inner">
+            <div class="filter-group">
+                <label>Ara</label>
+                <input type="text" id="search" placeholder="Film ara..." oninput="filter()">
+            </div>
+            <div class="filter-group">
+                <label>Tür</label>
+                <select id="genre" onchange="filter()">
+                    <option value="">Tüm Türler</option>
+                    <option value="Aksiyon">Aksiyon</option>
+                    <option value="Bilim Kurgu">Bilim Kurgu</option>
+                    <option value="Macera">Macera</option>
+                    <option value="Fantastik">Fantastik</option>
+                    <option value="Animasyon">Animasyon</option>
+                    <option value="Korku">Korku</option>
+                    <option value="Dram">Dram</option>
+                    <option value="Müzik">Müzik</option>
+                    <option value="Suç">Suç</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Nerede İzlenir</label>
+                <select id="platform" onchange="filter()">
+                    <option value="">Tüm Platformlar</option>
+                    <option value="Disney+">Disney+</option>
+                    <option value="Bravia">Bravia Core</option>
+                    <option value="UHD">4K UHD Blu-ray</option>
+                    <option value="Dijital">Dijital Kiralama/Satın Alma</option>
+                </select>
+            </div>
+            <div class="filter-count"><span id="count">0</span> film</div>
+        </div>
+    </div>
+
+    <div class="grid-wrap">
+        <div class="grid" id="grid"></div>
+        <div class="no-results" id="noResults" style="display:none">Sonuç bulunamadı.</div>
+    </div>
+</main>
+
+<footer>© 2026 PluginHub &nbsp;·&nbsp; IMAX Enhanced / DTS kaynaklarından derlenmiştir</footer>
+
+<!-- Film Detay + Not Modalı -->
+<div id="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div id="modal-box" style="padding:24px 24px 26px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px">
+            <div>
+                <div id="modal-badges" style="margin-bottom:8px"></div>
+                <div id="modal-title" style="font-size:20px;font-weight:800"></div>
+                <div id="modal-meta" style="font-size:12px;color:var(--muted);margin-top:2px"></div>
+            </div>
+            <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px">✕</button>
+        </div>
+        <div id="modal-tip" class="note-hint" style="display:none;margin-bottom:16px"></div>
+
+        <div style="border-top:1px solid var(--border);padding-top:18px;margin-top:6px">
+            <p style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:12px">
+                💬 Herkese Açık Notlar <span id="modal-note-count" style="color:#60a5fa"></span>
+            </p>
+            <div id="notes-list"><div style="font-size:13px;color:var(--muted)">Yükleniyor...</div></div>
+
+            <div style="margin-top:14px">
+                <textarea id="note-input" class="note-textarea" placeholder="Bu film hakkında bir not bırak (örn: hangi cihazda IMAX Enhanced sesi doğru şekilde çalışıyor)..." maxlength="300"></textarea>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                    <span style="font-size:11px;color:var(--muted)" id="char-count">0/300</span>
+                    <button id="submit-note-btn" onclick="submitNote()" class="btn btn-primary" style="width:auto;padding:9px 20px">Notu Paylaş</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// n: isim, y: yıl, g: tür, s: stüdyo (marvel/sony/paramount), p: platformlar, t: not
+const MARVEL_MOVIES=[
+{n:"Iron Man",y:2008,g:"Aksiyon",s:"marvel",p:["Disney+"]},
+{n:"Guardians of the Galaxy",y:2014,g:"Bilim Kurgu",s:"marvel",p:["Disney+"]},
+{n:"Captain America: Civil War",y:2016,g:"Aksiyon",s:"marvel",p:["Disney+"]},
+{n:"Doctor Strange",y:2016,g:"Fantastik",s:"marvel",p:["Disney+"]},
+{n:"Guardians of the Galaxy Vol. 2",y:2017,g:"Bilim Kurgu",s:"marvel",p:["Disney+"]},
+{n:"Thor: Ragnarok",y:2017,g:"Fantastik",s:"marvel",p:["Disney+"],t:"Tüm film boyunca 1.90:1 genişletilmiş oran"},
+{n:"Avengers: Infinity War",y:2018,g:"Aksiyon",s:"marvel",p:["Disney+"],t:"Tamamı IMAX kameralarla çekildi"},
+{n:"Ant-Man and the Wasp",y:2018,g:"Aksiyon",s:"marvel",p:["Disney+"]},
+{n:"Captain Marvel",y:2019,g:"Aksiyon",s:"marvel",p:["Disney+"]},
+{n:"Avengers: Endgame",y:2019,g:"Aksiyon",s:"marvel",p:["Disney+"],t:"Tamamı IMAX kameralarla çekildi"},
+{n:"Black Widow",y:2021,g:"Aksiyon",s:"marvel",p:["Disney+"]},
+{n:"Shang-Chi and the Legend of the Ten Rings",y:2021,g:"Aksiyon",s:"marvel",p:["Disney+"],t:"Tamamı IMAX sertifikalı kameralarla çekildi"},
+{n:"Eternals",y:2021,g:"Fantastik",s:"marvel",p:["Disney+"]},
+{n:"Doctor Strange in the Multiverse of Madness",y:2022,g:"Fantastik",s:"marvel",p:["Disney+"],t:"Tamamı IMAX kameralarla çekildi"},
+{n:"Thor: Love and Thunder",y:2022,g:"Fantastik",s:"marvel",p:["Disney+"]},
+{n:"Lightyear",y:2022,g:"Animasyon",s:"marvel",p:["Disney+"]},
+{n:"Guardians of the Galaxy Vol. 3",y:2023,g:"Bilim Kurgu",s:"marvel",p:["Disney+"]},
+{n:"The Marvels",y:2023,g:"Aksiyon",s:"marvel",p:["Disney+"]},
+{n:"Queen Rock Montreal",y:2024,g:"Müzik",s:"marvel",p:["Disney+"]},
+{n:"Captain America: Brave New World",y:2025,g:"Aksiyon",s:"marvel",p:["Disney+"]},
+{n:"The Fantastic Four: First Steps",y:2025,g:"Bilim Kurgu",s:"marvel",p:["Disney+"]},
+{n:"Tron: Ares",y:2025,g:"Bilim Kurgu",s:"marvel",p:["Disney+"]}
+];
+
+const SONY_MOVIES=[
+{n:"Ghostbusters",y:1984,g:"Fantastik",s:"sony",p:["Bravia"]},
+{n:"Men in Black 3",y:2012,g:"Bilim Kurgu",s:"sony",p:["Dijital"]},
+{n:"The Amazing Spider-Man 2",y:2014,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Chappie",y:2015,g:"Bilim Kurgu",s:"sony",p:["Dijital"]},
+{n:"Pixels",y:2015,g:"Bilim Kurgu",s:"sony",p:["Dijital"]},
+{n:"The Walk",y:2015,g:"Dram",s:"sony",p:["Dijital"]},
+{n:"Ghostbusters",y:2016,g:"Fantastik",s:"sony",p:["Dijital"]},
+{n:"Inferno",y:2016,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Resident Evil: The Final Chapter",y:2017,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Life",y:2017,g:"Bilim Kurgu",s:"sony",p:["Dijital"]},
+{n:"Spider-Man: Homecoming",y:2017,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Only the Brave",y:2017,g:"Dram",s:"sony",p:["Dijital"]},
+{n:"Jumanji: Welcome to the Jungle",y:2017,g:"Macera",s:"sony",p:["Dijital"]},
+{n:"The Equalizer 2",y:2018,g:"Aksiyon",s:"sony",p:["UHD","Dijital"]},
+{n:"Alpha",y:2018,g:"Macera",s:"sony",p:["Dijital"]},
+{n:"Venom",y:2018,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Spider-Man: Into the Spider-Verse",y:2018,g:"Animasyon",s:"sony",p:["Dijital"]},
+{n:"Araceli",y:2019,g:"Dram",s:"sony",p:["Dijital"]},
+{n:"Men in Black: International",y:2019,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Spider-Man: Far From Home",y:2019,g:"Aksiyon",s:"sony",p:["Dijital"],t:"Bazı sahnelerde 1.90:1 genişletilmiş oran"},
+{n:"The Angry Birds Movie 2",y:2019,g:"Animasyon",s:"sony",p:["UHD","Dijital"]},
+{n:"Zombieland: Double Tap",y:2019,g:"Korku",s:"sony",p:["UHD","Dijital"]},
+{n:"Charlie's Angels",y:2019,g:"Aksiyon",s:"sony",p:["UHD","Dijital"]},
+{n:"A Beautiful Day in the Neighborhood",y:2019,g:"Dram",s:"sony",p:["UHD","Dijital"]},
+{n:"Ico",y:2019,g:"Aksiyon",s:"sony",p:["UHD","Dijital"],t:"Tüm film boyunca 1.90:1 genişletilmiş oran"},
+{n:"Jumanji: The Next Level",y:2019,g:"Macera",s:"sony",p:["UHD","Dijital"]},
+{n:"Little Women",y:2019,g:"Dram",s:"sony",p:["Dijital"]},
+{n:"Bad Boys for Life",y:2020,g:"Aksiyon",s:"sony",p:["UHD","Dijital"]},
+{n:"Fantasy Island",y:2020,g:"Korku",s:"sony",p:["Dijital"]},
+{n:"Bloodshot",y:2020,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Monster Hunter",y:2020,g:"Macera",s:"sony",p:["Bravia"]},
+{n:"Venom: Let There Be Carnage",y:2021,g:"Aksiyon",s:"sony",p:["Dijital"]},
+{n:"Ghostbusters: Afterlife",y:2021,g:"Fantastik",s:"sony",p:["Dijital"]},
+{n:"Spider-Man: No Way Home",y:2021,g:"Aksiyon",s:"sony",p:["Dijital"],t:"Tüm film boyunca 1.90:1 genişletilmiş oran"},
+{n:"Uncharted",y:2022,g:"Macera",s:"sony",p:["Bravia"]},
+{n:"Morbius",y:2022,g:"Aksiyon",s:"sony",p:["Bravia"]},
+{n:"Bullet Train",y:2022,g:"Aksiyon",s:"sony",p:["Bravia"]},
+{n:"Stella: An Angry Birds Movie",y:2022,g:"Animasyon",s:"sony",p:["Bravia"]}
+];
+
+const PARAMOUNT_MOVIES=[
+{n:"Top Gun",y:1986,g:"Aksiyon",s:"paramount",p:["Dijital"]},
+{n:"Star Trek Into Darkness",y:2013,g:"Bilim Kurgu",s:"paramount",p:["Dijital"]},
+{n:"Transformers: Age of Extinction",y:2014,g:"Aksiyon",s:"paramount",p:["Dijital"]},
+{n:"Mission: Impossible – Rogue Nation",y:2015,g:"Aksiyon",s:"paramount",p:["Dijital"]},
+{n:"Transformers: The Last Knight",y:2017,g:"Aksiyon",s:"paramount",p:["Dijital"]},
+{n:"Birdz",y:2018,g:"Animasyon",s:"paramount",p:["Dijital"]},
+{n:"Mission: Impossible – Fallout",y:2018,g:"Aksiyon",s:"paramount",p:["Dijital"]},
+{n:"Bumblebee",y:2018,g:"Macera",s:"paramount",p:["Dijital"]},
+{n:"Pet Sematary",y:2019,g:"Korku",s:"paramount",p:["Dijital"]},
+{n:"Rocketman",y:2019,g:"Müzik",s:"paramount",p:["Dijital"]},
+{n:"Crawl",y:2019,g:"Korku",s:"paramount",p:["Dijital"]},
+{n:"Terminator: Dark Fate",y:2019,g:"Aksiyon",s:"paramount",p:["Dijital"]}
+];
+
+const ALL_MOVIES = [...MARVEL_MOVIES, ...SONY_MOVIES, ...PARAMOUNT_MOVIES];
+
+let currentListType = 'tumu';
+let currentMovie = null;
+let notesCache = {};
+
+const GENRE_CLASS={
+"Aksiyon":"b-aksiyon","Bilim Kurgu":"b-bilimkurgu","Macera":"b-macera",
+"Korku":"b-korku","Dram":"b-dram","Animasyon":"b-animasyon",
+"Müzik":"b-muzik","Fantastik":"b-fantastik","Suç":"b-suc"
+};
+const STUDIO_CLASS={ marvel:"st-marvel", sony:"st-sony", paramount:"st-paramount" };
+const STUDIO_LABEL={ marvel:"Marvel/Disney+", sony:"Sony", paramount:"Paramount" };
+const PT_CLASS={ "Disney+":"pt-disney", "Bravia":"pt-bravia", "UHD":"pt-uhd", "Dijital":"pt-dijital" };
+const PT_LABEL={ "Disney+":"Disney+", "Bravia":"Bravia Core", "UHD":"4K UHD", "Dijital":"Dijital Kiralama" };
+
+// ─── TEMA ────────────────────────────────
+const manualTheme = localStorage.getItem('ph_theme');
+let isLight;
+if (manualTheme) { isLight = manualTheme === 'light'; }
+else { isLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches; }
+if (isLight) { document.body.classList.add('light'); document.getElementById('themeBtn').textContent = '☀️'; }
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem('ph_theme')) {
+        isLight = e.matches;
+        document.body.classList.toggle('light', isLight);
+        document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+    }
+});
+function toggleTheme() {
+    isLight = !isLight;
+    document.body.classList.toggle('light', isLight);
+    localStorage.setItem('ph_theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+}
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+function showToast(msg, color='#1e293b') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.background = color;
+    t.classList.add('show');
+    clearTimeout(window._tt);
+    window._tt = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function getActiveList() {
+  if (currentListType === 'marvel') return MARVEL_MOVIES;
+  if (currentListType === 'sony') return SONY_MOVIES;
+  if (currentListType === 'paramount') return PARAMOUNT_MOVIES;
+  return ALL_MOVIES;
+}
+
+function movieKey(m) { return m.n + '-' + m.y; }
+
+// ─── NOT SAHİPLİĞİ (anonim client id) ─────
+function getOwnerId() {
+  let id = localStorage.getItem('ph_owner_id');
+  if (!id) {
+    id = (crypto.randomUUID ? crypto.randomUUID() : 'oid-' + Math.random().toString(36).slice(2) + Date.now());
+    localStorage.setItem('ph_owner_id', id);
+  }
+  return id;
+}
+
+function renderPlatforms(p){
+  if(!p||p.length===0) return '<span class="pt-none" style="font-size:11px;color:var(--muted)">Bilgi yok</span>';
+  return p.map(x=>`<span class="platform-tag ${PT_CLASS[x]||''}">${PT_LABEL[x]||x}</span>`).join('');
+}
+
+function render(list){
+  const grid=document.getElementById('grid');
+  const noRes=document.getElementById('noResults');
+  document.getElementById('count').textContent=list.length;
+  if(list.length===0){grid.innerHTML='';noRes.style.display='';return;}
+  noRes.style.display='none';
+  grid.innerHTML=list.map((m,i)=>`
+    <div class="card" onclick='openMovieModal(${JSON.stringify(m).replace(/'/g,"&#39;")})'>
+      <div class="rank">${i+1}</div>
+      <div class="info">
+        <div class="title">${m.n}</div>
+        <div class="meta">${m.y}</div>
+        ${m.t ? `<div class="note-hint">💡 ${m.t}</div>` : ''}
+        <div class="badges">
+          <span class="badge ${GENRE_CLASS[m.g]||''}">${m.g}</span>
+          <span class="studio-tag ${STUDIO_CLASS[m.s]||''}">${STUDIO_LABEL[m.s]||m.s}</span>
+        </div>
+      </div>
+      <div class="platform-col">${renderPlatforms(m.p)}</div>
+    </div>
+  `).join('');
+}
+
+function filter(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const g=document.getElementById('genre').value;
+  const pf=document.getElementById('platform').value;
+  const activeList = getActiveList();
+  const res=activeList.filter(m=>{
+    const matchQ=!q||m.n.toLowerCase().includes(q);
+    const matchG=!g||m.g===g;
+    const matchP=!pf||(m.p && m.p.some(x=>x===pf));
+    return matchQ&&matchG&&matchP;
+  });
+  render(res);
+}
+
+function switchList(type) {
+  currentListType = type;
+  document.querySelectorAll('.tab-pill').forEach(btn => btn.classList.toggle('active', btn.dataset.list === type));
+
+  const titles = {
+    'tumu': { t: "Tüm <span>IMAX Enhanced</span> Filmler", s: "IMAX ve DTS ortak sertifikasyon programı kapsamında genişletilmiş görüntü oranı ve DTS:X ses ile sunulan filmlerin güncel kataloğu." },
+    'marvel': { t: "<span>Marvel &amp; Disney+</span> IMAX Enhanced", s: "Disney+ üzerinde IMAX Enhanced sesi ve genişletilmiş 1.90:1 görüntü oranıyla sunulan Marvel Cinematic Universe filmleri." },
+    'sony': { t: "<span>Sony Pictures</span> IMAX Enhanced", s: "Sony'nin dijital kiralama, Bravia Core ve 4K UHD Blu-ray üzerinden sunduğu IMAX Enhanced sertifikalı filmler." },
+    'paramount': { t: "<span>Paramount Pictures</span> IMAX Enhanced", s: "Paramount'un dijital retailer'lar üzerinden sunduğu IMAX Enhanced sertifikalı filmler." }
+  };
+  document.getElementById('mainTitle').innerHTML = titles[type].t;
+  document.getElementById('mainSubtitle').textContent = titles[type].s;
+
+  document.getElementById('search').value = '';
+  document.getElementById('genre').value = '';
+  document.getElementById('platform').value = '';
+  filter();
+}
+
+// ─── NOT SİSTEMİ (herkese açık, Cloudflare Worker + KV) ──
+async function fetchNotes(key) {
+  const res = await fetch(`${NOTES_ENDPOINT}?movie=${encodeURIComponent(key)}`);
+  if (!res.ok) throw new Error('Notlar alınamadı');
+  const data = await res.json();
+  return data.notes || [];
+}
+
+async function postNote(key, text) {
+  const res = await fetch(NOTES_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ movie: key, text, ownerId: getOwnerId() })
+  });
+  if (!res.ok) throw new Error('Not gönderilemedi');
+  return res.json();
+}
+
+async function updateNote(key, id, text) {
+  const res = await fetch(NOTES_ENDPOINT, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ movie: key, id, text, ownerId: getOwnerId() })
+  });
+  if (!res.ok) throw new Error('Not güncellenemedi');
+  return res.json();
+}
+
+async function deleteNoteRequest(key, id) {
+  const res = await fetch(NOTES_ENDPOINT, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ movie: key, id, ownerId: getOwnerId() })
+  });
+  if (!res.ok) throw new Error('Not silinemedi');
+  return res.json();
+}
+
+function renderNotesList(notes) {
+  const el = document.getElementById('notes-list');
+  const myId = getOwnerId();
+  document.getElementById('modal-note-count').textContent = notes.length ? `(${notes.length})` : '';
+  if (!notes.length) {
+    el.innerHTML = `<div style="font-size:13px;color:var(--muted)">Henüz not yok. İlk notu sen bırak!</div>`;
+    return;
+  }
+  el.innerHTML = notes.slice().reverse().map(n => {
+    const mine = n.ownerId === myId;
+    const editedTag = n.editedTs ? ' · düzenlendi' : '';
+    return `
+    <div class="note-item${mine ? ' mine' : ''}" data-note-id="${n.id}">
+      <div class="note-item-text" id="note-text-${n.id}">${escapeHtml(n.text)}</div>
+      <div class="note-item-footer">
+        <div class="note-item-meta">${new Date(n.ts).toLocaleString('tr-TR')}${editedTag}</div>
+        ${mine ? `
+          <div class="note-item-actions">
+            <button class="note-action-btn edit" onclick="startEditNote('${n.id}')">Düzenle</button>
+            <button class="note-action-btn delete" onclick="confirmDeleteNote('${n.id}')">Sil</button>
+          </div>` : ''}
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function startEditNote(id) {
+  const note = (notesCache[movieKey(currentMovie)] || []).find(n => n.id === id);
+  if (!note) return;
+  const textEl = document.getElementById(`note-text-${id}`);
+  const wrapper = textEl.closest('.note-item');
+  wrapper.innerHTML = `
+    <textarea class="note-edit-textarea" id="edit-input-${id}" maxlength="300">${escapeHtml(note.text)}</textarea>
+    <div class="note-edit-actions">
+      <button class="btn btn-primary btn-sm" onclick="saveEditNote('${id}')" style="width:auto">Kaydet</button>
+      <button class="btn btn-ghost btn-sm" onclick="renderNotesList(notesCache[movieKey(currentMovie)])" style="width:auto">Vazgeç</button>
+    </div>
+  `;
+}
+
+async function saveEditNote(id) {
+  const input = document.getElementById(`edit-input-${id}`);
+  const text = input.value.trim();
+  if (!text) { showToast('Boş not olamaz', '#ef4444'); return; }
+  try {
+    const key = movieKey(currentMovie);
+    const data = await updateNote(key, id, text);
+    notesCache[key] = data.notes || notesCache[key];
+    renderNotesList(notesCache[key]);
+    showToast('✏️ Not güncellendi', '#10b981');
+  } catch (err) {
+    showToast('Güncellenemedi, tekrar dene', '#ef4444');
+  }
+}
+
+async function confirmDeleteNote(id) {
+  if (!confirm('Bu notu silmek istediğine emin misin?')) return;
+  try {
+    const key = movieKey(currentMovie);
+    const data = await deleteNoteRequest(key, id);
+    notesCache[key] = data.notes || notesCache[key];
+    renderNotesList(notesCache[key]);
+    showToast('🗑️ Not silindi', '#10b981');
+  } catch (err) {
+    showToast('Silinemedi, tekrar dene', '#ef4444');
+  }
+}
+
+function openMovieModal(m) {
+  currentMovie = m;
+  const key = movieKey(m);
+
+  document.getElementById('modal-badges').innerHTML = `<span class="badge ${GENRE_CLASS[m.g]||''}">${m.g}</span><span class="studio-tag ${STUDIO_CLASS[m.s]||''}">${STUDIO_LABEL[m.s]||m.s}</span>`;
+  document.getElementById('modal-title').textContent = m.n;
+  document.getElementById('modal-meta').textContent = `${m.y} · ${renderPlatforms(m.p).replace(/<[^>]+>/g,'').trim()}`;
+
+  const tipEl = document.getElementById('modal-tip');
+  if (m.t) { tipEl.style.display = 'inline-block'; tipEl.textContent = `💡 ${m.t}`; }
+  else { tipEl.style.display = 'none'; }
+
+  document.getElementById('note-input').value = '';
+  document.getElementById('char-count').textContent = '0/300';
+  document.getElementById('notes-list').innerHTML = `<div style="font-size:13px;color:var(--muted)">Yükleniyor...</div>`;
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  fetchNotes(key)
+    .then(notes => { notesCache[key] = notes; renderNotesList(notes); })
+    .catch(() => { document.getElementById('notes-list').innerHTML = `<div style="font-size:13px;color:#f87171">Notlar yüklenemedi. Worker'ın çalıştığından emin ol.</div>`; });
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentMovie = null;
+}
+function closeModalOnBackdrop(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.getElementById('note-input').addEventListener('input', function() {
+  document.getElementById('char-count').textContent = `${this.value.length}/300`;
+});
+
+async function submitNote() {
+  if (!currentMovie) return;
+  const input = document.getElementById('note-input');
+  const text = input.value.trim();
+  if (!text) { showToast('Boş not gönderemezsin', '#ef4444'); return; }
+  const btn = document.getElementById('submit-note-btn');
+  btn.disabled = true; btn.textContent = 'Gönderiliyor...';
+  try {
+    const key = movieKey(currentMovie);
+    const data = await postNote(key, text);
+    notesCache[key] = data.notes || notesCache[key];
+    renderNotesList(notesCache[key]);
+    input.value = '';
+    document.getElementById('char-count').textContent = '0/300';
+    showToast('💬 Notun paylaşıldı!', '#10b981');
+  } catch (err) {
+    showToast('Not gönderilemedi, tekrar dene', '#ef4444');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Notu Paylaş';
+  }
+}
+
+// İlk açılış renderı
+render(ALL_MOVIES);
+</script>
+</body>
+</html>
